@@ -153,7 +153,7 @@
                 </li>
                 <li>
                     <a href="index.php?Page=ReferensiKemasanSample" class="<?php if($PageMenu=="ReferensiKemasanSample"){echo "active";} ?>">
-                        <i class="bi bi-circle"></i><span>Kemasan Sample</span>
+                        <i class="bi bi-circle"></i><span>Kemasan (Container)</span>
                     </a>
                 </li>
                 <li>

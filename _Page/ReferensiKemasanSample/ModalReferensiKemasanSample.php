@@ -40,10 +40,11 @@ FILTER DATA
                         <div class="col-8">
                             <select name="OrderBy" id="OrderBy" class="form-control">
                                 <option value="">Pilih</option>
-                                <option value="nama_satuan">Nama Unit/Satuan</option>
-                                <option value="unit_satuan">Unit</option>
-                                <option value="code_satuan">Code</option>
-                                <option value="system_satuan">System</option>
+                                <option value="nama_container">Nama Kontainer</option>
+                                <option value="display_container">Display</option>
+                                <option value="code_container">Code</option>
+                                <option value="system_container">System</option>
+                                <option value="code_unit_container">Unit</option>
                             </select>
                         </div>
                     </div>
@@ -69,10 +70,11 @@ FILTER DATA
                         <div class="col-8">
                             <select name="keyword_by" id="KeywordBy" class="form-control">
                                 <option value="">Pilih</option>
-                                <option value="nama_satuan">Nama Unit/Satuan</option>
-                                <option value="unit_satuan">Unit</option>
-                                <option value="code_satuan">Code</option>
-                                <option value="system_satuan">System</option>
+                                <option value="nama_container">Nama Kontainer</option>
+                                <option value="display_container">Display</option>
+                                <option value="code_container">Code</option>
+                                <option value="system_container">System</option>
+                                <option value="code_unit_container">Unit</option>
                             </select>
                         </div>
                     </div>
@@ -102,78 +104,7 @@ FILTER DATA
 
 <!-- 
 ==========================================================================================
-EXPORT SATUAN
-==========================================================================================
--->
-<div class="modal fade" id="ModalExport" tabindex="-1">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <form action="_Page/ReferensiSatuan/ProsesExport.php" method="GET" target="_blank" autocomplete="off">
-                <div class="modal-header">
-                    <h5 class="modal-title text-dark"><i class="bi bi-download"></i> Export Satuan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12" id="FormExport">
-                            <!-- Form Export -->
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-rounded">
-                        <i class="bi bi-download"></i> Export
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
-                        <i class="bi bi-x"></i> Tutup
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- 
-==========================================================================================
-IMPORT SATUAN
-==========================================================================================
--->
-<div class="modal fade" id="ModalImport" tabindex="-1">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <form action="javascript:void(0);" id="ProsesImport" autocomplete="off">
-                <div class="modal-header">
-                    <h5 class="modal-title text-dark"><i class="bi bi-upload"></i> Import Satuan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12" id="FormImport">
-                            <!-- Form Import -->
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12" id="NotifikasiImport">
-                            <!-- Notifikasi Import -->
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-rounded">
-                        <i class="bi bi-upload"></i> Import
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
-                        <i class="bi bi-x"></i> Tutup
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- 
-==========================================================================================
-TAMBAH SATUAN
+TAMBAH KONTAINER
 ==========================================================================================
 -->
 <div class="modal fade" id="ModalTambah" tabindex="-1">
@@ -181,45 +112,62 @@ TAMBAH SATUAN
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesTambah" autocomplete="off">
                 <div class="modal-header">
-                    <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Tambah Satuan</h5>
+                    <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Tambah Kontainer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <label for="nama_satuan"><i>Nama Satuan / Unit</i></label>
-                            <input type="text" name="nama_satuan" id="nama_satuan" class="form-control">
+                            <label for="nama_container">Nama Kemasan (Container)</label>
+                            <input type="text" name="nama_container" id="nama_container" class="form-control" required>
                             <small class="text text-grayish">
-                                <small>Nama satuan dalam bahasa Indonesia yang mudah dipahami</small>
+                                <small>Nama kemasan sample spesimen dalam bahasa Indonesia yang mudah dipahami</small>
                             </small>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <label for="unit_satuan"><i>Unit / Satuan</i></label>
-                            <input type="text" name="unit_satuan" id="unit_satuan" class="form-control">
+                            <label for="display_container"><i>Display</i></label>
+                            <input type="text" name="display_container" id="display_container" class="form-control" required>
                             <small class="text text-grayish">
-                                <small>Nama unit/satuan dalam simbol matematis standar</small>
+                                <small>Nama kemasan sample spesimen sesuai standar standar</small>
                             </small>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <label for="code_satuan"><i>Code</i></label>
-                            <input type="text" name="code_satuan" id="code_satuan" class="form-control">
+                            <label for="code_container"><i>Code</i></label>
+                            <input type="text" name="code_container" id="code_container" class="form-control" required>
                             <small class="text text-grayish">
-                                <small>Kode satuan/unit sesuai standar yang digunakan</small>
+                                <small>Kode kemasan sample spesimen sesuai standar yang digunakan</small>
                             </small>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <label for="system_satuan"><i>System</i></label>
-                            <input type="url" name="system_satuan" id="system_satuan" class="form-control" list="list_system" placeholder="https://">
+                            <label for="system_container"><i>System</i></label>
+                            <input type="url" name="system_container" id="system_container" class="form-control" list="list_system" placeholder="https://" required>
                             <datalist id="list_system"></datalist>
                             <small class="text text-grayish">
                                 <small>System standar referensi yang digunakan</small>
                             </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="kapasitas_container">Kapasitas</label>
+                            <input type="number" min="0" step="0.01" name="kapasitas_container" id="kapasitas_container" class="form-control" required>
+                            <small class="text text-grayish">
+                                <small>Kapasitas total kemasan (container)</small>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="unit_container">Unit Kapasitas</label>
+                            <select name="unit_container" id="unit_container" class="form-control" required>
+                                <option value="">Pilih</option>
+                            </select>
                         </div>
                     </div>
                     <div class="row">
@@ -243,7 +191,35 @@ TAMBAH SATUAN
 
 <!-- 
 ==========================================================================================
-EDIT SATUAN
+DETAIL KONTAINER
+==========================================================================================
+-->
+<div class="modal fade" id="ModalDetail" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark"><i class="bi bi-info-circle"></i> Detail Kontainer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormDetail">
+                        <!-- Form Edit -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+==========================================================================================
+EDIT KONTAINER
 ==========================================================================================
 -->
 <div class="modal fade" id="ModalEdit" tabindex="-1">
@@ -251,7 +227,7 @@ EDIT SATUAN
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesEdit" autocomplete="off">
                 <div class="modal-header">
-                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Edit Satuan Numerator</h5>
+                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Edit Kontainer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -281,7 +257,7 @@ EDIT SATUAN
 
 <!-- 
 ==========================================================================================
-HAPUS SATUAN
+HAPUS KONTAINER
 ==========================================================================================
 -->
 <div class="modal fade" id="ModalHapus" tabindex="-1">
@@ -289,7 +265,7 @@ HAPUS SATUAN
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesHapus" autocomplete="off">
                 <div class="modal-header">
-                    <h5 class="modal-title text-dark"><i class="bi bi-trash"></i> Hapus satuan</h5>
+                    <h5 class="modal-title text-dark"><i class="bi bi-trash"></i> Hapus Kontainer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

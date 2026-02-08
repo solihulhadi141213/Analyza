@@ -104,7 +104,7 @@
         } else {
 
             // INSERT DATA
-            $insert = mysqli_query($Conn, "INSERT INTO referensi_satuan (nama_satuan, unit_satuan, code_satuan, system_satuan) VALUES ('$nama_unitt', '$unit', '$code', '$system')");
+            $insert = mysqli_query($Conn, "INSERT INTO referensi_satuan (nama_satuan, unit_satuan, code_satuan, system_satuan) VALUES ('$nama_unit', '$unit', '$code', '$system')");
 
             if ($insert) {
                 $log[] = [
