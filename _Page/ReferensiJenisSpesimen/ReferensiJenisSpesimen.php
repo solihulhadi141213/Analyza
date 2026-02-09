@@ -1,6 +1,6 @@
 <?php
     //Cek Aksesibilitas ke halaman ini
-    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAccess,'8bOwARsJKZ5Dc0VxJwXdWdiP2KPfxFjVqgbu');
+    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAccess,'H8lByxYVLw1zYg9hIYkZxtNNgkBH8Gi8h6Vv');
     if($IjinAksesSaya!=="Ada"){
         include "_Page/Error/NoAccess.php";
     }else{
@@ -8,13 +8,13 @@
     <div class="pagetitle">
         <h1>
             <a href="">
-                <i class="bi bi-box"></i> Kemasan (Container)</a>
+                <i class="bi bi-box"></i> Jenis Spesimen</a>
             </a>
         </h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                <li class="breadcrumb-item active">Kemasan (Container)</li>
+                <li class="breadcrumb-item active">Jenis Spesimen</li>
             </ol>
         </nav>
     </div>
@@ -22,9 +22,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <small>
-                        Kemasan (Container) adalah alat/wadah yang digunakan untuk menyimpan spesimen. 
-                        Halaman ini digunakan untuk mengelola referensi Kemasan (Container) tersebut.  Informasi Kemasan (Container) berguna pada saat mengisi kelengkapan informasi spesimen.
+                    <small> 
+                        Halaman ini digunakan untuk mengelola referensi Jenis Spesimen.  Informasi Tersebut berguna pada saat mengisi kelengkapan informasi spesimen.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </small>
                 </div>
@@ -51,16 +50,14 @@
                                 <thead>
                                     <tr>
                                         <td align="center"><b>No</b></td>
-                                        <td><b>Nama Kemasan</b></td>
+                                        <td><b>Nama Spesimen</b></td>
                                         <td><b><i>Display</i></b></td>
                                         <td><b><i>Code</i></b></td>
                                         <td><b><i>System</i></b></td>
-                                        <td><b><i>Kapasitas</i></b></td>
-                                        <td><b><i>Unit</i></b></td>
                                         <td align="center"><b>Opsi</b></td>
                                     </tr>
                                 </thead>
-                                <tbody id="TabelKemasan">
+                                <tbody id="TabelSpesimen">
                                     <tr>
                                         <td class="text-center" colspan="8">
                                             <small>Loading...</small>

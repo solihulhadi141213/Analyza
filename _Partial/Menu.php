@@ -137,11 +137,6 @@
                     </a>
                 </li> 
                 <li>
-                    <a href="index.php?Page=ReferensiInterpertasi" class="<?php if($PageMenu=="ReferensiInterpertasi"){echo "active";} ?>">
-                        <i class="bi bi-circle"></i><span>Interpertasi Hasil</span>
-                    </a>
-                </li>
-                <li>
                     <a href="index.php?Page=ReferensiJenisSpesimen" class="<?php if($PageMenu=="ReferensiJenisSpesimen"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Jenis Spesimen</span>
                     </a>

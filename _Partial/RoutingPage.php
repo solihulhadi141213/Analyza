@@ -15,6 +15,7 @@
             "SettingSatuSehat"               => "_Page/SettingSatuSehat/SettingSatuSehat.php",
             "ApiKey"                         => "_Page/ApiKey/ApiKey.php",
             "ReferensiPemeriksaan"           => "_Page/ReferensiPemeriksaan/ReferensiPemeriksaan.php",
+            "ReferensiJenisSpesimen"         => "_Page/ReferensiJenisSpesimen/ReferensiJenisSpesimen.php",
             "ReferensiCaraPengambilanSample" => "_Page/ReferensiCaraPengambilanSample/ReferensiCaraPengambilanSample.php",
             "ReferensiKemasanSample"         => "_Page/ReferensiKemasanSample/ReferensiKemasanSample.php",
             "ReferensiSatuan"                => "_Page/ReferensiSatuan/ReferensiSatuan.php",

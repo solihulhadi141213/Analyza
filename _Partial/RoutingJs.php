@@ -23,6 +23,7 @@
             "SettingSatuSehat"               => "_Page/SettingSatuSehat/SettingSatuSehat.js",
             "ApiKey"                         => "_Page/ApiKey/ApiKey.js",
             "ReferensiPemeriksaan"           => "_Page/ReferensiPemeriksaan/ReferensiPemeriksaan.js",
+            "ReferensiJenisSpesimen"         => "_Page/ReferensiJenisSpesimen/ReferensiJenisSpesimen.js",
             "ReferensiCaraPengambilanSample" => "_Page/ReferensiCaraPengambilanSample/ReferensiCaraPengambilanSample.js",
             "ReferensiKemasanSample"         => "_Page/ReferensiKemasanSample/ReferensiKemasanSample.js",
             "ReferensiSatuan"                => "_Page/ReferensiSatuan/ReferensiSatuan.js",
