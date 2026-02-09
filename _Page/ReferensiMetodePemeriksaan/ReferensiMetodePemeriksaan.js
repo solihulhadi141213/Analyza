@@ -1,7 +1,7 @@
 //Fungsi Menampilkan Data
 function ShowData() {
     var ProsesFilter = $('#ProsesFilter').serialize();
-    var $tabel       = $('#TabelSpesimen');
+    var $tabel       = $('#TabelMetodePemeriksaan');
 
     // Tambahkan efek visual loading (opacity menurun)
     $tabel.css({
@@ -12,7 +12,7 @@ function ShowData() {
 
     $.ajax({
         type   : 'POST',
-        url    : '_Page/ReferensiJenisSpesimen/TabelSpesimen.php',
+        url    : '_Page/ReferensiMetodePemeriksaan/TabelMetodePemeriksaan.php',
         data   : ProsesFilter,
         success: function(data) {
             // Ganti isi tabel tanpa mengganti elemen induk
@@ -49,7 +49,7 @@ $(document).ready(function() {
         var KeywordBy =$('#KeywordBy').val();
         $.ajax({
             type 	    : 'POST',
-            url 	    : '_Page/ReferensiJenisSpesimen/FormFilter.php',
+            url 	    : '_Page/ReferensiMetodePemeriksaan/FormFilter.php',
             data        : {KeywordBy: KeywordBy},
             success     : function(data){
                 $('#FormFilter').html(data);
@@ -86,7 +86,7 @@ $(document).ready(function() {
         // Menampilkan Datalist Category Dengan AJAX
         $.ajax({
             type 	    : 'POST',
-            url 	    : '_Page/ReferensiJenisSpesimen/list_system.php',
+            url 	    : '_Page/ReferensiMetodePemeriksaan/list_system.php',
             success     : function(data){
                 $('#list_system').html(data);
             }
@@ -106,7 +106,7 @@ $(document).ready(function() {
         // Ajax Request
         $.ajax({
             type     : 'POST',
-            url      : '_Page/ReferensiJenisSpesimen/ProsesTambah.php',
+            url      : '_Page/ReferensiMetodePemeriksaan/ProsesTambah.php',
             dataType : 'json',
             data     : ProsesTambah,
 
@@ -165,8 +165,8 @@ $(document).ready(function() {
     // ===============================================================================
     $(document).on('click', '.modal_edit', function () {
 
-        //tangkap data 'kfa_code' dan buat variabel
-        var id_referensi_jenis_spesimen   = $(this).data('id');
+        //tangkap data 'id_referensi_metode_pemeriksaan' dan buat variabel
+        var id_referensi_metode_pemeriksaan   = $(this).data('id');
 
         //tampilkan modal
         $('#ModalEdit').modal('show');
@@ -177,8 +177,8 @@ $(document).ready(function() {
         //Tampilkan Form Dengan Ajax
         $.ajax({
             type 	    : 'POST',
-            url 	    : '_Page/ReferensiJenisSpesimen/FormEdit.php',
-            data        : {id_referensi_jenis_spesimen: id_referensi_jenis_spesimen},
+            url 	    : '_Page/ReferensiMetodePemeriksaan/FormEdit.php',
+            data        : {id_referensi_metode_pemeriksaan: id_referensi_metode_pemeriksaan},
             success     : function(data){
                 $('#FormEdit').html(data);
 
@@ -188,7 +188,7 @@ $(document).ready(function() {
                 // Menampilkan Datalist list_system Dengan AJAX
                 $.ajax({
                     type 	    : 'POST',
-                    url 	    : '_Page/ReferensiJenisSpesimen/list_system.php',
+                    url 	    : '_Page/ReferensiMetodePemeriksaan/list_system.php',
                     success     : function(data){
                         $('#list_system_edit').html(data);
                     }
@@ -212,7 +212,7 @@ $(document).ready(function() {
         // Ajax Request
         $.ajax({
             type     : 'POST',
-            url      : '_Page/ReferensiJenisSpesimen/ProsesEdit.php',
+            url      : '_Page/ReferensiMetodePemeriksaan/ProsesEdit.php',
             dataType : 'json',
             data     : ProsesEdit,
 
@@ -263,8 +263,8 @@ $(document).ready(function() {
     // ===============================================================================
     $(document).on('click', '.modal_hapus', function () {
 
-        //tangkap data 'kfa_code' dan buat variabel
-        var id_referensi_jenis_spesimen   = $(this).data('id');
+        //tangkap data 'id_referensi_metode_pemeriksaan' dan buat variabel
+        var id_referensi_metode_pemeriksaan   = $(this).data('id');
 
         //tampilkan modal
         $('#ModalHapus').modal('show');
@@ -275,8 +275,8 @@ $(document).ready(function() {
         //Tampilkan Form Dengan Ajax
         $.ajax({
             type 	    : 'POST',
-            url 	    : '_Page/ReferensiJenisSpesimen/FormHapus.php',
-            data        : {id_referensi_jenis_spesimen: id_referensi_jenis_spesimen},
+            url 	    : '_Page/ReferensiMetodePemeriksaan/FormHapus.php',
+            data        : {id_referensi_metode_pemeriksaan: id_referensi_metode_pemeriksaan},
             success     : function(data){
                 $('#FormHapus').html(data);
             }
@@ -296,7 +296,7 @@ $(document).ready(function() {
         // Ajax Request
         $.ajax({
             type     : 'POST',
-            url      : '_Page/ReferensiJenisSpesimen/ProsesHapus.php',
+            url      : '_Page/ReferensiMetodePemeriksaan/ProsesHapus.php',
             dataType : 'json',
             data     : ProsesHapus,
 
@@ -341,6 +341,9 @@ $(document).ready(function() {
             }
         });
     });
+
+    
+
 });
 
 

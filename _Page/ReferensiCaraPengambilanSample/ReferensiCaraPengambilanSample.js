@@ -127,7 +127,6 @@ $(document).ready(function() {
                     // Reset Form
                     $("#ProsesFilter")[0].reset();
                     $("#ProsesTambah")[0].reset();
-                    $('#unit_container').val(null).trigger('change');
 
                     // Reload detail pemeriksaan
                     $("#ProsesFilter")[0].reset();
@@ -166,7 +165,7 @@ $(document).ready(function() {
     // ===============================================================================
     $(document).on('click', '.modal_edit', function () {
 
-        //tangkap data 'kfa_code' dan buat variabel
+        //tangkap data 'id_referensi_metode_sample' dan buat variabel
         var id_referensi_metode_sample   = $(this).data('id');
 
         //tampilkan modal
@@ -264,7 +263,7 @@ $(document).ready(function() {
     // ===============================================================================
     $(document).on('click', '.modal_hapus', function () {
 
-        //tangkap data 'kfa_code' dan buat variabel
+        //tangkap data 'id_referensi_metode_sample' dan buat variabel
         var id_referensi_metode_sample   = $(this).data('id');
 
         //tampilkan modal
