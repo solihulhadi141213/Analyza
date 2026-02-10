@@ -80,6 +80,21 @@
         $allow_sex = true;
     }
 
+    // Satuan (Jika id_referensi_satuan ditangkap)
+    if(empty($_POST['id_referensi_satuan'])){
+        $id_referensi_satuan = "";
+        $unit                = "";
+        $unit_display        = "";
+        $unit_code           = "";
+        $unit_system         = "";
+    }else{
+        $id_referensi_satuan = $_POST['id_referensi_satuan'];
+        $unit                = GetDetailData($Conn, 'referensi_satuan', 'id_referensi_satuan', $id_referensi_satuan, 'nama_satuan');
+        $unit_display        = GetDetailData($Conn, 'referensi_satuan', 'id_referensi_satuan', $id_referensi_satuan, 'unit_satuan');
+        $unit_code           = GetDetailData($Conn, 'referensi_satuan', 'id_referensi_satuan', $id_referensi_satuan, 'code_satuan');
+        $unit_system         = GetDetailData($Conn, 'referensi_satuan', 'id_referensi_satuan', $id_referensi_satuan, 'system_satuan');
+    }
+
     // Validasi Nilai 'result_type'
     $enum_result_type = ['Numeric','Decimal','Coded','Text','Boolean'];
     if (!in_array($result_type, $enum_result_type)) {
@@ -108,20 +123,28 @@
             code_pemeriksaan,
             display_pemeriksaan,
             system_pemeriksaan,
+            unit,
+            unit_display,
+            unit_code,
+            unit_system,
             result_type,
             result_interpertation_type,
             allow_age,
             allow_sex
-        ) VALUES (?,?,?,?,?,?,?,?,?)
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
     ");
 
     $query->bind_param(
-        "sssssssss",
+        "sssssssssssss",
         $nama_pemeriksaan,
         $category_pemeriksaan,
         $code_pemeriksaan,
         $display_pemeriksaan,
         $system_pemeriksaan,
+        $unit,
+        $unit_display,
+        $unit_code,
+        $unit_system,
         $result_type,
         $result_interpertation_type,
         $allow_age,

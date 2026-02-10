@@ -53,6 +53,10 @@
     $code_pemeriksaan           = $Data['code_pemeriksaan'];
     $display_pemeriksaan        = $Data['display_pemeriksaan'];
     $system_pemeriksaan         = $Data['system_pemeriksaan'];
+    $unit                       = $Data['unit'] ?? '-';
+    $unit_display               = $Data['unit_display'] ?? '-';
+    $unit_code                  = $Data['unit_code'] ?? '-';
+    $unit_system                = $Data['unit_system'] ?? '-';
     $result_type                = $Data['result_type'];
     $result_interpertation_type = $Data['result_interpertation_type'];
     $allow_age                  = $Data['allow_age'];
@@ -90,32 +94,31 @@
         $label_allow_sex = '<label class="badge bg-dark">No</label>';
     }
 ?>
-<div class="row mb-2">
-    <div class="col-md-12 text-end">
+<div class="row mb-3">
+    <div class="col-md-12 mb-3 text-end">
         <button type="button" class="btn btn-md btn-dark btn-floating" id="kembali_ke_data" title="Kembali Ke Tabel Referensi Pemeriksaan">
             <i class="bi bi-chevron-left"></i>
         </button>
         <button type="button" class="btn btn-md btn-floating btn-outline-dark reload_detail" title="Reload Data">
             <i class="bi bi-repeat"></i>
         </button>
+        <button type="button" class="btn btn-md btn-floating btn-outline-primary modal_edit" data-id="<?php echo $id_referensi_pemeriksaan; ?>" title="Edit Referensi Pemeriksaan">
+            <i class="bi bi-pencil"></i>
+        </button>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-6">
+<div class="row mt-3">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                <div class="row">
-                    <div class="col-10">
-                        <b class="card-title">Detail Referensi Pemeriksaan</b>
-                    </div>
-                     <div class="col-2 text-end">
-                        <button type="button" class="btn btn-md btn-floating btn-secondary modal_edit" data-id="<?php echo $id_referensi_pemeriksaan; ?>" title="Edit Referensi Pemeriksaan">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                    </div>
-                </div>
+                <b class="card-title">Detail Referensi Jenis Pemeriksaan</b>
             </div>
             <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <small><b>A. Informasi Pemeriksaan</b></small>
+                    </div>
+                </div>
                 <div class="row mb-2">
                     <div class="col-5"><small>Nama Pemeriksaan</small></div>
                     <div class="col-1"><small>:</small></div>
@@ -140,6 +143,36 @@
                     <div class="col-5"><small><i>System</i></small></div>
                     <div class="col-1"><small>:</small></div>
                     <div class="col-6"><small><?php echo $system_pemeriksaan; ?></small></div>
+                </div>
+                <div class="row mb-2 mt-3">
+                    <div class="col-12 mt-3">
+                        <small><b>B. Unit / Satuan Hasil</b></small>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small>Unit / Satuan</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small><?php echo $unit; ?></small></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small><i>Unit Display</i></small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small><?php echo $unit_display; ?></small></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small><i>Unit Code</i></small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small><?php echo $unit_code; ?></small></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small><i>Unit System</i></small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small><?php echo $unit_system; ?></small></div>
+                </div>
+                <div class="row mb-2 mt-3">
+                    <div class="col-12 mt-3">
+                        <small><b>C. Tipe Hasil & Cara Interpertasi</b></small>
+                    </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-5"><small><i>Result Type</i></small></div>
@@ -179,7 +212,171 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-md-8">
+        <?php
+            // Jenis Pemeriksaan Dengan Tipe Interpestasii 'Range'
+            if($result_interpertation_type=="Range"){
+        ?>
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-8">
+                            <b class="card-title">Referensi Nilai Rujukan <i>(Range)</i></b>
+                        </div>
+                        <div class="col-4 text-end">
+                            <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_range" data-id="<?php echo "$id_referensi_pemeriksaan"; ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Referensi Nilai Rujukan">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <td align="center"><b>No</b></td>
+                                    <td align="left"><b>Klasifikasi</b></td>
+                                    <td align="left"><b>Nilai</b></td>
+                                    <td align="left"><b>Usia</b></td>
+                                    <td align="left"><b>L/P</b></td>
+                                    <td align="left"><b>Kesimpulan</b></td>
+                                    <td align="center"><b>Opsi</b></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    $jumlah_range = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_range FROM referensi_range WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
+                                    if(empty($jumlah_range)){
+                                        echo '
+                                            <tr>
+                                                <td colspan="7" align="center">
+                                                    <span class="text-danger">Tidak Ada Data Referensi Nilai Rujukan Yang Ditampilkan</span>
+                                                </td>
+                                            </tr>
+                                        ';
+                                    }else{
+                                        $no=1;
+                                        $query = mysqli_query($Conn, "SELECT*FROM referensi_range WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
+                                        while ($data = mysqli_fetch_array($query)) {
+                                            $id_referensi_range = $data['id_referensi_range'];
+                                            $umur_kategori      = $data['umur_kategori'] ?? '-';
+                                            $umur_min           = $data['umur_min'];
+                                            $umur_max           = $data['umur_max'];
+                                            $umur_unit          = $data['umur_unit'];
+                                            $jenis_kelamin      = $data['jenis_kelamin'];
+                                            $nilai_min           = $data['nilai_min'];
+                                            $nilai_max           = $data['nilai_max'];
+                                            $operator           = $data['operator'];
+                                            $label              = $data['label'];
+                                            $fhir_display       = $data['fhir_display'];
+                                            $fhir_code          = $data['fhir_code'];
+                                            $fhir_system        = $data['fhir_system'];
+                                            $conclusion         = $data['conclusion'];
 
+                                            // Menentukan Penyataan nilai rujukan
+                                            if($operator=="<"){
+                                                $nilai_rujukan = "< $nilai_min";
+                                            }
+                                            if($operator==">"){
+                                                $nilai_rujukan = "> $nilai_max";
+                                            }
+                                            if($operator=="<="){
+                                                $nilai_rujukan = "< $nilai_min";
+                                            }
+                                            if($operator==">="){
+                                                $nilai_rujukan = "> $nilai_max";
+                                            }
+                                            if($operator=="-"){
+                                                $nilai_rujukan = "$nilai_min - $nilai_max";
+                                            }
+                                             if($operator=="between"){
+                                                $nilai_rujukan = "$nilai_min > - < $nilai_max";
+                                            }
+                                            if($allow_age==1){
+                                                if(empty($umur_min)){
+                                                    $show_age = "$umur_kategori (> $umur_max $umur_unit)";
+                                                }else{
+                                                    if(empty($umur_max)){
+                                                        $show_age = "$umur_kategori (< $umur_min $umur_unit)";
+                                                    }else{
+                                                         $show_age = "$umur_kategori ($umur_min - $umur_max $umur_unit)";
+                                                    }
+                                                }
+                                                
+                                            }else{
+                                                $show_age = 'All';
+                                            }
 
+                                            if($allow_sex==1){
+                                                if($jenis_kelamin==""){
+                                                    $show_sex = "All";
+                                                }else{
+                                                    if($jenis_kelamin=="Laki-laki"){
+                                                        $show_sex = "L";
+                                                    }else{
+                                                        if($jenis_kelamin=="Perempuan"){
+                                                            $show_sex = "P";
+                                                        }else{
+                                                            $show_sex = "All";
+                                                        }
+                                                    }
+                                                }
+                                            }else{
+                                                $show_sex = "All";
+                                            }
+
+                                            echo '
+                                                <tr>
+                                                    <td align="center"><small>'.$no.'</small></td>
+                                                    <td align="left">
+                                                        <a href="javascript:void(0);" class="modal_detail_range" data-id="'.$id_referensi_range.'">
+                                                            <small>'.$label.'</small>
+                                                        </a>
+                                                    </td>
+                                                    <td align="left"><small>'.$nilai_rujukan.' '.$unit_display.'</small></td>
+                                                    <td align="left"><small>'.$show_age.'</small></td>
+                                                    <td align="left">'.$show_sex.'</td>
+                                                    <td align="left">'.$conclusion.'</td>
+                                                    <td align="center">
+                                                        <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="bi bi-three-dots-vertical"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                            <li class="dropdown-header text-start">
+                                                                <h6>Option</h6>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item modal_detail_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
+                                                                    <i class="bi bi-info-circle"></i> Detail
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item modal_edit_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
+                                                                    <i class="bi bi-pencil"></i> Edit
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item modal_delete_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
+                                                                    <i class="bi bi-x"></i> Hapus
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            ';
+                                            $no++;
+                                        }
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <?php
+            }
+        ?>
     </div>
 </div>

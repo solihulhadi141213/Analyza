@@ -51,8 +51,8 @@
                                 <thead>
                                     <tr>
                                         <th><b>No</b></th>
-                                        <th><b>Nama Pemeriksaan</b></th>
                                         <th><b>Kategori</b></th>
+                                        <th><b>Nama Pemeriksaan</b></th>
                                         <th><b><i>Display</i></b></th>
                                         <th><b><i>Code</i></b></th>
                                         <th><b><i>Result Type</i></b></th>

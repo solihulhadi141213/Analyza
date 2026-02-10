@@ -53,6 +53,10 @@
     $code_pemeriksaan           = $Data['code_pemeriksaan'];
     $display_pemeriksaan        = $Data['display_pemeriksaan'];
     $system_pemeriksaan         = $Data['system_pemeriksaan'];
+    $unit                       = $Data['unit'];
+    $unit_display               = $Data['unit_display'];
+    $unit_code                  = $Data['unit_code'];
+    $unit_system                = $Data['unit_system'];
     $result_type                = $Data['result_type'];
     $result_interpertation_type = $Data['result_interpertation_type'];
     $allow_age                  = $Data['allow_age'];
@@ -71,6 +75,16 @@
     }else{
         $label_allow_sex = '';
     }
+
+    // Mencari ID unit satuan
+    if(!empty($unit_code)){
+        $id_referensi_satuan = GetDetailData($Conn, 'referensi_satuan', 'code_satuan', $unit_code, 'id_referensi_satuan');
+        $result_satuan = '<option selected value="'.$id_referensi_satuan.'">'.$unit.' ('.$unit_display.')</option>';
+    }else{
+        $id_referensi_satuan = "";
+        $result_satuan = '<option value="">Pilih</option>';
+    }
+    
     
     //Tampilkan Data
     echo '
@@ -130,7 +144,21 @@
                 <small class="text text-grayish">URL System Berdasarkan Referensi Yang Digunakan</small>
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="id_referensi_satuan_edit">
+                    <small><i>Unit / Satuan Hasil</i></small>
+                </label>
+            </div>
+            <div class="col-md-8">
+                <select name="id_referensi_satuan" id="id_referensi_satuan_edit" class="form-control" required>
+                    <option value="">Pilih</option>
+                    '.$result_satuan.'
+                </select>
+            </div>
+        </div>
     ';
+
 ?>
     <div class="row mb-3">
         <div class="col-md-4">

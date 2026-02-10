@@ -156,12 +156,12 @@
         echo '
             <tr>
                 <td><small>'.$no.'</small></td>
+                <td><small>'.$category_pemeriksaan.'</small></td>
                 <td>
                     <a href="javascript:void(0);" class="modal_detail" data-id="'.$id_referensi_pemeriksaan  .'">
                         <small>'.$nama_pemeriksaan.'</small>
                     </a>
                 </td>
-                <td><small>'.$category_pemeriksaan.'</small></td>
                 <td><small><i>'.$display_pemeriksaan.'</i></small></td>
                 <td>
                     <small class="text text-grayish underscore_doted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="'.$system_pemeriksaan.'">
@@ -183,6 +183,9 @@
                 <td>
                     <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots-vertical"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle p-2 bg-warning border border-light rounded-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Test">
+                            <span class="visually-hidden">New alerts</span>
+                        </span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
                         <li class="dropdown-header text-start">

@@ -52,6 +52,10 @@
         $code_pemeriksaan           = $Data['code_pemeriksaan'];
         $display_pemeriksaan        = $Data['display_pemeriksaan'];
         $system_pemeriksaan         = $Data['system_pemeriksaan'];
+        $unit                       = $Data['unit'] ?? '-';
+        $unit_display               = $Data['unit_display'] ?? '-';
+        $unit_code                  = $Data['unit_code'] ?? '-';
+        $unit_system                = $Data['unit_system'] ?? '-';
         $result_type                = $Data['result_type'];
         $result_interpertation_type = $Data['result_interpertation_type'];
         $allow_age                  = $Data['allow_age'];
@@ -93,6 +97,11 @@
         echo '
             <input type="hidden" name="id_referensi_pemeriksaan" value="'.$id_referensi_pemeriksaan.'">
             <div class="row mb-2">
+                <div class="col-12">
+                    <small><b>A. Informasi Pemeriksaan</b></small>
+                </div>
+            </div>
+            <div class="row mb-2">
                 <div class="col-4"><small>Nama Pemeriksaan</small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
@@ -125,6 +134,44 @@
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
                     <small class="text text-grayish text-long">'.$system_pemeriksaan.'</small>
+                </div>
+            </div>
+            <div class="row mb-2 mt-3">
+                <div class="col-12 mt-3">
+                    <small><b>B. Unit / Satuan Hasil</b></small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small>Nama Satuan</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish text-long">'.$unit.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small><i>Display Unit</i></small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish text-long">'.$unit_display.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small><i>Code Unit</i></small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish text-long">'.$unit_code.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small><i>System Unit</i></small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish text-long">'.$unit_system.'</small>
+                </div>
+            </div>
+            <div class="row mb-2 mt-3">
+                <div class="col-12 mt-3">
+                    <small><b>C. Tipe hasil dan Cara Interpertasi</b></small>
                 </div>
             </div>
             <div class="row mb-2">

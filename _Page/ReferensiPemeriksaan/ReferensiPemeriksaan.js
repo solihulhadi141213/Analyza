@@ -150,6 +150,37 @@ $(document).ready(function() {
         ShowListKategori();
     });
 
+    $('#id_referensi_satuan').select2({
+        theme: "bootstrap-5",
+        dropdownParent: $('#ModalTambah'),
+        placeholder: "Pilih unit",
+        allowClear: true,
+        minimumInputLength: 0,
+        ajax: {
+            url     : "_Page/ReferensiKemasanSample/list_satuan.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    keyword: params.term || "", 
+                    page: params.page || 1
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: data.results,
+                    pagination: {
+                        more: data.more
+                    }
+                };
+            },
+            cache: true
+        }
+    });
+
     /* Ketika 'result_type' diubah */
     $(document).on('change', '#result_type', function() {
         var result_type = $('#result_type').val();
@@ -311,9 +342,45 @@ $(document).ready(function() {
             data        : {id_referensi_pemeriksaan: id_referensi_pemeriksaan},
             success     : function(data){
                 $('#FormEdit').html(data);
-                var result_type = $('#result_type_edit').val();
+
+                // Select2 Untuk Satuan
+                 $('#id_referensi_satuan_edit').select2({
+                    theme: "bootstrap-5",
+                    dropdownParent: $('#ModalEdit'),
+                    placeholder: "Pilih Unit",
+                    allowClear: true,
+                    minimumInputLength: 0,
+                    ajax: {
+                        url     : "_Page/ReferensiKemasanSample/list_satuan.php",
+                        type    : "POST",
+                        dataType: "json",
+                        delay   : 250,
+                        data    : function (params) {
+                            return {
+                                keyword: params.term || "", 
+                                page: params.page || 1
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+
+                            return {
+                                results: data.results,
+                                pagination: {
+                                    more: data.more
+                                }
+                            };
+                        },
+                        cache: true
+                    }
+                });
             }
         });
+    });
+
+    // Jika Modal Edit Muncul
+    $('#ModalEdit').on('show.bs.modal', function (e) {
+       
     });
 
     /* Ketika 'result_type' diubah */
@@ -470,4 +537,264 @@ $(document).ready(function() {
             }
         });
     });
+
+    // ===================================================================================
+    // TAMBAH NILAI RUJUKAN
+    // ===================================================================================
+     $(document).on('click', '.modal_tambah_range', function () {
+
+        //tangkap data 'id_referensi_pemeriksaan' dan buat variabel
+        var id_referensi_pemeriksaan   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalTambahRange').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiTambahRange').html('');
+
+        //Form Loading
+        $('#FormTambahRange').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/ReferensiPemeriksaan/FormTambahRange.php',
+            data        : {id_referensi_pemeriksaan: id_referensi_pemeriksaan},
+            success     : function(data){
+                $('#FormTambahRange').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesTambahRange' disubmit */
+    $('#ProsesTambahRange').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesTambahRange=$('#ProsesTambahRange').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiTambah').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesTambahRange.php',
+            dataType: 'json',
+            data    : ProsesTambahRange,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiTambahRange').html('');
+
+                    //reset form
+                    $('#ProsesTambahRange')[0].reset();
+
+                    //Tutup modal
+                    $('#ModalTambahRange').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiTambahRange').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // DETAIL NILAI RUJUKAN
+    // ===================================================================================
+    $(document).on('click', '.modal_detail_range', function () {
+
+        //tangkap data 'id_referensi_range' dan buat variabel
+        var id_referensi_range   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDetailRange').modal('show');
+
+        //Form Loading
+        $('#FormDetailRange').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/ReferensiPemeriksaan/FormDetailRange.php',
+            data        : {id_referensi_range: id_referensi_range},
+            success     : function(data){
+                $('#FormDetailRange').html(data);
+            }
+        });
+    });
+
+    // ===================================================================================
+    // EDIT NILAI RUJUKAN
+    // ===================================================================================
+    $(document).on('click', '.modal_edit_range', function () {
+
+        //tangkap data 'id_referensi_range' dan buat variabel
+        var id_referensi_range   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalEditRange').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiEditRange').html('');
+
+        //Form Loading
+        $('#FormEditRange').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/ReferensiPemeriksaan/FormEditRange.php',
+            data        : {id_referensi_range: id_referensi_range},
+            success     : function(data){
+                $('#FormEditRange').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesEditRange' disubmit */
+    $('#ProsesEditRange').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesEditRange=$('#ProsesEditRange').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiEditRange').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesEditRange.php',
+            dataType: 'json',
+            data    : ProsesEditRange,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiEditRange').html('');
+
+                    //Tutup modal
+                    $('#ModalEditRange').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiEditRange').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // HAPUS NILAI RUJUKAN
+    // ===================================================================================
+    $(document).on('click', '.modal_delete_range', function () {
+
+        //tangkap data 'id_referensi_range' dan buat variabel
+        var id_referensi_range   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDeleteRange').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiDeleteRange').html('');
+
+        //Form Loading
+        $('#FormDeleteRange').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/ReferensiPemeriksaan/FormDeleteRange.php',
+            data        : {id_referensi_range: id_referensi_range},
+            success     : function(data){
+                $('#FormDeleteRange').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesDeleteRange' disubmit */
+    $('#ProsesDeleteRange').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesDeleteRange=$('#ProsesDeleteRange').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiDeleteRange').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesDeleteRange.php',
+            dataType: 'json',
+            data    : ProsesDeleteRange,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiDeleteRange').html('');
+
+                    //Tutup modal
+                    $('#ModalDeleteRange').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiDeleteRange').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+    
 });

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 06, 2026 at 07:22 PM
+-- Generation Time: Feb 10, 2026 at 10:20 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.0.30
 
@@ -76,14 +76,20 @@ CREATE TABLE IF NOT EXISTS `access_feature` (
 INSERT INTO `access_feature` (`id_access_feature`, `feature_name`, `feature_category`, `feature_description`, `datetime_creat`) VALUES
 ('36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y', 'Koneksi SIMRS', 'Koneksi', 'Pengaturan parameter koneksi dengan SIMRS', '2025-12-16 20:07:41'),
 ('5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E', 'Koneksi Satu Sehat', 'Koneksi', 'Pengaturan parameter koneksi ke Satu Sehat Platform', '2025-12-17 18:47:14'),
+('6W5aMQEkhaBfwBGXQOEQx7M04Iv9h8IXOEsT', 'Referensi Metode Pemeriksaan', 'Referensi', 'Halaman untuk mengelola metode pemeriksaan', '2026-02-09 19:41:38'),
+('8bOwARsJKZ5Dc0VxJwXdWdiP2KPfxFjVqgbu', 'Referensi Kemasan (Container)', 'Referensi', 'Halaman yang mengelola berbagai jenis kemasan kontainer spesimen', '2026-02-08 07:20:57'),
 ('Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA', 'Bantuan', 'Lainnya', 'Halaman untuk mengelola konten bantuan atau dokumentasi', '2025-09-06 14:36:36'),
+('H8lByxYVLw1zYg9hIYkZxtNNgkBH8Gi8h6Vv', 'Referensi Jenis Spesimen', 'Referensi', 'Halaman ini digunakan untuk mengelola daftar Jenis Spesimen', '2026-02-09 11:32:50'),
 ('Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH', 'Pengaturan Umum', 'Pengaturan', 'Halaman yang berfungsi untuk mengatur aplikasi secara umum', '2025-09-01 19:27:07'),
 ('aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY', 'Email Gateway', 'Pengaturan', 'Halaman yang berguna untuk menyimpan pengaturan email gateway', '2025-09-01 19:32:54'),
 ('fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw', 'Daftar Pertanyaan', 'Referensi', 'Halaman untuk mengelola daftar pertanyaan dalam assesment radiologi', '2025-12-30 20:58:40'),
 ('jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw', 'Akses Pengguna', 'Akses', 'Halaman untuk mengelola akun akses pengguna', '2025-08-31 20:23:54'),
 ('lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD', 'Entitas Akses Pengguna', 'Akses', 'Halaman untuk mengelola entitas/group/level pengguna', '2025-08-31 20:23:01'),
+('lgG3CggWuy9Bd3m4eaXXx6tjKQonITqt4MOe', 'Jenis Pemeriksaan', 'Referensi', 'Halaman untuk mengelola jenis pemeriksaan', '2026-02-07 14:56:05'),
 ('nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv', 'Fitur Aplikasi', 'Akses', 'Halaman untuk mengelola fitur aplikasi', '2025-08-31 20:21:48'),
-('nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee', 'API Key', 'Koneksi', 'Halaman untuk mengelola data API key untuk aplikasi lain agar terhubung Ke Redix', '2025-12-19 16:28:20');
+('nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee', 'API Key', 'Koneksi', 'Halaman untuk mengelola data API key untuk aplikasi lain agar terhubung Ke Redix', '2025-12-19 16:28:20'),
+('vA2qgCIl2YHVsxGmocRcv5293dcXh5oDXVYt', 'Referensi Satuan', 'Referensi', 'Halaman untuk mengelola daftar referensi satuan/Unit', '2026-02-07 22:54:04'),
+('wW79JNUwhM5nxRymMuxQrycBpUkBRAt2r2UU', 'Referensi Pengambilan Spesimen', 'Referensi', 'Halaman yang berfungsi untuk mengelola daftar referensi metode / cara pengambilan spesimen', '2026-02-09 10:03:48');
 
 -- --------------------------------------------------------
 
@@ -121,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `access_log` (
   `log_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id_access_log`),
   KEY `access_log_id_access_index` (`id_access`)
-) ENGINE=InnoDB AUTO_INCREMENT=454 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=481 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access_log`
@@ -580,7 +586,34 @@ INSERT INTO `access_log` (`id_access_log`, `id_access`, `log_datetime`, `log_cat
 (450, 1, '2026-02-07 02:20:52', 'Fitur Akses', 'Hapus Fitur Akses'),
 (451, 1, '2026-02-07 02:21:10', 'Entitas Akses', 'Hapus Entitas Akses'),
 (452, 1, '2026-02-07 02:21:14', 'Entitas Akses', 'Hapus Entitas Akses'),
-(453, 1, '2026-02-07 02:21:17', 'Entitas Akses', 'Hapus Entitas Akses');
+(453, 1, '2026-02-07 02:21:17', 'Entitas Akses', 'Hapus Entitas Akses'),
+(454, 1, '2026-02-07 02:48:55', 'Login', 'Login Berhasil'),
+(455, 1, '2026-02-07 03:04:38', 'Login', 'Login Berhasil'),
+(456, 1, '2026-02-07 20:30:54', 'Login', 'Login Berhasil'),
+(457, 1, '2026-02-07 21:51:54', 'Login', 'Login Berhasil'),
+(458, 1, '2026-02-07 21:56:05', 'Akses', 'Input Fitur Akses'),
+(459, 1, '2026-02-07 22:13:15', 'Entitas Akses', 'Edit Entitas Akses'),
+(460, 1, '2026-02-08 00:41:46', 'Login', 'Login Berhasil'),
+(461, 1, '2026-02-08 05:54:04', 'Akses', 'Input Fitur Akses'),
+(462, 1, '2026-02-08 05:55:59', 'Entitas Akses', 'Edit Entitas Akses'),
+(463, 1, '2026-02-08 13:00:09', 'Login', 'Login Berhasil'),
+(464, 1, '2026-02-08 14:20:57', 'Akses', 'Input Fitur Akses'),
+(465, 1, '2026-02-08 22:17:34', 'Login', 'Login Berhasil'),
+(466, 1, '2026-02-08 22:45:34', 'Entitas Akses', 'Edit Entitas Akses'),
+(467, 1, '2026-02-09 01:40:37', 'Login', 'Login Berhasil'),
+(468, 1, '2026-02-09 04:50:23', 'Login', 'Login Berhasil'),
+(469, 1, '2026-02-09 14:09:24', 'Login', 'Login Berhasil'),
+(470, 1, '2026-02-09 16:51:15', 'Login', 'Login Berhasil'),
+(471, 1, '2026-02-09 17:03:48', 'Akses', 'Input Fitur Akses'),
+(472, 1, '2026-02-09 17:04:01', 'Entitas Akses', 'Edit Entitas Akses'),
+(473, 1, '2026-02-09 18:32:50', 'Akses', 'Input Fitur Akses'),
+(474, 1, '2026-02-09 18:32:58', 'Entitas Akses', 'Edit Entitas Akses'),
+(475, 1, '2026-02-10 02:11:39', 'Login', 'Login Berhasil'),
+(476, 1, '2026-02-10 02:41:38', 'Akses', 'Input Fitur Akses'),
+(477, 1, '2026-02-10 02:44:44', 'Entitas Akses', 'Edit Entitas Akses'),
+(478, 1, '2026-02-10 20:00:02', 'Login', 'Login Berhasil'),
+(479, 1, '2026-02-10 22:19:56', 'Login', 'Login Berhasil'),
+(480, 1, '2026-02-11 01:23:22', 'Login', 'Login Berhasil');
 
 -- --------------------------------------------------------
 
@@ -597,7 +630,7 @@ CREATE TABLE IF NOT EXISTS `access_login` (
   `datetime_expired` datetime NOT NULL,
   PRIMARY KEY (`id_access_login`),
   KEY `access_login_id_access_index` (`id_access`)
-) ENGINE=InnoDB AUTO_INCREMENT=355 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access_login`
@@ -606,7 +639,7 @@ CREATE TABLE IF NOT EXISTS `access_login` (
 INSERT INTO `access_login` (`id_access_login`, `id_access`, `token`, `datetime_creat`, `datetime_expired`) VALUES
 (51, 2, 'D4hbO8ZH3g4UZWJXy6ZhcWt1qzu8DEX2ILFx', '2025-09-13 08:49:27', '2025-09-13 10:33:46'),
 (306, 8, '1GNwTfgziYVhHj8QPubz96G0LJlocAGfSaz4', '2026-01-08 11:35:26', '2026-01-08 12:36:36'),
-(354, 1, 'fddw3hcBH4nPiczcgtXKbi1pWoIXiJPqX5Co', '2026-02-07 02:16:43', '2026-02-07 03:22:12');
+(369, 1, 'EXyjesj06I7GN83srE2lDVA3Gw9g10Wf7R8x', '2026-02-11 01:23:22', '2026-02-11 06:20:01');
 
 -- --------------------------------------------------------
 
@@ -622,23 +655,13 @@ CREATE TABLE IF NOT EXISTS `access_permission` (
   PRIMARY KEY (`id_permission`),
   KEY `id_access` (`id_access`),
   KEY `id_access_feature` (`id_access_feature`)
-) ENGINE=InnoDB AUTO_INCREMENT=417 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=498 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access_permission`
 --
 
 INSERT INTO `access_permission` (`id_permission`, `id_access`, `id_access_feature`) VALUES
-(389, 1, 'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw'),
-(390, 1, 'lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD'),
-(391, 1, 'nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv'),
-(392, 1, 'nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee'),
-(393, 1, '5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E'),
-(394, 1, '36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y'),
-(395, 1, 'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA'),
-(398, 1, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
-(399, 1, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
-(400, 1, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw'),
 (407, 2, 'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw'),
 (408, 2, 'lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD'),
 (409, 2, 'nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv'),
@@ -648,7 +671,23 @@ INSERT INTO `access_permission` (`id_permission`, `id_access`, `id_access_featur
 (413, 2, 'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA'),
 (414, 2, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
 (415, 2, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
-(416, 2, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw');
+(416, 2, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw'),
+(482, 1, 'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw'),
+(483, 1, 'lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD'),
+(484, 1, 'nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv'),
+(485, 1, 'nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee'),
+(486, 1, '5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E'),
+(487, 1, '36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y'),
+(488, 1, 'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA'),
+(489, 1, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
+(490, 1, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
+(491, 1, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw'),
+(492, 1, 'lgG3CggWuy9Bd3m4eaXXx6tjKQonITqt4MOe'),
+(493, 1, 'H8lByxYVLw1zYg9hIYkZxtNNgkBH8Gi8h6Vv'),
+(494, 1, '8bOwARsJKZ5Dc0VxJwXdWdiP2KPfxFjVqgbu'),
+(495, 1, '6W5aMQEkhaBfwBGXQOEQx7M04Iv9h8IXOEsT'),
+(496, 1, 'wW79JNUwhM5nxRymMuxQrycBpUkBRAt2r2UU'),
+(497, 1, 'vA2qgCIl2YHVsxGmocRcv5293dcXh5oDXVYt');
 
 -- --------------------------------------------------------
 
@@ -664,23 +703,29 @@ CREATE TABLE IF NOT EXISTS `access_reference` (
   PRIMARY KEY (`id_access_reference`),
   KEY `id_access_group` (`id_access_group`),
   KEY `id_access_fitures` (`id_access_feature`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access_reference`
 --
 
 INSERT INTO `access_reference` (`id_access_reference`, `id_access_group`, `id_access_feature`) VALUES
-(41, 1, 'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw'),
-(42, 1, 'lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD'),
-(43, 1, 'nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv'),
-(44, 1, 'nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee'),
-(45, 1, '5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E'),
-(46, 1, '36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y'),
-(47, 1, 'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA'),
-(50, 1, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
-(51, 1, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
-(52, 1, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw');
+(124, 1, 'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw'),
+(125, 1, 'lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD'),
+(126, 1, 'nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv'),
+(127, 1, 'nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee'),
+(128, 1, '5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E'),
+(129, 1, '36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y'),
+(130, 1, 'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA'),
+(131, 1, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
+(132, 1, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
+(133, 1, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw'),
+(134, 1, 'lgG3CggWuy9Bd3m4eaXXx6tjKQonITqt4MOe'),
+(135, 1, 'H8lByxYVLw1zYg9hIYkZxtNNgkBH8Gi8h6Vv'),
+(136, 1, '8bOwARsJKZ5Dc0VxJwXdWdiP2KPfxFjVqgbu'),
+(137, 1, '6W5aMQEkhaBfwBGXQOEQx7M04Iv9h8IXOEsT'),
+(138, 1, 'wW79JNUwhM5nxRymMuxQrycBpUkBRAt2r2UU'),
+(139, 1, 'vA2qgCIl2YHVsxGmocRcv5293dcXh5oDXVYt');
 
 -- --------------------------------------------------------
 
@@ -783,7 +828,7 @@ CREATE TABLE IF NOT EXISTS `captcha` (
   `datetime_creat` datetime NOT NULL,
   `datetime_expired` datetime NOT NULL,
   PRIMARY KEY (`id_captcha`)
-) ENGINE=InnoDB AUTO_INCREMENT=5751 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5814 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- --------------------------------------------------------
 
@@ -805,6 +850,14 @@ CREATE TABLE IF NOT EXISTS `connection_satu_sehat` (
   PRIMARY KEY (`id_connection_satu_sehat`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `connection_satu_sehat`
+--
+
+INSERT INTO `connection_satu_sehat` (`id_connection_satu_sehat`, `name_connection_satu_sehat`, `url_connection_satu_sehat`, `organization_id`, `client_key`, `secret_key`, `token`, `datetime_expired`, `status_connection_satu_sehat`) VALUES
+(1, 'Sanbox', 'https://api-satusehat-stg.dto.kemkes.go.id', '2fb97f51-a536-4fc1-a4ff-2f7abbbc54aa', 'OzSEGR88d1fbTrX3eYIfg05qAFuwe4mGvhebeavID6H1aazj', 'dJlUWRW5eP01dpiDwGs2LGbIVUOEa2avaWWbQ2a7rbolGd7HfJPVYWjBudkz3BcG', '', NULL, 0),
+(2, 'Production', 'https://api-satusehat.kemkes.go.id', '100026947', 'FRHoqgpmrnCcJ3rNAP0kBFsGphWAsAC19EY1f1yRBYvS6CPn', '1yj3cj2eG1h1zrcGSd6yVmGv1FJfBTf62LmPk5540tD9pryzFEMgoN9NF5XK5QEO', 'OyBOliuPzQbjN33HlN6fMviRpG8w', '2026-01-31 09:01:28', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -823,6 +876,285 @@ CREATE TABLE IF NOT EXISTS `connection_simrs` (
   `status_connection_simrs` tinyint(1) NOT NULL COMMENT 'true or false',
   PRIMARY KEY (`id_connection_simrs`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `connection_simrs`
+--
+
+INSERT INTO `connection_simrs` (`id_connection_simrs`, `name_connection_simrs`, `url_connection_simrs`, `client_id`, `client_key`, `token`, `datetime_expired`, `status_connection_simrs`) VALUES
+(1, 'Development', 'http://localhost/SIMRS-ELSYIFA2', 'QsNNfBNpnOyusA13lj4GLILcFFs5ibdLuEXu', 'cwOhnoIl1UuXJj3ICUpu8H2QXvXCXZj3nPKJ', '', '0000-00-00 00:00:00', 0),
+(2, 'Production', 'http://localhost/SIMRS-ELSYIFA2', 'wl9bzskrr6mC7U8kivWkSLcwcXrs0tzLdKwp', 'xrI9lAI14TTy2TD4wmDo3w09ovzqw5MYsJ6P', '', '0000-00-00 00:00:00', 0),
+(5, 'Staging', 'http://localhost/SIMRS-ELSYIFA2', 'wl9bzskrr6mC7U8kivWkSLcwcXrs0tzLdKwp', 'xrI9lAI14TTy2TD4wmDo3w09ovzqw5MYsJ6P', '0f2f67f896745ff4d97a9f24c4dc9752', '2026-02-05 22:25:46', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referensi_category`
+--
+
+DROP TABLE IF EXISTS `referensi_category`;
+CREATE TABLE IF NOT EXISTS `referensi_category` (
+  `id_referensi_category` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_referensi_pemeriksaan` int UNSIGNED NOT NULL,
+  `nilai_hasil` varchar(255) NOT NULL COMMENT 'Apapun hasilnya akan dianggap string',
+  `label` varchar(255) NOT NULL COMMENT 'Interpertasi dalam bahasa indonesia',
+  `fhir_display` varchar(255) DEFAULT NULL COMMENT 'Nama Interpertasi berdasarkan FHIR',
+  `fhir_code` varchar(255) DEFAULT NULL COMMENT 'Kode Interpertasi berdasarkan FHIR',
+  `fhir_system` text COMMENT 'http://snomed.info/sct',
+  PRIMARY KEY (`id_referensi_category`),
+  KEY `category_to_ref_pemeriksaan` (`id_referensi_pemeriksaan`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referensi_container`
+--
+
+DROP TABLE IF EXISTS `referensi_container`;
+CREATE TABLE IF NOT EXISTS `referensi_container` (
+  `id_referensi_container` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nama_container` varchar(255) NOT NULL,
+  `display_container` varchar(255) NOT NULL,
+  `code_container` varchar(255) NOT NULL,
+  `system_container` text NOT NULL,
+  `kapasitas_container` decimal(15,2) NOT NULL,
+  `unit_container` varchar(255) NOT NULL,
+  `code_unit_container` varchar(255) NOT NULL,
+  `system_unit_container` text NOT NULL,
+  PRIMARY KEY (`id_referensi_container`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `referensi_container`
+--
+
+INSERT INTO `referensi_container` (`id_referensi_container`, `nama_container`, `display_container`, `code_container`, `system_container`, `kapasitas_container`, `unit_container`, `code_unit_container`, `system_unit_container`) VALUES
+(1, 'Tabung EDTA (Ungu)', 'Blood specimen tube with EDTA', '706054008', 'http://snomed.info/sct', 2.00, 'mL', 'mL', 'http://unitsofmeasure.org'),
+(2, 'Tabung Serum (Merah)', 'Blood specimen tube with clot activator', '706047007', 'http://snomed.info/sct', 5.00, 'mL', 'mL', 'http://unitsofmeasure.org'),
+(3, 'Tabung Sitrat (Biru)', 'Blood specimen tube with sodium citrate', '706055009', 'http://snomed.info/sct', 2.70, 'mL', 'mL', 'http://unitsofmeasure.org'),
+(4, 'Tabung Heparin (Hijau)', 'Blood specimen tube with lithium heparin', '706051000', 'http://snomed.info/sct', 4.00, 'mL', 'mL', 'http://unitsofmeasure.org'),
+(5, 'Tabung Glukosa (Abu)', 'Blood specimen tube with fluoride', '706044000', 'http://snomed.info/sct', 2.00, 'mL', 'mL', 'http://unitsofmeasure.org'),
+(7, 'Wadah Urin Bersih', 'Urine specimen container', '706058006', 'http://snomed.info/sct', 50.00, 'mL', 'mL', 'http://unitsofmeasure.org');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referensi_jenis_spesimen`
+--
+
+DROP TABLE IF EXISTS `referensi_jenis_spesimen`;
+CREATE TABLE IF NOT EXISTS `referensi_jenis_spesimen` (
+  `id_referensi_jenis_spesimen` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nama_spesimen` varchar(255) NOT NULL,
+  `display_spesimen` varchar(255) NOT NULL,
+  `code_spesimen` varchar(255) NOT NULL,
+  `system_spesimen` text NOT NULL,
+  PRIMARY KEY (`id_referensi_jenis_spesimen`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `referensi_jenis_spesimen`
+--
+
+INSERT INTO `referensi_jenis_spesimen` (`id_referensi_jenis_spesimen`, `nama_spesimen`, `display_spesimen`, `code_spesimen`, `system_spesimen`) VALUES
+(1, 'Darah Lengkap', 'Whole blood specimen', '119297000', 'http://snomed.info/sct'),
+(2, 'Serum', 'Serum specimen', '119364003', 'http://snomed.info/sct'),
+(3, 'Plasma', 'Plasma specimen', '119361006', 'http://snomed.info/sct');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referensi_metode_pemeriksaan`
+--
+
+DROP TABLE IF EXISTS `referensi_metode_pemeriksaan`;
+CREATE TABLE IF NOT EXISTS `referensi_metode_pemeriksaan` (
+  `id_referensi_metode_pemeriksaan` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nama_metode_pemeriksaan` varchar(255) NOT NULL,
+  `display_metode_pemeriksaan` varchar(255) NOT NULL,
+  `code_metode_pemeriksaan` varchar(255) NOT NULL,
+  `system_metode_pemeriksaan` text NOT NULL,
+  PRIMARY KEY (`id_referensi_metode_pemeriksaan`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `referensi_metode_pemeriksaan`
+--
+
+INSERT INTO `referensi_metode_pemeriksaan` (`id_referensi_metode_pemeriksaan`, `nama_metode_pemeriksaan`, `display_metode_pemeriksaan`, `code_metode_pemeriksaan`, `system_metode_pemeriksaan`) VALUES
+(1, 'Uji Golongan Darah', 'Blood grouping test', '104177005', 'http://snomed.info/sct'),
+(2, 'Aglutinasi Slide', 'Slide agglutination test', '252275004', 'http://snomed.info/sct');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referensi_metode_sample`
+--
+
+DROP TABLE IF EXISTS `referensi_metode_sample`;
+CREATE TABLE IF NOT EXISTS `referensi_metode_sample` (
+  `id_referensi_metode_sample` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nama_metode_sample` varchar(255) NOT NULL,
+  `display_metode_sample` varchar(255) NOT NULL,
+  `code_metode_sample` varchar(255) NOT NULL,
+  `system_metode_sample` text NOT NULL,
+  PRIMARY KEY (`id_referensi_metode_sample`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `referensi_metode_sample`
+--
+
+INSERT INTO `referensi_metode_sample` (`id_referensi_metode_sample`, `nama_metode_sample`, `display_metode_sample`, `code_metode_sample`, `system_metode_sample`) VALUES
+(1, 'Aspirasi', 'Aspiration - action', '129304002', 'http://snomed.info/sct'),
+(2, 'Biopsi', 'Biopsy - action', '129314006', 'http://snomed.info/sct'),
+(5, 'Pungsi Vena (Phlebotomy)', 'Venipuncture - action', '28520004', 'http://snomed.info/sct'),
+(6, 'Kerokan (Scraping)', 'Scraping - action', '129323009', 'http://snomed.info/sct'),
+(7, 'Eksisi', 'Excision - action', '129300006', 'http://snomed.info/sct'),
+(8, 'Usap (Swab)', 'Swabbing - action', '129316008', 'http://snomed.info/sct'),
+(9, 'Pengumpulan Urine (Voided)', 'Collection of urinary specimen, voided', '225271002', 'http://snomed.info/sct'),
+(10, 'Kateterisasi', 'Catheterization - action', '129307009', 'http://snomed.info/sct'),
+(11, 'Insisi', 'Incision - action', '129303008', 'http://snomed.info/sct'),
+(12, 'Drainase', 'Drainage - action', '129311007', 'http://snomed.info/sct');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referensi_pemeriksaan`
+--
+
+DROP TABLE IF EXISTS `referensi_pemeriksaan`;
+CREATE TABLE IF NOT EXISTS `referensi_pemeriksaan` (
+  `id_referensi_pemeriksaan` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nama_pemeriksaan` varchar(255) NOT NULL COMMENT 'Nama Bahasa Indonesia',
+  `category_pemeriksaan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'Contoh Hematologi, Urin Dll',
+  `code_pemeriksaan` varchar(255) NOT NULL COMMENT 'Kode LOINC',
+  `display_pemeriksaan` varchar(255) NOT NULL COMMENT 'Display Loinc',
+  `system_pemeriksaan` varchar(255) NOT NULL COMMENT 'https://',
+  `unit` varchar(255) DEFAULT NULL,
+  `unit_display` varchar(255) DEFAULT NULL,
+  `unit_code` varchar(255) DEFAULT NULL,
+  `unit_system` text,
+  `result_type` enum('Numeric','Decimal','Coded','Text','Boolean') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'Tipe data hasil',
+  `result_interpertation_type` enum('Range','Category','None') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'Range, Category, None',
+  `allow_age` tinyint(1) DEFAULT NULL COMMENT 'Jika berkaitan dengan usia',
+  `allow_sex` tinyint(1) DEFAULT NULL COMMENT 'Jika berkaitan dengan jenis kelamin',
+  PRIMARY KEY (`id_referensi_pemeriksaan`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `referensi_pemeriksaan`
+--
+
+INSERT INTO `referensi_pemeriksaan` (`id_referensi_pemeriksaan`, `nama_pemeriksaan`, `category_pemeriksaan`, `code_pemeriksaan`, `display_pemeriksaan`, `system_pemeriksaan`, `unit`, `unit_display`, `unit_code`, `unit_system`, `result_type`, `result_interpertation_type`, `allow_age`, `allow_sex`) VALUES
+(5, 'Hemoglobin', 'Hematologi', '718-7', 'Hemoglobin [Mass/volume] in Blood', 'http://loinc.org', 'Gram per Desiliter', 'g/dL', 'g/dL', 'http://unitsofmeasure.org', 'Decimal', 'Range', 1, 0),
+(6, 'Golongan Darah', 'Hematologi', '882-1', 'ABO and Rh group [Type] in Blood', 'http://loinc.org', NULL, NULL, NULL, NULL, 'Coded', 'Category', NULL, NULL),
+(7, 'Warna Urin', 'Urin', '5778-6', 'Color of Urine', 'http://loinc.org', NULL, NULL, NULL, NULL, 'Text', 'None', 1, 1),
+(8, 'Glukosa Puasa', 'Hematologi', '1558-6', 'Glucose [Mass/volume] in Serum or Plasma --fasting', 'http://loinc.org', 'Miligram per Desiliter', 'mg/dL', 'mg/dL', 'http://unitsofmeasure.org', 'Decimal', 'Range', 1, 1),
+(9, 'Trombosit', 'Hematologi', '777-3', 'Platelet Count (Automated)', 'http://loinc.org', 'Ribuan per Mikroliter', '10^3/µL', '10*3/uL', 'http://unitsofmeasure.org', 'Decimal', 'Range', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referensi_range`
+--
+
+DROP TABLE IF EXISTS `referensi_range`;
+CREATE TABLE IF NOT EXISTS `referensi_range` (
+  `id_referensi_range` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_referensi_pemeriksaan` int UNSIGNED NOT NULL,
+  `umur_kategori` varchar(255) DEFAULT NULL COMMENT 'Prematur, Neonatus, Dewasa, Lansia DLL',
+  `umur_min` int UNSIGNED DEFAULT NULL,
+  `umur_max` int UNSIGNED DEFAULT NULL,
+  `umur_unit` enum('Hari','Bulan','Tahun') DEFAULT NULL COMMENT 'Hari, Bulan, Tahun',
+  `jenis_kelamin` enum('Laki-laki','Perempuan','All') NOT NULL COMMENT 'Laki-laki, Perempuan, All',
+  `nilai_min` decimal(15,2) DEFAULT NULL,
+  `nilai_max` decimal(15,2) DEFAULT NULL,
+  `operator` enum('<','>','between','<=','>=','-') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `label` varchar(255) NOT NULL COMMENT 'Normal, Tinggi, Rendah, Sedang, Abnormal',
+  `fhir_display` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'Low, High, Normal, DLL',
+  `fhir_code` varchar(255) NOT NULL,
+  `fhir_system` text COMMENT 'http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation',
+  `conclusion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'Normal, Abnormal',
+  PRIMARY KEY (`id_referensi_range`),
+  KEY `id_referensi_pemeriksaan` (`id_referensi_pemeriksaan`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `referensi_range`
+--
+
+INSERT INTO `referensi_range` (`id_referensi_range`, `id_referensi_pemeriksaan`, `umur_kategori`, `umur_min`, `umur_max`, `umur_unit`, `jenis_kelamin`, `nilai_min`, `nilai_max`, `operator`, `label`, `fhir_display`, `fhir_code`, `fhir_system`, `conclusion`) VALUES
+(1, 5, 'Neonatus', 0, 7, 'Hari', 'All', 14.50, 22.50, '-', 'Normal', 'Normal', 'N', 'http://snomed.info/sct', 'Normal'),
+(2, 5, 'Neonatus', 0, 7, 'Hari', 'All', 14.50, 0.00, '<', 'Anemia Neonatal', 'Anemia Neonatal', '271737000', 'http://snomed.info/sct', 'Abnormal'),
+(3, 5, 'Neonatus', 0, 7, 'Hari', 'All', 0.00, 22.50, '>', 'Polisitemia', 'Polisitemia', '109992005', 'http://snomed.info/sct', 'Abnormal');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referensi_satuan`
+--
+
+DROP TABLE IF EXISTS `referensi_satuan`;
+CREATE TABLE IF NOT EXISTS `referensi_satuan` (
+  `id_referensi_satuan` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nama_satuan` varchar(255) NOT NULL,
+  `unit_satuan` varchar(255) NOT NULL,
+  `code_satuan` varchar(255) NOT NULL,
+  `system_satuan` text NOT NULL,
+  PRIMARY KEY (`id_referensi_satuan`)
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `referensi_satuan`
+--
+
+INSERT INTO `referensi_satuan` (`id_referensi_satuan`, `nama_satuan`, `unit_satuan`, `code_satuan`, `system_satuan`) VALUES
+(1, 'Gram per Desiliter', 'g/dL', 'g/dL', 'http://unitsofmeasure.org'),
+(2, 'Miligram per Desiliter', 'mg/dL', 'mg/dL', 'http://unitsofmeasure.org'),
+(3, 'Miligram per 24 Jam', 'mg/24h', 'mg/24h', 'http://unitsofmeasure.org'),
+(4, 'Mikrogram per Desiliter', 'µg/dL', 'ug/dL', 'http://unitsofmeasure.org'),
+(5, 'Unit per Liter', 'U/L', 'U/L', 'http://unitsofmeasure.org'),
+(6, 'Miliekuivalen per Liter', 'mEq/L', 'meq/L', 'http://unitsofmeasure.org'),
+(7, 'Milimol per Liter', 'mmol/L', 'mmol/L', 'http://unitsofmeasure.org'),
+(8, 'Persen', '%', '%', 'http://unitsofmeasure.org'),
+(9, 'Jutaan per Mikroliter', '10^6/µL', '10*6/uL', 'http://unitsofmeasure.org'),
+(10, 'Ribuan per Mikroliter', '10^3/µL', '10*3/uL', 'http://unitsofmeasure.org'),
+(11, 'Femtoliter', 'fL', 'fL', 'http://unitsofmeasure.org'),
+(12, 'Pikogram', 'pg', 'pg', 'http://unitsofmeasure.org'),
+(13, 'Unit Internasional', 'IU/mL', '[IU]/mL', 'http://unitsofmeasure.org'),
+(14, 'Kopi per Mililiter', 'copies/mL', '{copies}/mL', 'http://unitsofmeasure.org'),
+(15, 'Milimol per Mol', 'mmol/mol', 'mmol/mol', 'http://unitsofmeasure.org'),
+(16, 'Milimeter per Jam', 'mm/h', 'mm/h', 'http://unitsofmeasure.org'),
+(17, 'Milimeter Air Raksa', 'mmHg', 'mm[Hg]', 'http://unitsofmeasure.org'),
+(18, 'Nanogram per Mililiter', 'ng/mL', 'ng/mL', 'http://unitsofmeasure.org'),
+(19, 'Mikromol per Liter', 'µmol/L', 'umol/L', 'http://unitsofmeasure.org'),
+(20, 'Miliosmol per Kilogram', 'mOsm/kg', 'mosm/kg', 'http://unitsofmeasure.org'),
+(21, 'Gram', 'g', 'g', 'http://unitsofmeasure.org'),
+(22, 'Titer', 'Titer', '{titer}', 'http://unitsofmeasure.org'),
+(23, 'Indeks', 'Index', '{index}', 'http://unitsofmeasure.org'),
+(24, 'Rasio', 'Ratio', '{ratio}', 'http://unitsofmeasure.org'),
+(25, 'Unit per Mililiter', 'U/mL', 'U/mL', 'http://unitsofmeasure.org'),
+(26, 'Logaritma (Basis 10)', 'log10', '[log10]', 'http://unitsofmeasure.org'),
+(27, 'Kilopascal', 'kPa', 'kPa', 'http://unitsofmeasure.org'),
+(28, 'Mikroampere', 'µA', 'uA', 'http://unitsofmeasure.org'),
+(30, 'Unit Internasional per Liter', 'IU/L', '[IU]/L', 'http://unitsofmeasure.org'),
+(31, 'Liter', 'L', 'L', 'http://unitsofmeasure.org'),
+(32, 'Mililiter', 'mL', 'mL', 'http://unitsofmeasure.org'),
+(33, 'Mikroliter', 'µL', 'uL', 'http://unitsofmeasure.org'),
+(34, 'Miligram', 'mg', 'mg', 'http://unitsofmeasure.org'),
+(35, 'Mikrogram', 'µg', 'ug', 'http://unitsofmeasure.org'),
+(36, 'Kilogram', 'kg', 'kg', 'http://unitsofmeasure.org'),
+(37, 'Meter', 'm', 'm', 'http://unitsofmeasure.org'),
+(38, 'Sentimeter', 'cm', 'cm', 'http://unitsofmeasure.org'),
+(39, 'Milimeter', 'mm', 'mm', 'http://unitsofmeasure.org'),
+(40, 'Mol', 'mol', 'mol', 'http://unitsofmeasure.org'),
+(41, 'Milimol', 'mmol', 'mmol', 'http://unitsofmeasure.org'),
+(42, 'Detik', 's (sec)', 's', 'http://unitsofmeasure.org'),
+(43, 'Menit', 'min', 'min', 'http://unitsofmeasure.org'),
+(44, 'Jam', 'h', 'h', 'http://unitsofmeasure.org'),
+(45, 'Hari', 'd', 'd', 'http://unitsofmeasure.org');
 
 -- --------------------------------------------------------
 
@@ -844,6 +1176,13 @@ CREATE TABLE IF NOT EXISTS `setting_email_gateway` (
   `pesan_validasi_email` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`id_setting_email_gateway`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Dumping data for table `setting_email_gateway`
+--
+
+INSERT INTO `setting_email_gateway` (`id_setting_email_gateway`, `email_gateway`, `password_gateway`, `url_provider`, `port_gateway`, `nama_pengirim`, `url_service`, `validasi_email`, `redirect_validasi`, `pesan_validasi_email`) VALUES
+(1, 'admin@kdmppadamukti.web.id', 'Padamukti1971#@', 'smtp.hostinger.com', '465', 'Admin Pay Siswa', 'https://mailer.kdmppadamukti.web.id/', 'No', '', 'Berikut ini kami kirimkan URL untuk melakukan validasi pendaftaran anda');
 
 --
 -- Constraints for dumped tables
@@ -892,6 +1231,18 @@ ALTER TABLE `access_reset`
 --
 ALTER TABLE `api_token`
   ADD CONSTRAINT `api_token_to_account` FOREIGN KEY (`id_api_account`) REFERENCES `api_account` (`id_api_account`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `referensi_category`
+--
+ALTER TABLE `referensi_category`
+  ADD CONSTRAINT `category_to_ref_pemeriksaan` FOREIGN KEY (`id_referensi_pemeriksaan`) REFERENCES `referensi_pemeriksaan` (`id_referensi_pemeriksaan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `referensi_range`
+--
+ALTER TABLE `referensi_range`
+  ADD CONSTRAINT `range_to_ref_pemeriksaan` FOREIGN KEY (`id_referensi_pemeriksaan`) REFERENCES `referensi_pemeriksaan` (`id_referensi_pemeriksaan`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
