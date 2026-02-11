@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 10, 2026 at 10:20 PM
+-- Generation Time: Feb 11, 2026 at 11:25 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.0.30
 
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `access_log` (
   `log_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id_access_log`),
   KEY `access_log_id_access_index` (`id_access`)
-) ENGINE=InnoDB AUTO_INCREMENT=481 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=483 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access_log`
@@ -613,7 +613,9 @@ INSERT INTO `access_log` (`id_access_log`, `id_access`, `log_datetime`, `log_cat
 (477, 1, '2026-02-10 02:44:44', 'Entitas Akses', 'Edit Entitas Akses'),
 (478, 1, '2026-02-10 20:00:02', 'Login', 'Login Berhasil'),
 (479, 1, '2026-02-10 22:19:56', 'Login', 'Login Berhasil'),
-(480, 1, '2026-02-11 01:23:22', 'Login', 'Login Berhasil');
+(480, 1, '2026-02-11 01:23:22', 'Login', 'Login Berhasil'),
+(481, 1, '2026-02-11 12:55:33', 'Login', 'Login Berhasil'),
+(482, 1, '2026-02-11 17:31:53', 'Login', 'Login Berhasil');
 
 -- --------------------------------------------------------
 
@@ -630,7 +632,7 @@ CREATE TABLE IF NOT EXISTS `access_login` (
   `datetime_expired` datetime NOT NULL,
   PRIMARY KEY (`id_access_login`),
   KEY `access_login_id_access_index` (`id_access`)
-) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=372 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access_login`
@@ -639,7 +641,7 @@ CREATE TABLE IF NOT EXISTS `access_login` (
 INSERT INTO `access_login` (`id_access_login`, `id_access`, `token`, `datetime_creat`, `datetime_expired`) VALUES
 (51, 2, 'D4hbO8ZH3g4UZWJXy6ZhcWt1qzu8DEX2ILFx', '2025-09-13 08:49:27', '2025-09-13 10:33:46'),
 (306, 8, '1GNwTfgziYVhHj8QPubz96G0LJlocAGfSaz4', '2026-01-08 11:35:26', '2026-01-08 12:36:36'),
-(369, 1, 'EXyjesj06I7GN83srE2lDVA3Gw9g10Wf7R8x', '2026-02-11 01:23:22', '2026-02-11 06:20:01');
+(371, 1, 'Ptcx3WZW5JC6sobim4fSq7L5bnIGF8NAKE5B', '2026-02-11 17:31:52', '2026-02-11 19:24:35');
 
 -- --------------------------------------------------------
 
@@ -828,7 +830,7 @@ CREATE TABLE IF NOT EXISTS `captcha` (
   `datetime_creat` datetime NOT NULL,
   `datetime_expired` datetime NOT NULL,
   PRIMARY KEY (`id_captcha`)
-) ENGINE=InnoDB AUTO_INCREMENT=5814 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5816 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- --------------------------------------------------------
 
@@ -896,6 +898,11 @@ DROP TABLE IF EXISTS `referensi_category`;
 CREATE TABLE IF NOT EXISTS `referensi_category` (
   `id_referensi_category` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_referensi_pemeriksaan` int UNSIGNED NOT NULL,
+  `umur_kategori` varchar(255) DEFAULT NULL,
+  `umur_min` int DEFAULT NULL,
+  `umur_max` int DEFAULT NULL,
+  `umur_unit` varchar(255) DEFAULT NULL,
+  `jenis_kelamin` enum('Laki-laki','Perempuan','All') NOT NULL,
   `nilai_hasil` varchar(255) NOT NULL COMMENT 'Apapun hasilnya akan dianggap string',
   `label` varchar(255) NOT NULL COMMENT 'Interpertasi dalam bahasa indonesia',
   `fhir_display` varchar(255) DEFAULT NULL COMMENT 'Nama Interpertasi berdasarkan FHIR',
@@ -903,7 +910,16 @@ CREATE TABLE IF NOT EXISTS `referensi_category` (
   `fhir_system` text COMMENT 'http://snomed.info/sct',
   PRIMARY KEY (`id_referensi_category`),
   KEY `category_to_ref_pemeriksaan` (`id_referensi_pemeriksaan`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `referensi_category`
+--
+
+INSERT INTO `referensi_category` (`id_referensi_category`, `id_referensi_pemeriksaan`, `umur_kategori`, `umur_min`, `umur_max`, `umur_unit`, `jenis_kelamin`, `nilai_hasil`, `label`, `fhir_display`, `fhir_code`, `fhir_system`) VALUES
+(1, 6, '', 0, 0, '', 'All', 'A+', 'Golongan A Rh Positif', 'Blood group A Rh positive', '112144000', 'http://snomed.info/sct'),
+(2, 6, '', 0, 0, '', 'All', 'B+', 'Golongan B Rh Positif', 'Blood group B Rh positive', '112149005', 'http://snomed.info/sct'),
+(3, 6, '', 0, 0, '', 'All', 'AB+', 'Golongan Darah AB+', 'Blood group AB Rh positive', '165743006', 'http://snomed.info/sct');
 
 -- --------------------------------------------------------
 
@@ -1051,8 +1067,30 @@ INSERT INTO `referensi_pemeriksaan` (`id_referensi_pemeriksaan`, `nama_pemeriksa
 (5, 'Hemoglobin', 'Hematologi', '718-7', 'Hemoglobin [Mass/volume] in Blood', 'http://loinc.org', 'Gram per Desiliter', 'g/dL', 'g/dL', 'http://unitsofmeasure.org', 'Decimal', 'Range', 1, 0),
 (6, 'Golongan Darah', 'Hematologi', '882-1', 'ABO and Rh group [Type] in Blood', 'http://loinc.org', NULL, NULL, NULL, NULL, 'Coded', 'Category', NULL, NULL),
 (7, 'Warna Urin', 'Urin', '5778-6', 'Color of Urine', 'http://loinc.org', NULL, NULL, NULL, NULL, 'Text', 'None', 1, 1),
-(8, 'Glukosa Puasa', 'Hematologi', '1558-6', 'Glucose [Mass/volume] in Serum or Plasma --fasting', 'http://loinc.org', 'Miligram per Desiliter', 'mg/dL', 'mg/dL', 'http://unitsofmeasure.org', 'Decimal', 'Range', 1, 1),
-(9, 'Trombosit', 'Hematologi', '777-3', 'Platelet Count (Automated)', 'http://loinc.org', 'Ribuan per Mikroliter', '10^3/µL', '10*3/uL', 'http://unitsofmeasure.org', 'Decimal', 'Range', 1, 0);
+(8, 'Glukosa Puasa', 'Hematologi', '1558-6', 'Glucose [Mass/volume] in Serum or Plasma --fasting', 'http://loinc.org', 'Miligram per Desiliter', 'mg/dL', 'mg/dL', 'http://unitsofmeasure.org', 'Decimal', 'Range', 0, 0),
+(9, 'Trombosit', 'Hematologi', '777-3', 'Platelet Count (Automated)', 'http://loinc.org', 'Ribuan per Mikroliter', '10^3/µL', '10*3/uL', 'http://unitsofmeasure.org', 'Decimal', 'Range', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referensi_pemeriksaan_relasi`
+--
+
+DROP TABLE IF EXISTS `referensi_pemeriksaan_relasi`;
+CREATE TABLE IF NOT EXISTS `referensi_pemeriksaan_relasi` (
+  `id_referensi_pemeriksaan_relasi` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_referensi_pemeriksaan` int UNSIGNED NOT NULL,
+  `id_referensi_metode_pemeriksaan` int UNSIGNED DEFAULT NULL,
+  `id_referensi_jenis_spesimen` int UNSIGNED DEFAULT NULL,
+  `id_referensi_metode_sample` int UNSIGNED DEFAULT NULL,
+  `id_referensi_container` int UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`id_referensi_pemeriksaan_relasi`),
+  KEY `relasi_pemeriksaan` (`id_referensi_pemeriksaan`),
+  KEY `relasi_metode_pemeriksaan` (`id_referensi_metode_pemeriksaan`),
+  KEY `relasi_jenis_spesimen` (`id_referensi_jenis_spesimen`),
+  KEY `relasi_metode_sample` (`id_referensi_metode_sample`),
+  KEY `relasi_container` (`id_referensi_container`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1079,7 +1117,7 @@ CREATE TABLE IF NOT EXISTS `referensi_range` (
   `conclusion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'Normal, Abnormal',
   PRIMARY KEY (`id_referensi_range`),
   KEY `id_referensi_pemeriksaan` (`id_referensi_pemeriksaan`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `referensi_range`
@@ -1088,7 +1126,11 @@ CREATE TABLE IF NOT EXISTS `referensi_range` (
 INSERT INTO `referensi_range` (`id_referensi_range`, `id_referensi_pemeriksaan`, `umur_kategori`, `umur_min`, `umur_max`, `umur_unit`, `jenis_kelamin`, `nilai_min`, `nilai_max`, `operator`, `label`, `fhir_display`, `fhir_code`, `fhir_system`, `conclusion`) VALUES
 (1, 5, 'Neonatus', 0, 7, 'Hari', 'All', 14.50, 22.50, '-', 'Normal', 'Normal', 'N', 'http://snomed.info/sct', 'Normal'),
 (2, 5, 'Neonatus', 0, 7, 'Hari', 'All', 14.50, 0.00, '<', 'Anemia Neonatal', 'Anemia Neonatal', '271737000', 'http://snomed.info/sct', 'Abnormal'),
-(3, 5, 'Neonatus', 0, 7, 'Hari', 'All', 0.00, 22.50, '>', 'Polisitemia', 'Polisitemia', '109992005', 'http://snomed.info/sct', 'Abnormal');
+(3, 5, 'Neonatus', 0, 7, 'Hari', 'All', 0.00, 22.50, '>', 'Polisitemia', 'Polisitemia', '109992005', 'http://snomed.info/sct', 'Abnormal'),
+(5, 9, '', 0, 0, '', 'All', 20000.00, 0.00, '<', 'Sangat Rendah', 'Critical low', 'LL', 'http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation', 'Trombositopenia Berat'),
+(6, 9, '', 0, 0, '', 'All', 20000.00, 150000.00, '-', 'Rendah', 'Low', 'L', 'http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation', 'Trombositopenia'),
+(7, 9, '', 0, 0, '', 'All', 150000.00, 450000.00, 'between', 'Normal', 'Normal', 'N', 'http://snomed.info/sct', 'Normal'),
+(8, 9, '', 0, 0, '', 'All', 0.00, 450000.00, '>=', 'Tinggi', 'High', 'H', 'http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation', 'Trombositosis');
 
 -- --------------------------------------------------------
 
@@ -1237,6 +1279,16 @@ ALTER TABLE `api_token`
 --
 ALTER TABLE `referensi_category`
   ADD CONSTRAINT `category_to_ref_pemeriksaan` FOREIGN KEY (`id_referensi_pemeriksaan`) REFERENCES `referensi_pemeriksaan` (`id_referensi_pemeriksaan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `referensi_pemeriksaan_relasi`
+--
+ALTER TABLE `referensi_pemeriksaan_relasi`
+  ADD CONSTRAINT `relasi_container` FOREIGN KEY (`id_referensi_container`) REFERENCES `referensi_container` (`id_referensi_container`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `relasi_jenis_spesimen` FOREIGN KEY (`id_referensi_jenis_spesimen`) REFERENCES `referensi_jenis_spesimen` (`id_referensi_jenis_spesimen`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `relasi_metode_pemeriksaan` FOREIGN KEY (`id_referensi_metode_pemeriksaan`) REFERENCES `referensi_metode_pemeriksaan` (`id_referensi_metode_pemeriksaan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `relasi_metode_sample` FOREIGN KEY (`id_referensi_metode_sample`) REFERENCES `referensi_metode_sample` (`id_referensi_metode_sample`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `relasi_pemeriksaan` FOREIGN KEY (`id_referensi_pemeriksaan`) REFERENCES `referensi_pemeriksaan` (`id_referensi_pemeriksaan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `referensi_range`

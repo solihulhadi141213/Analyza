@@ -93,6 +93,266 @@ function ShowDetail() {
     });
 }
 
+function initSelect2MetodePemeriksaan() {
+
+    let el = $('#id_referensi_metode_pemeriksaan');
+
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormTambahRelasi'),
+        placeholder       : "Pilih atau ketik Metode Pemeriksaan",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/ReferensiPemeriksaan/ListMetodePemeriksaan.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: response.results,
+                    pagination: { more: response.more }
+                };
+            },
+            cache: true
+        },
+
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+
+function initSelect2JenisSpesimen() {
+
+    let el = $('#id_referensi_jenis_spesimen');
+
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormTambahRelasi'),
+        placeholder       : "Pilih Atau Ketik Jenis Spesimen",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/ReferensiPemeriksaan/ListJenisSpesimen.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: response.results,
+                    pagination: { more: response.more }
+                };
+            },
+            cache: true
+        },
+
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+
+function initSelect2MetodeSample() {
+
+    let el = $('#id_referensi_metode_sample');
+
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormTambahRelasi'),
+        placeholder       : "Pilih Atau Ketik Metode Spesimen",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/ReferensiPemeriksaan/ListMetodeSpesimen.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: response.results,
+                    pagination: { more: response.more }
+                };
+            },
+            cache: true
+        },
+
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+
+function initSelect2Kontainer() {
+
+    let el = $('#id_referensi_container');
+
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormTambahRelasi'),
+        placeholder       : "Pilih Atau Ketik Jenis kontainer",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/ReferensiPemeriksaan/ListJenisKontainer.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: response.results,
+                    pagination: { more: response.more }
+                };
+            },
+            cache: true
+        },
+
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+
+function initSelect2UnitKapasitas() {
+
+    let el = $('#unit_container');
+
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormTambahRelasi'),
+        placeholder       : "Pilih Atau Ketik Unit Satuan",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/ReferensiPemeriksaan/ListUnitKapasitas.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: response.results,
+                    pagination: { more: response.more }
+                };
+            },
+            cache: true
+        },
+
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+
 //jika data selesai di load
 $(document).ready(function() {
     
@@ -627,7 +887,7 @@ $(document).ready(function() {
         var id_referensi_range   = $(this).data('id');
 
         //tampilkan modal
-        $('#ModalDetailCategory').modal('show');
+        $('#ModalDetailRange').modal('show');
 
         //Form Loading
         $('#FormDetailRange').html('Loading...');
@@ -1050,6 +1310,314 @@ $(document).ready(function() {
                     ShowDetail();
                 }else{
                     $('#NotifikasiDeleteCategory').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // TAMBAH RELASI
+    // ===================================================================================
+    $(document).on('click', '.modal_tambah_relasi', function () {
+
+        //tangkap data 'id_referensi_pemeriksaan' dan buat variabel
+        var id_referensi_pemeriksaan   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalTambahRelasi').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiTambahRelasi').html('');
+
+        //Form Loading
+        $('#FormTambahRelasi').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/ReferensiPemeriksaan/FormTambahRelasi.php',
+            data        : {id_referensi_pemeriksaan: id_referensi_pemeriksaan},
+            success     : function(data){
+                $('#FormTambahRelasi').html(data);
+
+                // Panggil init Select2 setelah form dimuat
+                initSelect2MetodePemeriksaan();
+                initSelect2JenisSpesimen();
+                initSelect2MetodeSample();
+                initSelect2Kontainer();
+                initSelect2UnitKapasitas();
+            }
+        });
+    });
+
+    // SELECT2 METODE PEMERIKSAAN
+    $(document).on('select2:select', '#id_referensi_metode_pemeriksaan', function (e) {
+        let data = e.params.data || {};
+
+        // Autofill jika dari database
+        if (!data.isNew) {
+            $('#nama_metode_pemeriksaan').val(data.text);
+            $('#display_metode_pemeriksaan').val(data.display || '');
+            $('#code_metode_pemeriksaan').val(data.code || '');
+            $('#system_metode_pemeriksaan').val(data.system || '');
+        } else {
+            // Jika manual input → kosongkan autofill
+            $('#nama_metode_pemeriksaan').val('');
+            $('#display_metode_pemeriksaan').val('');
+            $('#code_metode_pemeriksaan').val('');
+            $('#system_metode_pemeriksaan').val('');
+        }
+    });
+
+    $(document).on('select2:clear', '#id_referensi_metode_pemeriksaan', function () {
+        $('#nama_metode_pemeriksaan').val('');
+        $('#display_metode_pemeriksaan').val('');
+        $('#code_metode_pemeriksaan').val('');
+        $('#system_metode_pemeriksaan').val('');
+    });
+
+    // SELECT2 JENIS SPESIMEN
+    $(document).on('select2:select', '#id_referensi_jenis_spesimen', function (e) {
+        let data = e.params.data || {};
+
+        // Selalu simpan TEXT (nama metode)
+        $('#nama_spesimen').val(data.text);
+
+        // Autofill jika dari database
+        if (!data.isNew) {
+            $('#display_spesimen').val(data.display || '');
+            $('#code_spesimen').val(data.code || '');
+            $('#system_spesimen').val(data.system || '');
+        } else {
+            // Jika manual input → kosongkan autofill
+            $('#display_spesimen').val('');
+            $('#code_spesimen').val('');
+            $('#system_spesimen').val('');
+        }
+    });
+
+    $(document).on('select2:clear', '#id_referensi_jenis_spesimen', function () {
+        $('#nama_spesimen').val('');
+        $('#display_spesimen').val('');
+        $('#code_spesimen').val('');
+        $('#system_spesimen').val('');
+    });
+
+    // SELECT2 METODE SAMPLE
+    $(document).on('select2:select', '#id_referensi_metode_sample', function (e) {
+        let data = e.params.data || {};
+
+        // Selalu simpan TEXT (nama metode)
+        $('#nama_metode_sample').val(data.text);
+
+        // Autofill jika dari database
+        if (!data.isNew) {
+            $('#display_metode_sample').val(data.display || '');
+            $('#code_metode_sample').val(data.code || '');
+            $('#system_metode_sample').val(data.system || '');
+        } else {
+            // Jika manual input → kosongkan autofill
+            $('#display_metode_sample').val('');
+            $('#code_metode_sample').val('');
+            $('#system_metode_sample').val('');
+        }
+    });
+
+    $(document).on('select2:clear', '#id_referensi_metode_sample', function () {
+        $('#nama_metode_sample').val('');
+        $('#display_metode_sample').val('');
+        $('#code_metode_sample').val('');
+        $('#system_metode_sample').val('');
+    });
+
+    // SELECT2 KONTAINER
+    $(document).on('select2:select', '#id_referensi_container', function (e) {
+        let data = e.params.data || {};
+
+        // Selalu simpan TEXT (nama metode)
+        $('#nama_container').val(data.text);
+
+        // Autofill jika dari database
+        if (!data.isNew) {
+            var unit_ex = data.unit;
+
+            $('#display_container').val(data.display || '');
+            $('#code_container').val(data.code || '');
+            $('#system_container').val(data.system || '');
+            $('#kapasitas_container').val(data.kapasitas || '');
+            $('#unit_container').html('<option selected value="'+unit_ex+'">'+unit_ex+'</option>');
+            $('#code_unit_container').val(data.unit_code || '');
+            $('#system_unit_container').val(data.unit_system || '');
+        } else {
+            // Jika manual input → kosongkan autofill
+            $('#display_container').val('');
+            $('#code_container').val('');
+            $('#system_container').val('');
+            $('#kapasitas_container').val('');
+            $('#unit_container').html('');
+            $('#code_unit_container').val('');
+            $('#system_unit_container').val('');
+        }
+    });
+
+    $(document).on('select2:clear', '#id_referensi_container', function () {
+        $('#nama_container').val('');
+        $('#display_container').val('');
+        $('#code_container').val('');
+        $('#system_container').val('');
+        $('#kapasitas_container').val('');
+        $('#unit_container').html('');
+        $('#code_unit_container').val('');
+        $('#system_unit_container').val('');
+    });
+
+    // SELECT2 UNIT KAPASITAS
+    $(document).on('select2:select', '#unit_container', function (e) {
+        let data = e.params.data || {};
+
+        // Autofill jika dari database
+        if (!data.isNew) {
+            $('#code_unit_container').val(data.code || '');
+            $('#system_unit_container').val(data.system || '');
+        } else {
+            // Jika manual input → kosongkan autofill
+            $('#code_unit_container').val('');
+            $('#system_unit_container').val('');
+        }
+    });
+
+    $(document).on('select2:clear', '#unit_container', function () {
+        $('#unit_container').val('');
+        $('#code_unit_container').val('');
+        $('#system_unit_container').val('');
+    });
+
+
+
+    /* Ketika 'ProsesTambahRelasi' disubmit */
+    $('#ProsesTambahRelasi').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesTambahRelasi=$('#ProsesTambahRelasi').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiTambahRelasi').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesTambahRelasi.php',
+            dataType: 'json',
+            data    : ProsesTambahRelasi,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiTambahRelasi').html('');
+
+                    //reset form
+                    $('#ProsesTambahRelasi')[0].reset();
+
+                    //Tutup modal
+                    $('#ModalTambahRelasi').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiTambahRelasi').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // HAPUS RELASI
+    // ===================================================================================
+    $(document).on('click', '.modal_delete_relasi', function () {
+
+        //tangkap data 'id_referensi_pemeriksaan_relasi' dan buat variabel
+        var id_referensi_pemeriksaan_relasi   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDeleteRelasi').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiDeleteRelasi').html('');
+
+        //Form Loading
+        $('#FormDeleteRelasi').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/ReferensiPemeriksaan/FormDeleteRelasi.php',
+            data        : {id_referensi_pemeriksaan_relasi: id_referensi_pemeriksaan_relasi},
+            success     : function(data){
+                $('#FormDeleteRelasi').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesDeleteRelasi' disubmit */
+    $('#ProsesDeleteRelasi').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesDeleteRelasi=$('#ProsesDeleteRelasi').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiDeleteRelasi').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesDeleteRelasi.php',
+            dataType: 'json',
+            data    : ProsesDeleteRelasi,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiDeleteRelasi').html('');
+
+                    //Tutup modal
+                    $('#ModalDeleteRelasi').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiDeleteRelasi').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
                 }
                 
             }

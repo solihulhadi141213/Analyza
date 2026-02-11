@@ -111,7 +111,7 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                <b class="card-title">Detail Referensi Jenis Pemeriksaan</b>
+                <b class="card-title"># Detail Referensi Jenis Pemeriksaan</b>
             </div>
             <div class="card-body">
                 <div class="row mb-2">
@@ -224,7 +224,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <b class="card-title">Referensi Nilai Rujukan <i>(Range)</i></b>
+                            <b class="card-title"># Referensi Nilai Rujukan <i>(Range)</i></b>
                         </div>
                         <div class="col-4 text-end">
                             <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_range" data-id="<?php echo "$id_referensi_pemeriksaan"; ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Referensi Nilai Rujukan">
@@ -386,10 +386,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <b class="card-title">Referensi <i> Category </i></b>
+                            <b class="card-title"># Referensi <i> Category </i></b>
                         </div>
                         <div class="col-4 text-end">
-                            <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_category" data-id="<?php echo "$id_referensi_pemeriksaan"; ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Referensi Nilai Rujukan">
+                            <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_category" data-id="<?php echo "$id_referensi_pemeriksaan"; ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Referensi Category">
                                 <i class="bi bi-plus"></i>
                             </button>
                         </div>
@@ -518,5 +518,85 @@
                 </div>
             </div>
         <?php } ?>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-8">
+                        <b class="card-title"># Referensi Metode & Spesimen</b>
+                    </div>
+                    <div class="col-4 text-end">
+                        <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_relasi" data-id="<?php echo "$id_referensi_pemeriksaan"; ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Referensi Metode Dan Spesimen">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <td align="center"><b>No</b></td>
+                                <td align="left"><b>Metode Pemeriksaan</b></td>
+                                <td align="left"><b>Spesimen</b></td>
+                                <td align="left"><b>Pengambilan</b></td>
+                                <td align="left"><b>Kontainer</b></td>
+                                <td align="center"><b>Opsi</b></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $jumlah_referensi_relasi = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_pemeriksaan_relasi FROM referensi_pemeriksaan_relasi WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
+                                if(empty($jumlah_referensi_relasi)){
+                                    echo '
+                                        <tr>
+                                            <td colspan="6" align="center">
+                                                <span class="text-danger">Tidak Ada Data Referensi Nilai Rujukan Yang Ditampilkan</span>
+                                            </td>
+                                        </tr>
+                                    ';
+                                }else{
+                                    $no=1;
+                                    $query = mysqli_query($Conn, "SELECT*FROM referensi_pemeriksaan_relasi WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
+                                    while ($data = mysqli_fetch_array($query)) {
+                                        $id_referensi_pemeriksaan_relasi = $data['id_referensi_pemeriksaan_relasi'];
+                                        $id_referensi_metode_pemeriksaan = $data['id_referensi_metode_pemeriksaan'];
+                                        $id_referensi_jenis_spesimen     = $data['id_referensi_jenis_spesimen'];
+                                        $id_referensi_metode_sample      = $data['id_referensi_metode_sample'];
+                                        $id_referensi_container          = $data['id_referensi_container'];
+                                       
+                                        // Definisikan masing-masing ID
+                                        $nama_metode_pemeriksaan = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'nama_metode_pemeriksaan');
+                                        $nama_spesimen           = GetDetailData($Conn, 'referensi_jenis_spesimen', 'id_referensi_jenis_spesimen', $id_referensi_jenis_spesimen, 'nama_spesimen');
+                                        $nama_metode_sample      = GetDetailData($Conn, 'referensi_metode_sample', 'id_referensi_metode_sample', $id_referensi_metode_sample, 'nama_metode_sample');
+                                        $nama_container          = GetDetailData($Conn, 'referensi_container', 'id_referensi_container', $id_referensi_container, 'nama_container');
+
+                                        echo '
+                                            <tr>
+                                                <td align="center"><small>'.$no.'</small></td>
+                                                <td align="left">
+                                                    <a href="javascript:void(0);" class="modal_detail_relasi" data-id="'.$id_referensi_pemeriksaan_relasi.'">
+                                                        <small>'.$nama_metode_pemeriksaan.'</small>
+                                                    </a>
+                                                </td>
+                                                <td align="left"><small>'.$nama_spesimen.'</small></td>
+                                                <td align="left"><small>'.$nama_metode_sample.'</small></td>
+                                                <td align="left"><small>'.$nama_container.'</small></td>
+                                                <td align="center">
+                                                    <button type="button" class="btn btn-sm btn-outline-danger btn-floating modal_delete_relasi" data-id="'.$id_referensi_pemeriksaan_relasi.'">
+                                                        <i class="bi bi-x"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ';
+                                        $no++;
+                                    }
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
