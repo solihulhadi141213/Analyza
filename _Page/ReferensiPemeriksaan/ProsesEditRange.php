@@ -107,13 +107,15 @@
     }
 
     // Validasi Nilai 'umur_unit'
-    $enum_umur_unit = ['Hari','Bulan','Tahun'];
-    if (!in_array($umur_unit, $enum_umur_unit)) {
-        echo json_encode([
-            'status'  => 'error',
-            'message' => 'Tipe satuan usia tidak valid'
-        ]);
-        exit;
+    if(!empty($umur_unit)){
+        $enum_umur_unit = ['Hari','Bulan','Tahun'];
+        if (!in_array($umur_unit, $enum_umur_unit)) {
+            echo json_encode([
+                'status'  => 'error',
+                'message' => 'Tipe satuan usia tidak valid'
+            ]);
+            exit;
+        }
     }
 
     // Validasi Nilai 'jenis_kelamin'

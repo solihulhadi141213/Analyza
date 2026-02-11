@@ -28,11 +28,6 @@
         exit;
     }
 
-    if(empty($_POST['operator'])){
-        echo json_encode(['status'  => 'error','message' => 'Operator Nilai Tidak Boleh Kosong!']);
-        exit;
-    }
-
     if(empty($_POST['label_hasil'])){
         echo json_encode(['status'  => 'error','message' => 'Label Hasil Pemeriksaan Tidak Boleh Kosong2!']);
         exit;
@@ -40,19 +35,13 @@
 
     // Buat Variabel
     $id_referensi_pemeriksaan = $_POST['id_referensi_pemeriksaan'];
-    $operator                 = $_POST['operator'];
     $label                    = $_POST['label_hasil'];
 
     // Variabel Tidak Wajib
-    if(empty($_POST['nilai_min'])){
-        $nilai_min = 0;
+    if(empty($_POST['nilai_hasil'])){
+        $nilai_hasil = "";
     }else{
-        $nilai_min = $_POST['nilai_min'];
-    }
-    if(empty($_POST['nilai_max'])){
-        $nilai_max = 0;
-    }else{
-        $nilai_max = $_POST['nilai_max'];
+        $nilai_hasil = $_POST['nilai_hasil'];
     }
     if(empty($_POST['umur_kategori'])){
         $umur_kategori = "";
@@ -94,11 +83,6 @@
     }else{
         $fhir_system = $_POST['fhir_system'];
     }
-    if(empty($_POST['conclusion'])){
-        $conclusion = "";
-    }else{
-        $conclusion = $_POST['conclusion'];
-    }
 
     // Validasi Nilai 'umur_unit'
     if(!empty($umur_unit)){
@@ -111,7 +95,7 @@
             exit;
         }
     }
-    
+
 
     // Validasi Nilai 'jenis_kelamin'
     $enum_jenis_kelamin = ['Laki-laki','Perempuan','All'];
@@ -119,16 +103,6 @@
         echo json_encode([
             'status'  => 'error',
             'message' => 'Jenis Kelamin tidak valid'
-        ]);
-        exit;
-    }
-
-    // Validasi Nilai 'operator'
-    $enum_operator = ['<','>','between','<=','>=','-'];
-    if (!in_array($operator, $enum_operator)) {
-        echo json_encode([
-            'status'  => 'error',
-            'message' => 'Jenis operator tidak valid'
         ]);
         exit;
     }
@@ -172,43 +146,45 @@
             exit;
         }
     }
-        
+
     // Simpan Data Ke Database
     $query = $Conn->prepare("
-        INSERT INTO referensi_range (
+        INSERT INTO referensi_category (
             id_referensi_pemeriksaan,
             umur_kategori,
             umur_min,
             umur_max,
             umur_unit,
             jenis_kelamin,
-            nilai_min,
-            nilai_max,
-            operator,
+            nilai_hasil,
             label,
             fhir_display,
             fhir_code,
-            fhir_system,
-            conclusion
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            fhir_system
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?)
     ");
 
+    if (!$query) {
+        echo json_encode([
+            'status'  => 'error',
+            'message' => 'Query insert category gagal disiapkan: '.$Conn->error
+        ]);
+        exit;
+    }
+
     $query->bind_param(
-        "isssssssssssss",
+        "issssssssss",
         $id_referensi_pemeriksaan,
         $umur_kategori,
         $umur_min,
         $umur_max,
         $umur_unit,
         $jenis_kelamin,
-        $nilai_min,
-        $nilai_max,
-        $operator,
+        $nilai_hasil,
         $label,
         $fhir_display,
         $fhir_code,
-        $fhir_system,
-        $conclusion
+        $fhir_system
     );
 
     // ======================================================
@@ -217,7 +193,7 @@
     if ($query->execute()) {
         echo json_encode([
             'status'  => 'success',
-            'message' => 'Data referensi range pemeriksaan berhasil disimpan'
+            'message' => 'Data referensi kategori pemeriksaan berhasil disimpan'
         ]);
     } else {
         echo json_encode([

@@ -627,7 +627,7 @@ $(document).ready(function() {
         var id_referensi_range   = $(this).data('id');
 
         //tampilkan modal
-        $('#ModalDetailRange').modal('show');
+        $('#ModalDetailCategory').modal('show');
 
         //Form Loading
         $('#FormDetailRange').html('Loading...');
@@ -791,6 +791,265 @@ $(document).ready(function() {
                     ShowDetail();
                 }else{
                     $('#NotifikasiDeleteRange').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // TAMBAH CATEGORY
+    // ===================================================================================
+    $(document).on('click', '.modal_tambah_category', function () {
+
+        //tangkap data 'id_referensi_pemeriksaan' dan buat variabel
+        var id_referensi_pemeriksaan   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalTambahCategory').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiTambahCategory').html('');
+
+        //Form Loading
+        $('#FormTambahCategory').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/ReferensiPemeriksaan/FormTambahCategory.php',
+            data        : {id_referensi_pemeriksaan: id_referensi_pemeriksaan},
+            success     : function(data){
+                $('#FormTambahCategory').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesTambahCategory' disubmit */
+    $('#ProsesTambahCategory').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesTambahCategory=$('#ProsesTambahCategory').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiTambahCategory').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesTambahCategory.php',
+            dataType: 'json',
+            data    : ProsesTambahCategory,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiTambahCategory').html('');
+
+                    //reset form
+                    $('#ProsesTambahCategory')[0].reset();
+
+                    //Tutup modal
+                    $('#ModalTambahCategory').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiTambahCategory').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // DETAIL CATEGORY
+    // ===================================================================================
+    $(document).on('click', '.modal_detail_category', function () {
+
+        //tangkap data 'id_referensi_category' dan buat variabel
+        var id_referensi_category   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDetailCategory').modal('show');
+
+        //Form Loading
+        $('#FormDetailCategory').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/ReferensiPemeriksaan/FormDetailCategory.php',
+            data        : {id_referensi_category: id_referensi_category},
+            success     : function(data){
+                $('#FormDetailCategory').html(data);
+            }
+        });
+    });
+
+    // ===================================================================================
+    // EDIT CATEGORY
+    // ===================================================================================
+    $(document).on('click', '.modal_edit_category', function () {
+
+        //tangkap data 'id_referensi_category' dan buat variabel
+        var id_referensi_category   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalEditCategory').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiEditCategory').html('');
+
+        //Form Loading
+        $('#FormEditCategory').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/ReferensiPemeriksaan/FormEditCategory.php',
+            data        : {id_referensi_category: id_referensi_category},
+            success     : function(data){
+                $('#FormEditCategory').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesEditCategory' disubmit */
+    $('#ProsesEditCategory').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesEditCategory=$('#ProsesEditCategory').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiEditCategory').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesEditCategory.php',
+            dataType: 'json',
+            data    : ProsesEditCategory,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiEditCategory').html('');
+
+                    //Tutup modal
+                    $('#ModalEditCategory').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiEditCategory').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // HAPUS CATEGORY
+    // ===================================================================================
+    $(document).on('click', '.modal_delete_category', function () {
+
+        //tangkap data 'id_referensi_category' dan buat variabel
+        var id_referensi_category   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDeleteCategory').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiDeleteCategory').html('');
+
+        //Form Loading
+        $('#FormDeleteCategory').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/ReferensiPemeriksaan/FormDeleteCategory.php',
+            data        : {id_referensi_category: id_referensi_category},
+            success     : function(data){
+                $('#FormDeleteCategory').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesDeleteCategory' disubmit */
+    $('#ProsesDeleteCategory').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesDeleteCategory=$('#ProsesDeleteCategory').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiDeleteCategory').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesDeleteCategory.php',
+            dataType: 'json',
+            data    : ProsesDeleteCategory,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiDeleteCategory').html('');
+
+                    //Tutup modal
+                    $('#ModalDeleteCategory').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiDeleteCategory').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
                 }
                 
             }
