@@ -28,6 +28,7 @@
             "ReferensiCaraPengambilanSample" => "_Page/ReferensiCaraPengambilanSample/ReferensiCaraPengambilanSample.js",
             "ReferensiKemasanSample"         => "_Page/ReferensiKemasanSample/ReferensiKemasanSample.js",
             "ReferensiSatuan"                => "_Page/ReferensiSatuan/ReferensiSatuan.js",
+            "TandaTangan"                    => "_Page/TandaTangan/TandaTangan.js",
             "Route"                          => "_Page/Route/Route.js",
             "Question"                       => "_Page/Question/Question.js",
             "Medication"                     => "_Page/Medication/Medication.js",

@@ -20,6 +20,7 @@
             "ReferensiCaraPengambilanSample" => "_Page/ReferensiCaraPengambilanSample/ReferensiCaraPengambilanSample.php",
             "ReferensiKemasanSample"         => "_Page/ReferensiKemasanSample/ReferensiKemasanSample.php",
             "ReferensiSatuan"                => "_Page/ReferensiSatuan/ReferensiSatuan.php",
+            "TandaTangan"                    => "_Page/TandaTangan/TandaTangan.php",
             "Route"                          => "_Page/Route/Route.php",
             "Question"                       => "_Page/Question/Question.php",
             "Medication"                     => "_Page/Medication/Medication.php",

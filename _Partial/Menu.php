@@ -99,7 +99,8 @@
                 $PageMenu=="ReferensiJenisSpesimen" ||
                 $PageMenu=="ReferensiCaraPengambilanSample" ||
                 $PageMenu=="ReferensiKemasanSample" ||
-                $PageMenu=="ReferensiSatuan"
+                $PageMenu=="ReferensiSatuan" ||
+                $PageMenu=="TandaTangan" 
             ){
                 $collapsed_referensi="";
             }else{
@@ -114,7 +115,8 @@
                 $PageMenu=="ReferensiJenisSpesimen" ||
                 $PageMenu=="ReferensiCaraPengambilanSample" ||
                 $PageMenu=="ReferensiKemasanSample" ||
-                $PageMenu=="ReferensiSatuan"
+                $PageMenu=="ReferensiSatuan" ||
+                $PageMenu=="TandaTangan"
             ){
                 $collapsed_content_referensi="show";
             }else{
@@ -154,6 +156,11 @@
                 <li>
                     <a href="index.php?Page=ReferensiSatuan" class="<?php if($PageMenu=="ReferensiSatuan"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Satuan Ukur</span>
+                    </a>
+                </li> 
+                <li>
+                    <a href="index.php?Page=TandaTangan" class="<?php if($PageMenu=="TandaTangan"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Tanda Tangan</span>
                     </a>
                 </li> 
             </ul>
