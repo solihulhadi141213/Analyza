@@ -20,7 +20,7 @@
             "ReferensiKemasanSample"         => "_Page/ReferensiKemasanSample/ModalReferensiKemasanSample.php",
             "ReferensiSatuan"                => "_Page/ReferensiSatuan/ModalReferensiSatuan.php",
             "TandaTangan"                    => "_Page/TandaTangan/ModalTandaTangan.php",
-            "Route"                          => "_Page/Route/ModalRoute.php",
+            "Pemeriksaan"                    => "_Page/Pemeriksaan/ModalPemeriksaan.php",
             "Question"                       => "_Page/Question/ModalQuestion.php",
             "Medication"                     => "_Page/Medication/ModalMedication.php",
             "MedicationRequest"              => "_Page/MedicationRequest/ModalMedicationRequest.php",

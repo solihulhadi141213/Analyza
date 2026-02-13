@@ -1649,3 +1649,7 @@ input[readonly] {
     color: #6c757d;            /* teks abu-abu */
     cursor: not-allowed;
 }
+
+tr.tambah_permintaan {
+    cursor: pointer;
+}

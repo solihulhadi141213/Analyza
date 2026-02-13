@@ -21,7 +21,7 @@
             "ReferensiKemasanSample"         => "_Page/ReferensiKemasanSample/ReferensiKemasanSample.php",
             "ReferensiSatuan"                => "_Page/ReferensiSatuan/ReferensiSatuan.php",
             "TandaTangan"                    => "_Page/TandaTangan/TandaTangan.php",
-            "Route"                          => "_Page/Route/Route.php",
+            "Pemeriksaan"                    => "_Page/Pemeriksaan/Pemeriksaan.php",
             "Question"                       => "_Page/Question/Question.php",
             "Medication"                     => "_Page/Medication/Medication.php",
             "MedicationRequest"              => "_Page/MedicationRequest/MedicationRequest.php",
