@@ -16,6 +16,7 @@
             "ReferensiPemeriksaan"           => "_Page/ReferensiPemeriksaan/ModalReferensiPemeriksaan.php",
             "ReferensiMetodePemeriksaan"     => "_Page/ReferensiMetodePemeriksaan/ModalReferensiMetodePemeriksaan.php",
             "ReferensiJenisSpesimen"         => "_Page/ReferensiJenisSpesimen/ModalReferensiJenisSpesimen.php",
+            "ReferensiBodySite"              => "_Page/ReferensiBodySite/ModalReferensiBodySite.php",
             "ReferensiCaraPengambilanSample" => "_Page/ReferensiCaraPengambilanSample/ModalReferensiCaraPengambilanSample.php",
             "ReferensiKemasanSample"         => "_Page/ReferensiKemasanSample/ModalReferensiKemasanSample.php",
             "ReferensiSatuan"                => "_Page/ReferensiSatuan/ModalReferensiSatuan.php",

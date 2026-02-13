@@ -97,6 +97,7 @@
                 $PageMenu=="ReferensiMetodePemeriksaan" ||
                 $PageMenu=="ReferensiInterpertasi" ||
                 $PageMenu=="ReferensiJenisSpesimen" ||
+                $PageMenu=="ReferensiBodySite" ||
                 $PageMenu=="ReferensiCaraPengambilanSample" ||
                 $PageMenu=="ReferensiKemasanSample" ||
                 $PageMenu=="ReferensiSatuan" ||
@@ -113,6 +114,7 @@
                 $PageMenu=="ReferensiMetodePemeriksaan" ||
                 $PageMenu=="ReferensiInterpertasi" ||
                 $PageMenu=="ReferensiJenisSpesimen" ||
+                $PageMenu=="ReferensiBodySite" ||
                 $PageMenu=="ReferensiCaraPengambilanSample" ||
                 $PageMenu=="ReferensiKemasanSample" ||
                 $PageMenu=="ReferensiSatuan" ||
@@ -141,6 +143,11 @@
                 <li>
                     <a href="index.php?Page=ReferensiJenisSpesimen" class="<?php if($PageMenu=="ReferensiJenisSpesimen"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Jenis Spesimen</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=ReferensiBodySite" class="<?php if($PageMenu=="ReferensiBodySite"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Body Site</span>
                     </a>
                 </li>
                 <li>

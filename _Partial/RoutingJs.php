@@ -25,6 +25,7 @@
             "ReferensiPemeriksaan"           => "_Page/ReferensiPemeriksaan/ReferensiPemeriksaan.js",
             "ReferensiMetodePemeriksaan"     => "_Page/ReferensiMetodePemeriksaan/ReferensiMetodePemeriksaan.js",
             "ReferensiJenisSpesimen"         => "_Page/ReferensiJenisSpesimen/ReferensiJenisSpesimen.js",
+            "ReferensiBodySite"              => "_Page/ReferensiBodySite/ReferensiBodySite.js",
             "ReferensiCaraPengambilanSample" => "_Page/ReferensiCaraPengambilanSample/ReferensiCaraPengambilanSample.js",
             "ReferensiKemasanSample"         => "_Page/ReferensiKemasanSample/ReferensiKemasanSample.js",
             "ReferensiSatuan"                => "_Page/ReferensiSatuan/ReferensiSatuan.js",
