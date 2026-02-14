@@ -279,6 +279,67 @@
                 ?>
             </div>
         </div>
+        <?php
+            // Procedure Hanya Jika Pasien Puasa
+            if($puasa==1){
+
+                // Cek Apakah Sudah Punya id_laboratorium_procedure 
+                $id_laboratorium_procedure = GetDetailData($Conn, 'laboratorium_procedure', 'id_laboratorium', $id_laboratorium, 'id_laboratorium_procedure');
+
+                // Jika Belum Punya
+                if(empty($id_laboratorium_procedure)){
+                    echo '
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <b><i># Procedure</i></b>
+                                    </div>
+                                    <div class="col-2 text-end">
+                                        <button type="button" class="btn btn-sm btn-floating btn-secondary modal_kirim_procedure" data-id="'.$id_laboratorium.'">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-danger">
+                                    <small>
+                                        <b>Penting!!</b> Perlu menyertakan informasi <i>Procerude</i> puasa.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    ';
+                }else{
+
+                    // Jika Sudah Ada Maka Tampilkan
+                    echo '
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <b><i># Procedure</i></b>
+                                    </div>
+                                    <div class="col-2 text-end">
+                                        <button type="button" class="btn btn-sm btn-floating btn-secondary modal_edit_procedure" data-id="'.$id_laboratorium.'">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-danger">
+                                    <small>
+                                        <b>Penting!!</b> Perlu menyertakan informasi <i>Procerude</i> puasa.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    ';
+                }
+            }
+        ?>
     </div>
     <div class="col-md-8">
         <div class="card">
@@ -292,11 +353,15 @@
                             <tr>
                                 <td class="text-center"><b>No</b></td>
                                 <td colspan="2"><b>Permintaan Pemeriksaan</b></td>
-                                <td><b>Hasil</b></td>
-                                <td><b>Interpertasi</b></td>
-                                <td><b>Keterangan</b></td>
-                                <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Service Request SATUSEHAT">
+                                <td><b>Spesimen</b></td>
+                                <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Resource Service Request SATUSEHAT">
                                     <b>SR</b>
+                                </td>
+                                <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Resource Specimen SATUSEHAT">
+                                    <b>SP</b>
+                                </td>
+                                <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Resource Observation SATUSEHAT">
+                                    <b>OB</b>
                                 </td>
                                 <td class="text-center"><b>Opsi</b></td>
                             </tr>
@@ -329,11 +394,55 @@
                                         $no2 = 1;
                                         $query2 = mysqli_query($Conn, "SELECT * FROM laboratorium_rincian WHERE id_laboratorium='$id_laboratorium' AND category_pemeriksaan='$category_pemeriksaan' ORDER BY nama_pemeriksaan ASC");
                                         while ($data2 = mysqli_fetch_array($query2)) {
-                                            $id_laboratorium_rincian = $data2['id_laboratorium_rincian'];
-                                            $nama_pemeriksaan        = $data2['nama_pemeriksaan'];
-                                            $hasil                   = $data2['hasil'] ?? '-';
-                                            $interpertasi            = $data2['interpertasi'] ?? '-';
-                                            $keterangan              = $data2['keterangan'] ?? '-';
+                                            $id_laboratorium_rincian  = $data2['id_laboratorium_rincian'];
+                                            $nama_pemeriksaan         = $data2['nama_pemeriksaan'];
+                                            $hasil                    = $data2['hasil'] ?? '-';
+                                            $interpertasi             = $data2['interpertasi'] ?? '-';
+                                            $keterangan               = $data2['keterangan'] ?? '-';
+
+                                            // Jika Sudah Punya Spesimen
+                                            if(!empty($data2['id_laboratorium_spesimen'])){
+                                                $id_laboratorium_spesimen   = $data2['id_laboratorium_spesimen'];
+                                                $nama_spesimen_pemeriksaan  = GetDetailData($Conn, 'laboratorium_spesimen', 'id_laboratorium_spesimen', $id_laboratorium_spesimen, 'nama_spesimen');
+                                                $id_speciment =  GetDetailData($Conn, 'laboratorium_spesimen', 'id_laboratorium_spesimen', $id_laboratorium_spesimen, 'id_speciment');
+                                                
+                                                $label_spesimen_pemeriksaan = '
+                                                    <a href = "javascript:void(0);" class="text underscore_doted modal_detail_speciment" data-id = "'.$id_laboratorium_spesimen.'">
+                                                        LAB-SPC-'.$id_laboratorium_spesimen.'
+                                                    </a>
+                                                ';
+                                                
+                                                // Routing id_speciment satusehat
+                                                if(empty($id_speciment)){
+                                                    if(empty($data2['id_service_request'])){
+                                                        $sp = '
+                                                            <button type="button" disabled class="btn btn-sm btn-floating btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Belum Ada Resource Service Request">
+                                                                <i class="bi bi-send"></i>
+                                                            </button>
+                                                        ';
+                                                    }else{
+                                                         $sp = '
+                                                            <button type="button" class="btn btn-sm btn-floating btn-outline-secondary modal_kirim_speciment" data-id="'.$id_laboratorium_spesimen.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Kirim Speciment">
+                                                                <i class="bi bi-send"></i>
+                                                            </button>
+                                                        ';
+                                                    }
+                                                   
+                                                }else{
+                                                    $sp = '
+                                                        <button type="button" class="btn btn-sm btn-floating btn-outline-success modal_detail_id_speciment" data-id="'.$id_speciment.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Lihat Detail Speciment">
+                                                            <i class="bi bi-check"></i>
+                                                        </button>
+                                                    ';
+                                                }
+                                            }else{
+                                                $label_spesimen_pemeriksaan = '-';
+                                                $sp = '
+                                                    <button type="button" class="btn btn-sm btn-floating btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Belum Ada Spesimen Terdaftar">
+                                                        <i class="bi bi-exclamation"></i>
+                                                    </button>
+                                                ';
+                                            }
 
                                             // Routing ServiceRequest
                                             if(empty($data2['id_service_request'])){
@@ -349,6 +458,30 @@
                                                     </button>
                                                 ';
                                             }
+
+                                            // Routing Observation
+                                            if(empty($data2['id_observation'])){
+                                                if(empty($data2['hasil'])){
+                                                    $ob = '
+                                                        <button type="button" class="btn btn-sm btn-floating btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Belum Ada Hasil Pemeriksaan">
+                                                            <i class="bi bi-exclamation"></i>
+                                                        </button>
+                                                    ';
+                                                }else{
+                                                    $ob = '
+                                                        <button type="button" class="btn btn-sm btn-floating btn-outline-secondary modal_kirim_observation" data-id="'.$id_laboratorium_rincian.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Kirim Resource Observation">
+                                                            <i class="bi bi-send"></i>
+                                                        </button>
+                                                    ';
+                                                }
+                                                
+                                            }else{
+                                                $ob = '
+                                                    <button type="button" class="btn btn-sm btn-floating btn-outline-success modal_detail_observation" data-id="'.$id_laboratorium_rincian.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Lihat Detail Observation">
+                                                        <i class="bi bi-check"></i>
+                                                    </button>
+                                                ';
+                                            }
                                             
                                             echo '
                                                 <tr>
@@ -360,15 +493,11 @@
                                                         <small class="text text-grayish">'.$nama_pemeriksaan.'</small>
                                                     </td>
                                                     <td class="text-left">
-                                                        <small class="text text-grayish">'.$hasil.'</small>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        <small class="text text-grayish">'.$interpertasi.'</small>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        <small class="text text-grayish">'.$keterangan.'</small>
+                                                        <small class="text">'.$label_spesimen_pemeriksaan.'</small>
                                                     </td>
                                                     <td class="text-center">'.$sr.'</td>
+                                                    <td class="text-center">'.$sp.'</td>
+                                                    <td class="text-center">'.$ob.'</td>
                                                     <td class="text-center">
                                                         <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                                                             <i class="bi bi-three-dots-vertical"></i>
@@ -405,7 +534,7 @@
             </div>
         </div>
 
-        <!-- Manakemen Spesimen -->
+        <!-- MANAJEMEN SPESIMEN -->
          <div class="card">
             <div class="card-header">
                 <div class="row">
@@ -413,7 +542,7 @@
                         <b># Spesimen</b>
                     </div>
                     <div class="col-4 text-end">
-                        <button type="button" class="btn btn-sm btn-floating btn-secondary">
+                        <button type="button" class="btn btn-sm btn-floating btn-secondary modal_tambah_spesimen" data-id="<?php echo "$id_laboratorium"; ?>">
                             <i class="bi bi-plus"></i>
                         </button>
                     </div>
@@ -425,9 +554,10 @@
                         <thead>
                             <tr>
                                 <td class="text-center"><b>No</b></td>
-                                <td><b>Nama Spesimen</b></td>
+                                <td><b>Kode</b></td>
+                                <td><b>Spesimen</b></td>
                                 <td><b><i>Method</i></b></td>
-                                <td><b><i>Body</i></b></td>
+                                <td><b><i>Body Site</i></b></td>
                                 <td><b><i>Quantity</i></b></td>
                                 <td><b><i>Container</i></b></td>
                                 <td class="text-center"><b><i>Opsi</i></b></td>
@@ -440,7 +570,7 @@
                                 if(empty($jumlah_spesimen)){
                                     echo '
                                         <tr>
-                                            <td colspan="7" class="text-center">
+                                            <td colspan="8" class="text-center">
                                                 <small class="text-danger">Tidak Ada Data Spesimen Yang Ditampilkan</small>
                                             </td>
                                         </tr>
@@ -450,16 +580,25 @@
                                     $query3 = mysqli_query($Conn, "SELECT * FROM laboratorium_spesimen WHERE id_laboratorium='$id_laboratorium' ORDER BY nama_spesimen ASC");
                                     while ($data3 = mysqli_fetch_array($query3)) {
                                         $id_laboratorium_spesimen = $data3['id_laboratorium_spesimen'];
-                                        $id_speciment = $data3['id_speciment'];
-                                        $nama_spesimen = $data3['nama_spesimen'] ?? '-';
-                                        $display_spesimen = $data3['display_spesimen'] ?? '-';
-                                        $nama_metode_sample = $data3['nama_metode_sample'] ?? '-';
+                                        $id_speciment             = $data3['id_speciment'];
+                                        $nama_spesimen            = $data3['nama_spesimen'] ?? '-';
+                                        $display_spesimen         = $data3['display_spesimen'] ?? '-';
+                                        $nama_metode_sample       = $data3['nama_metode_sample'] ?? '-';
+                                        $bodysite_nama            = $data3['bodysite_nama'] ?? '-';
+                                        $bodysite_nama            = $data3['bodysite_nama'] ?? '-';
+                                        $quantity_value           = $data3['quantity_value'] ?? '0';
+                                        $quantity_unit            = $data3['quantity_unit'] ?? '';
+                                        $nama_container           = $data3['nama_container'] ?? '-';
                                         
                                         echo '
                                             <tr>
-                                                <td class="text-center"></td>
                                                 <td class="text-center">
                                                     <small class="text text-grayish">'.$no3.'</small>
+                                                </td>
+                                                <td class="text-left">
+                                                    <a href="javascript:void(0);" class="modal_detail_speciment" data-id="'.$id_laboratorium_spesimen.'">
+                                                        <small>LAB-SPC-'.$id_laboratorium_spesimen.'</small>
+                                                    </a>
                                                 </td>
                                                 <td class="text-left">
                                                     <small class="text text-grayish">'.$nama_spesimen.'</small>
@@ -468,12 +607,14 @@
                                                     <small class="text text-grayish">'.$nama_metode_sample.'</small>
                                                 </td>
                                                 <td class="text-left">
-                                                    <small class="text text-grayish">'.$interpertasi.'</small>
+                                                    <small class="text text-grayish">'.$bodysite_nama.'</small>
                                                 </td>
                                                 <td class="text-left">
-                                                    <small class="text text-grayish">'.$keterangan.'</small>
+                                                    <small class="text text-grayish">'.$quantity_value.' '.$quantity_unit.'</small>
                                                 </td>
-                                                <td class="text-center">'.$sr.'</td>
+                                                <td class="text-left">
+                                                    <small class="text text-grayish">'.$nama_container.'</small>
+                                                </td>
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="bi bi-three-dots-vertical"></i>
@@ -483,12 +624,17 @@
                                                             <h6>Option</h6>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item modal_edit_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_spesimen.'">
+                                                            <a class="dropdown-item modal_detail_speciment" href="javascript:void(0)" data-id="'.$id_laboratorium_spesimen.'">
+                                                                <i class="bi bi-info"></i> Detail
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item modal_edit_speciment" href="javascript:void(0)" data-id="'.$id_laboratorium_spesimen.'">
                                                                 <i class="bi bi-pencil"></i> Edit
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item modal_hapus_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_spesimen.'">
+                                                            <a class="dropdown-item modal_hapus_speciment" href="javascript:void(0)" data-id="'.$id_laboratorium_spesimen.'">
                                                                 <i class="bi bi-x"></i> Hapus
                                                             </a>
                                                         </li>
@@ -506,5 +652,117 @@
                 </div>
             </div>
          </div>
+        
+        <!-- HASIL -->
+        <div class="card">
+            <div class="card-header">
+                <b class="card-title"># Hasil Pemeriksaan</b>
+            </div>
+            <div class="card-body">
+                <div class="table table-responsive table-sm">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr class="table-dark">
+                                <td class="text-center"><b>No</b></td>
+                                <td class="text-center"><b>Pemeriksaan</b></td>
+                                <td class="text-center"><b>Hasil</b></td>
+                                <td class="text-center"><b>Unit</b></td>
+                                <td class="text-center"><b>Nilai Normal</b></td>
+                                <td class="text-center"><b>Kesimpulan</b></td>
+                                <td class="text-center"><b>Opsi</b></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                if(empty($jumlah_rincian)){
+                                    echo '
+                                        <tr>
+                                            <td colspan="7" class="text-center">
+                                                <small class="text-danger">Tidak Ada Data Rincian Pemeriksaan</small>
+                                            </td>
+                                        </tr>
+                                    ';
+                                }else{
+                                    // Menampilkan 'category_pemeriksaan' secara DISTINCT
+                                    $no = 1;
+                                    $query = mysqli_query($Conn, "SELECT DISTINCT category_pemeriksaan FROM laboratorium_rincian WHERE id_laboratorium='$id_laboratorium' ORDER BY category_pemeriksaan ASC");
+                                    while ($data = mysqli_fetch_array($query)) {
+                                        $category_pemeriksaan = $data['category_pemeriksaan'];
+                                        echo '
+                                            <tr class="table-secondary">
+                                                <td class="text-center"><small>'.$no.'</small></td>
+                                                <td class="text-left" colspan="6"><small>'.$category_pemeriksaan.'</small></td>
+                                            </tr>
+                                        ';
+
+                                        // Menampilkan 'laboratorium_rincian' berdasarkan category_pemeriksaan
+                                        $no2 = 1;
+                                        $query2 = mysqli_query($Conn, "SELECT * FROM laboratorium_rincian WHERE id_laboratorium='$id_laboratorium' AND category_pemeriksaan='$category_pemeriksaan' ORDER BY nama_pemeriksaan ASC");
+                                        while ($data2 = mysqli_fetch_array($query2)) {
+                                            $id_laboratorium_rincian  = $data2['id_laboratorium_rincian'];
+                                            
+                                            $nama_pemeriksaan         = $data2['nama_pemeriksaan'];
+                                            $hasil                    = $data2['hasil'] ?? '-';
+                                            $interpertasi             = $data2['interpertasi'] ?? '-';
+                                            $keterangan               = $data2['keterangan'] ?? '-';
+
+                                            // Satuan
+                                            if(empty($data2['id_referensi_pemeriksaan'])){
+                                                $unit_satuan = '-';
+                                            }else{
+                                                $id_referensi_pemeriksaan = $data2['id_referensi_pemeriksaan'];
+                                                $unit_satuan =  GetDetailData($Conn, 'referensi_pemeriksaan', 'id_referensi_pemeriksaan', $id_referensi_pemeriksaan, 'unit_display');
+                                            }
+                                            echo '
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <small class="text text-grayish">'.$no.'.'.$no2.'</small>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <small class="text text-grayish">'.$nama_pemeriksaan.'</small>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <small class="text">'.$hasil.'</small>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <small class="text text-grayish">'.$unit_satuan.'</small>
+                                                    </td>
+                                                    <td class="text-center">-</td>
+                                                    <td class="text-center">'.$interpertasi.'</td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="bi bi-three-dots-vertical"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                            <li class="dropdown-header text-start">
+                                                                <h6>Option</h6>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item modal_edit_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
+                                                                    <i class="bi bi-pencil"></i> Edit
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item modal_hapus_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
+                                                                    <i class="bi bi-x"></i> Hapus
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            ';
+
+                                            $no2++;
+                                        }
+
+                                        $no++;
+                                    }
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

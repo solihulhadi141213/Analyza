@@ -92,6 +92,9 @@ $(document).ready(function() {
             }
         });
     });
+    $('#ModalTambah').on('shown.bs.modal', function () {
+        $('#nama_spesimen').trigger('focus');
+    });
 
     //Proses Tambah
     $('#ProsesTambah').submit(function(e){

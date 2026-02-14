@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 12, 2026 at 05:49 PM
+-- Generation Time: Feb 14, 2026 at 05:01 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.0.30
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `access` (
   `access_active` tinyint(1) NOT NULL COMMENT 'true or false',
   PRIMARY KEY (`id_access`),
   KEY `id_access_group` (`id_access_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access`
@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS `access` (
 INSERT INTO `access` (`id_access`, `id_access_group`, `access_name`, `access_email`, `access_contact`, `access_nik`, `access_ihs`, `access_password`, `access_foto`, `access_client`, `access_active`) VALUES
 (1, 1, 'Solihul Hadi', 'dhiforester@gmail.com', '089601154726', '3208274501950004', '10001742501', '$2y$10$KnOYcmK1U3iE8ta.PnDefOTr1h5Cz1LaGHfyM5wBqg1vuqqg1i5le', 'ca6526b10323e5ffc519def7f71e10.jpg', 0, 1),
 (2, 1, 'Dewi Widiastuti', 'dewiwidiastuti@gmail.com', '08975657467', '3208274501950004', '10001742501', '$2y$10$YW/wCElX7HYlfipjFo80eO89RkvlUZ9iIOwZk4lK.Cf/BR8ypeygm', '4522beb0ae8aabe337284b439dcc79.png', 0, 1),
-(8, 1, 'Bayu Anugrah', 'bayu88aaa@gmail.com', '085693168595', '3208170809940006', '10004122691', '$2y$10$gNbRZTnQ8lPJtrg5TGCyoe0N2k7EcFKI1znNWu8XI/UkuCJA4S8Ae', '', 0, 0);
+(8, 1, 'Bayu Anugrah', 'bayu88aaa@gmail.com', '085693168595', '3208170809940006', '10004122691', '$2y$10$gNbRZTnQ8lPJtrg5TGCyoe0N2k7EcFKI1znNWu8XI/UkuCJA4S8Ae', '', 0, 0),
+(10, 1, 'dr. Hj. Dahvia Nursriyanti Sp. PK , FISQua', 'dr.dahvianur@yahoo.com', '081319144964', '320805510920007', '10006646923', '$2y$10$SdB3cMWeAwO7scQmNcJ2nOADGawRgVfoIMvN81wBQtyf2fbhfLCVW', 'ogZVA3dipHeELbccSt2SMt7HRe6QvCFfLzh7.jpg', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -75,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `access_feature` (
 
 INSERT INTO `access_feature` (`id_access_feature`, `feature_name`, `feature_category`, `feature_description`, `datetime_creat`) VALUES
 ('36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y', 'Koneksi SIMRS', 'Koneksi', 'Pengaturan parameter koneksi dengan SIMRS', '2025-12-16 20:07:41'),
+('3SF3LdNBkPNl48U5osn8AQ7IQ3loxsHlJG1c', 'Referensi Body Site', 'Referensi', 'Halaman untuk mengelola referensi body site', '2026-02-13 20:49:10'),
 ('5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E', 'Koneksi Satu Sehat', 'Koneksi', 'Pengaturan parameter koneksi ke Satu Sehat Platform', '2025-12-17 18:47:14'),
 ('6W5aMQEkhaBfwBGXQOEQx7M04Iv9h8IXOEsT', 'Referensi Metode Pemeriksaan', 'Referensi', 'Halaman untuk mengelola metode pemeriksaan', '2026-02-09 19:41:38'),
 ('8bOwARsJKZ5Dc0VxJwXdWdiP2KPfxFjVqgbu', 'Referensi Kemasan (Container)', 'Referensi', 'Halaman yang mengelola berbagai jenis kemasan kontainer spesimen', '2026-02-08 07:20:57'),
@@ -129,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `access_log` (
   `log_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id_access_log`),
   KEY `access_log_id_access_index` (`id_access`)
-) ENGINE=InnoDB AUTO_INCREMENT=497 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=503 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access_log`
@@ -631,7 +633,13 @@ INSERT INTO `access_log` (`id_access_log`, `id_access`, `log_datetime`, `log_cat
 (493, 1, '2026-02-12 20:08:20', 'Login', 'Login Berhasil'),
 (494, 1, '2026-02-12 20:49:43', 'Login', 'Login Berhasil'),
 (495, 1, '2026-02-12 21:31:42', 'Login', 'Login Berhasil'),
-(496, 1, '2026-02-13 00:04:46', 'Login', 'Login Berhasil');
+(496, 1, '2026-02-13 00:04:46', 'Login', 'Login Berhasil'),
+(497, 1, '2026-02-13 03:47:28', 'Login', 'Login Berhasil'),
+(498, 1, '2026-02-13 05:27:39', 'Login', 'Login Berhasil'),
+(499, 1, '2026-02-14 00:09:16', 'Login', 'Login Berhasil'),
+(500, 1, '2026-02-14 03:49:10', 'Akses', 'Input Fitur Akses'),
+(501, 1, '2026-02-14 03:50:47', 'Entitas Akses', 'Edit Entitas Akses'),
+(502, 1, '2026-02-14 23:27:18', 'Login', 'Login Berhasil');
 
 -- --------------------------------------------------------
 
@@ -648,7 +656,7 @@ CREATE TABLE IF NOT EXISTS `access_login` (
   `datetime_expired` datetime NOT NULL,
   PRIMARY KEY (`id_access_login`),
   KEY `access_login_id_access_index` (`id_access`)
-) ENGINE=InnoDB AUTO_INCREMENT=382 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=386 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access_login`
@@ -657,7 +665,7 @@ CREATE TABLE IF NOT EXISTS `access_login` (
 INSERT INTO `access_login` (`id_access_login`, `id_access`, `token`, `datetime_creat`, `datetime_expired`) VALUES
 (51, 2, 'D4hbO8ZH3g4UZWJXy6ZhcWt1qzu8DEX2ILFx', '2025-09-13 08:49:27', '2025-09-13 10:33:46'),
 (306, 8, '1GNwTfgziYVhHj8QPubz96G0LJlocAGfSaz4', '2026-01-08 11:35:26', '2026-01-08 12:36:36'),
-(381, 1, 'GyR2ZYVjVHSUp6Fss2JsCsBhERFZ7u7a3g7q', '2026-02-13 00:04:46', '2026-02-13 01:25:51');
+(385, 1, 'gIfllybudJwR1nzZZ4EanW6PnOV8cYA6mv0U', '2026-02-14 23:27:18', '2026-02-15 00:59:12');
 
 -- --------------------------------------------------------
 
@@ -673,7 +681,7 @@ CREATE TABLE IF NOT EXISTS `access_permission` (
   PRIMARY KEY (`id_permission`),
   KEY `id_access` (`id_access`),
   KEY `id_access_feature` (`id_access_feature`)
-) ENGINE=InnoDB AUTO_INCREMENT=533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=571 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access_permission`
@@ -690,24 +698,44 @@ INSERT INTO `access_permission` (`id_permission`, `id_access`, `id_access_featur
 (414, 2, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
 (415, 2, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
 (416, 2, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw'),
-(515, 1, 'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw'),
-(516, 1, 'lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD'),
-(517, 1, 'nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv'),
-(518, 1, 'nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee'),
-(519, 1, '5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E'),
-(520, 1, '36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y'),
-(521, 1, 'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA'),
-(522, 1, 'ga8IteJKhDlrw0lPjYy6B3oFNgUqdbTJPPoq'),
-(523, 1, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
-(524, 1, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
-(525, 1, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw'),
-(526, 1, 'lgG3CggWuy9Bd3m4eaXXx6tjKQonITqt4MOe'),
-(527, 1, 'H8lByxYVLw1zYg9hIYkZxtNNgkBH8Gi8h6Vv'),
-(528, 1, '8bOwARsJKZ5Dc0VxJwXdWdiP2KPfxFjVqgbu'),
-(529, 1, '6W5aMQEkhaBfwBGXQOEQx7M04Iv9h8IXOEsT'),
-(530, 1, 'wW79JNUwhM5nxRymMuxQrycBpUkBRAt2r2UU'),
-(531, 1, 'vA2qgCIl2YHVsxGmocRcv5293dcXh5oDXVYt'),
-(532, 1, 'mEoYOqzaaKQMhcF8kz2FVmKWaobmJrnbdPWS');
+(533, 1, 'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw'),
+(534, 1, 'lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD'),
+(535, 1, 'nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv'),
+(536, 1, 'nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee'),
+(537, 1, '5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E'),
+(538, 1, '36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y'),
+(539, 1, 'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA'),
+(540, 1, 'ga8IteJKhDlrw0lPjYy6B3oFNgUqdbTJPPoq'),
+(541, 1, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
+(542, 1, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
+(543, 1, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw'),
+(544, 1, 'lgG3CggWuy9Bd3m4eaXXx6tjKQonITqt4MOe'),
+(545, 1, '3SF3LdNBkPNl48U5osn8AQ7IQ3loxsHlJG1c'),
+(546, 1, 'H8lByxYVLw1zYg9hIYkZxtNNgkBH8Gi8h6Vv'),
+(547, 1, '8bOwARsJKZ5Dc0VxJwXdWdiP2KPfxFjVqgbu'),
+(548, 1, '6W5aMQEkhaBfwBGXQOEQx7M04Iv9h8IXOEsT'),
+(549, 1, 'wW79JNUwhM5nxRymMuxQrycBpUkBRAt2r2UU'),
+(550, 1, 'vA2qgCIl2YHVsxGmocRcv5293dcXh5oDXVYt'),
+(551, 1, 'mEoYOqzaaKQMhcF8kz2FVmKWaobmJrnbdPWS'),
+(552, 10, 'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw'),
+(553, 10, 'lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD'),
+(554, 10, 'nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv'),
+(555, 10, 'nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee'),
+(556, 10, '5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E'),
+(557, 10, '36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y'),
+(558, 10, 'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA'),
+(559, 10, 'ga8IteJKhDlrw0lPjYy6B3oFNgUqdbTJPPoq'),
+(560, 10, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
+(561, 10, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
+(562, 10, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw'),
+(563, 10, 'lgG3CggWuy9Bd3m4eaXXx6tjKQonITqt4MOe'),
+(564, 10, '3SF3LdNBkPNl48U5osn8AQ7IQ3loxsHlJG1c'),
+(565, 10, 'H8lByxYVLw1zYg9hIYkZxtNNgkBH8Gi8h6Vv'),
+(566, 10, '8bOwARsJKZ5Dc0VxJwXdWdiP2KPfxFjVqgbu'),
+(567, 10, '6W5aMQEkhaBfwBGXQOEQx7M04Iv9h8IXOEsT'),
+(568, 10, 'wW79JNUwhM5nxRymMuxQrycBpUkBRAt2r2UU'),
+(569, 10, 'vA2qgCIl2YHVsxGmocRcv5293dcXh5oDXVYt'),
+(570, 10, 'mEoYOqzaaKQMhcF8kz2FVmKWaobmJrnbdPWS');
 
 -- --------------------------------------------------------
 
@@ -723,31 +751,32 @@ CREATE TABLE IF NOT EXISTS `access_reference` (
   PRIMARY KEY (`id_access_reference`),
   KEY `id_access_group` (`id_access_group`),
   KEY `id_access_fitures` (`id_access_feature`)
-) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `access_reference`
 --
 
 INSERT INTO `access_reference` (`id_access_reference`, `id_access_group`, `id_access_feature`) VALUES
-(157, 1, 'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw'),
-(158, 1, 'lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD'),
-(159, 1, 'nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv'),
-(160, 1, 'nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee'),
-(161, 1, '5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E'),
-(162, 1, '36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y'),
-(163, 1, 'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA'),
-(164, 1, 'ga8IteJKhDlrw0lPjYy6B3oFNgUqdbTJPPoq'),
-(165, 1, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
-(166, 1, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
-(167, 1, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw'),
-(168, 1, 'lgG3CggWuy9Bd3m4eaXXx6tjKQonITqt4MOe'),
-(169, 1, 'H8lByxYVLw1zYg9hIYkZxtNNgkBH8Gi8h6Vv'),
-(170, 1, '8bOwARsJKZ5Dc0VxJwXdWdiP2KPfxFjVqgbu'),
-(171, 1, '6W5aMQEkhaBfwBGXQOEQx7M04Iv9h8IXOEsT'),
-(172, 1, 'wW79JNUwhM5nxRymMuxQrycBpUkBRAt2r2UU'),
-(173, 1, 'vA2qgCIl2YHVsxGmocRcv5293dcXh5oDXVYt'),
-(174, 1, 'mEoYOqzaaKQMhcF8kz2FVmKWaobmJrnbdPWS');
+(175, 1, 'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw'),
+(176, 1, 'lInyeHHg924zNLaXZ3SmjjnuyCOYBnUyUuTD'),
+(177, 1, 'nSYinRWpCF9MHNUIlW7Up5vTip70gNNLlrqv'),
+(178, 1, 'nkYXm3U8XWpOt1cD3PNeCwDQzesMYmmUUbee'),
+(179, 1, '5a7yRbkFPs6fXNHQf8a7bI79IZcbbIaijE0E'),
+(180, 1, '36grsDsU11UKOCFPKlh5Gx7K2YbR6XpRHJ5y'),
+(181, 1, 'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA'),
+(182, 1, 'ga8IteJKhDlrw0lPjYy6B3oFNgUqdbTJPPoq'),
+(183, 1, 'aziAs4ZofHmVooUohitYSojDp7oR2zbjrwpY'),
+(184, 1, 'Mt24BYzC76RJBEuHdY95bmMKrulttEQzblzH'),
+(185, 1, 'fErKPHIY6bEuhp7sOivMHglXHOP2gVubzGyw'),
+(186, 1, 'lgG3CggWuy9Bd3m4eaXXx6tjKQonITqt4MOe'),
+(187, 1, '3SF3LdNBkPNl48U5osn8AQ7IQ3loxsHlJG1c'),
+(188, 1, 'H8lByxYVLw1zYg9hIYkZxtNNgkBH8Gi8h6Vv'),
+(189, 1, '8bOwARsJKZ5Dc0VxJwXdWdiP2KPfxFjVqgbu'),
+(190, 1, '6W5aMQEkhaBfwBGXQOEQx7M04Iv9h8IXOEsT'),
+(191, 1, 'wW79JNUwhM5nxRymMuxQrycBpUkBRAt2r2UU'),
+(192, 1, 'vA2qgCIl2YHVsxGmocRcv5293dcXh5oDXVYt'),
+(193, 1, 'mEoYOqzaaKQMhcF8kz2FVmKWaobmJrnbdPWS');
 
 -- --------------------------------------------------------
 
@@ -850,7 +879,7 @@ CREATE TABLE IF NOT EXISTS `captcha` (
   `datetime_creat` datetime NOT NULL,
   `datetime_expired` datetime NOT NULL,
   PRIMARY KEY (`id_captcha`)
-) ENGINE=InnoDB AUTO_INCREMENT=5963 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5967 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- --------------------------------------------------------
 
@@ -878,7 +907,7 @@ CREATE TABLE IF NOT EXISTS `connection_satu_sehat` (
 
 INSERT INTO `connection_satu_sehat` (`id_connection_satu_sehat`, `name_connection_satu_sehat`, `url_connection_satu_sehat`, `organization_id`, `client_key`, `secret_key`, `token`, `datetime_expired`, `status_connection_satu_sehat`) VALUES
 (1, 'Sanbox', 'https://api-satusehat-stg.dto.kemkes.go.id', '2fb97f51-a536-4fc1-a4ff-2f7abbbc54aa', 'OzSEGR88d1fbTrX3eYIfg05qAFuwe4mGvhebeavID6H1aazj', 'dJlUWRW5eP01dpiDwGs2LGbIVUOEa2avaWWbQ2a7rbolGd7HfJPVYWjBudkz3BcG', '', NULL, 0),
-(2, 'Production', 'https://api-satusehat.kemkes.go.id', '100026947', 'FRHoqgpmrnCcJ3rNAP0kBFsGphWAsAC19EY1f1yRBYvS6CPn', '1yj3cj2eG1h1zrcGSd6yVmGv1FJfBTf62LmPk5540tD9pryzFEMgoN9NF5XK5QEO', 'OyBOliuPzQbjN33HlN6fMviRpG8w', '2026-01-31 09:01:28', 1);
+(2, 'Production', 'https://api-satusehat.kemkes.go.id', '100026947', 'FRHoqgpmrnCcJ3rNAP0kBFsGphWAsAC19EY1f1yRBYvS6CPn', '1yj3cj2eG1h1zrcGSd6yVmGv1FJfBTf62LmPk5540tD9pryzFEMgoN9NF5XK5QEO', 'Cg6AgNfVWV7wLEoeZUhGu0Kba6uZ', '2026-02-14 06:47:40', 1);
 
 -- --------------------------------------------------------
 
@@ -906,7 +935,7 @@ CREATE TABLE IF NOT EXISTS `connection_simrs` (
 INSERT INTO `connection_simrs` (`id_connection_simrs`, `name_connection_simrs`, `url_connection_simrs`, `client_id`, `client_key`, `token`, `datetime_expired`, `status_connection_simrs`) VALUES
 (1, 'Development', 'http://localhost/SIMRS-ELSYIFA2', 'QsNNfBNpnOyusA13lj4GLILcFFs5ibdLuEXu', 'cwOhnoIl1UuXJj3ICUpu8H2QXvXCXZj3nPKJ', '', '0000-00-00 00:00:00', 0),
 (2, 'Production', 'http://localhost/SIMRS-ELSYIFA2', 'wl9bzskrr6mC7U8kivWkSLcwcXrs0tzLdKwp', 'xrI9lAI14TTy2TD4wmDo3w09ovzqw5MYsJ6P', '', '0000-00-00 00:00:00', 0),
-(5, 'Staging', 'http://localhost/SIMRS-ELSYIFA2', 'wl9bzskrr6mC7U8kivWkSLcwcXrs0tzLdKwp', 'xrI9lAI14TTy2TD4wmDo3w09ovzqw5MYsJ6P', 'e000d803df74f7b7c1c26abf8ea7b1d8', '2026-02-13 11:06:48', 1);
+(5, 'Staging', 'http://localhost/SIMRS-ELSYIFA2', 'wl9bzskrr6mC7U8kivWkSLcwcXrs0tzLdKwp', 'xrI9lAI14TTy2TD4wmDo3w09ovzqw5MYsJ6P', 'f86d01d42f3249959d0cd855fbf194d1', '2026-02-14 17:49:56', 1);
 
 -- --------------------------------------------------------
 
@@ -949,6 +978,22 @@ CREATE TABLE IF NOT EXISTS `laboratorium` (
   PRIMARY KEY (`id_laboratorium`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `laboratorium`
+--
+
+INSERT INTO `laboratorium` (`id_laboratorium`, `id_pasien`, `id_kunjungan`, `ihs_pasien`, `id_encounter`, `nama`, `gender`, `tanggal_lahir`, `tujuan`, `pembayaran`, `fakses`, `unit`, `priority`, `kode_dokter_pengirim`, `ihs_dokter_pengirim`, `nama_dokter_pengirim`, `kode_dokter_penerima`, `ihs_dokter_penerima`, `nama_dokter_penerima`, `kode_petugas`, `ihs_petugas`, `nama_petugas`, `diagnosis`, `puasa`, `status`, `datetime_diminta`, `datetime_diterima`, `datetime_spesimen`, `datetime_hasil`, `form_system`) VALUES
+('0C1IITrHfJyvQdJyi1YQbyCSDp8IFiH7IZMN', 51378, 30338, '', '', 'ROSI SUSRIATININGSIH, NY / IJANG KUSDINAR, TN', 'Perempuan', '2004-06-03', 'Rajal', 'UMUM', 'RSU El-Syifa Kuningan', 'INSTALASI GAWAT DARURAT', 'routine', '8113', '10013638240', 'dr. Irman Badruzzaman, Sp.B', NULL, NULL, NULL, NULL, NULL, NULL, '{\"code\": \"\", \"system\": \"\", \"display\": \"\"}', 1, 'Diminta', '2026-02-13 02:23:00', NULL, NULL, NULL, 'Analyza'),
+('7QUowkjmOU11zFgf5hvxs40ws98kmgd5JtcG', 51376, 30336, '', '', 'NURHALIMAH, NY BY / ARIS YANTO, TN', 'Perempuan', '2025-03-31', 'Ranap', 'BPJS PBI', 'RSU El-Syifa Kuningan', 'PERINATOLOGI SEHAT', 'routine', '227878', '10011713281', '10', NULL, NULL, NULL, NULL, NULL, NULL, '{\"code\": \"\", \"system\": \"\", \"display\": \"\"}', 0, 'Diminta', '2026-02-13 01:37:00', NULL, NULL, NULL, 'Analyza'),
+('bCBsGtSSEb9L8EGIaywST3iR0Knjk9Ol5zdr', 51383, 30345, 'P00764921882', '39727917-c32b-41f9-90f1-5115d92e14fb', 'GUSTAAF MUSTIKA ANDRIYASMA', 'Laki-laki', '1988-04-21', 'Rajal', 'UMUM', 'RSU El-Syifa Kuningan', 'GIGI', 'routine', '8234', '10019324143', 'Dr. dr. Elly Wijaya Nursyam Sp. PD. M.H.Kes. MM.  FINASIM', NULL, NULL, NULL, NULL, NULL, NULL, '{\"code\": \"K02.1\", \"system\": \"http://hl7.org/fhir/sid/icd-10\", \"display\": \"Karies dentin\"}', 0, 'Diminta', '2026-02-14 03:00:00', NULL, NULL, NULL, 'Analyza'),
+('DbZ0bsCoWQ9QNPdeSI4w9rQNpC01scWpqJ5F', 51382, 30344, '', '', 'SOPIAH, NY, BY / SUDIANA, TN', 'Laki-laki', '2025-03-31', 'Ranap', 'BPJS NON PBI', 'RSU El-Syifa Kuningan', 'PERINATOLOGI SEHAT', 'routine', '8234', '10019324143', '7', NULL, NULL, NULL, NULL, NULL, NULL, '{\"code\": \"\", \"system\": \"\", \"display\": \"\"}', 0, 'Diminta', '2026-02-13 01:05:00', NULL, NULL, NULL, ''),
+('EajdtblrcZIAFeDQUiwlj5QRnAtnKOT6WUMX', 51383, 30345, 'P00764921882', '39727917-c32b-41f9-90f1-5115d92e14fb', 'GUSTAAF MUSTIKA ANDRIYASMA', 'Laki-laki', '1988-04-21', 'Rajal', 'UMUM', 'RSU El-Syifa Kuningan', 'GIGI', 'routine', '227878', '10011713281', '10', NULL, NULL, NULL, NULL, NULL, NULL, '{\"code\": \"\", \"system\": \"\", \"display\": \"\"}', 0, 'Diminta', '2026-02-13 01:32:00', NULL, NULL, NULL, ''),
+('gp3YVEDBsfrc1RHLJDCTGh3XuNArBPOhHy9k', 51383, 30345, 'P00764921882', '39727917-c32b-41f9-90f1-5115d92e14fb', 'GUSTAAF MUSTIKA ANDRIYASMA', 'Laki-laki', '1988-04-21', 'Rajal', 'UMUM', 'RSU El-Syifa Kuningan', 'GIGI', 'routine', '227878', '10011713281', 'dr. Laudry Amsal Elfa Gustanar Sp. PD', NULL, NULL, NULL, NULL, NULL, NULL, '{\"code\": \"\", \"system\": \"\", \"display\": \"\"}', 0, 'Diminta', '2026-02-13 02:20:00', NULL, NULL, NULL, 'Analyza'),
+('JQvllpXw6LjYEgSsoVPZKgXci6j1tnVASx2I', 51382, 30344, '', '', 'SOPIAH, NY, BY / SUDIANA, TN', 'Laki-laki', '2025-03-31', 'Ranap', 'BPJS NON PBI', 'RSU El-Syifa Kuningan', 'PERINATOLOGI SEHAT', 'routine', '8113', '10013638240', '8', NULL, NULL, NULL, NULL, NULL, NULL, '{\"code\": \"\", \"system\": \"\", \"display\": \"\"}', 0, 'Diminta', '2026-02-13 01:30:00', NULL, NULL, NULL, ''),
+('juAxVVZFUHCCwJyD06o2BqTp5z0gU6KIMIq7', 51378, 30338, '', '', 'ROSI SUSRIATININGSIH, NY / IJANG KUSDINAR, TN', 'Perempuan', '2004-06-03', 'Rajal', 'UMUM', 'RSU El-Syifa Kuningan', 'INSTALASI GAWAT DARURAT', 'routine', '227878', '10011713281', 'dr. Laudry Amsal Elfa Gustanar Sp. PD', NULL, NULL, NULL, NULL, NULL, NULL, '{\"code\": \"A37.9\", \"system\": \"http://hl7.org/fhir/sid/icd-10\", \"display\": \"Batuk rejan , tidak spesifik\"}', 0, 'Diminta', '2026-02-14 01:40:00', NULL, NULL, NULL, 'Analyza'),
+('SRySMb8v4daVffhf9yxMdz7alMLXXKaRnF8E', 51383, 30345, 'P00764921882', '39727917-c32b-41f9-90f1-5115d92e14fb', 'GUSTAAF MUSTIKA ANDRIYASMA', 'Laki-laki', '1988-04-21', 'Rajal', 'UMUM', 'RSU El-Syifa Kuningan', 'GIGI', 'routine', '8234', '10019324143', '7', NULL, NULL, NULL, NULL, NULL, NULL, '{\"code\": \"\", \"system\": \"\", \"display\": \"\"}', 0, 'Diminta', '2026-02-13 00:59:00', NULL, NULL, NULL, ''),
+('u9gteRcvspTaRmJahSNWOhUukizLeZ7WA6zc', 45891, 30330, 'P01906659195', '207aed4c-c056-406e-82a7-54f9d3530a31', 'TATA, TN / UTIN SUPRIATIN, NY', 'Perempuan', '1965-06-22', 'Ranap', 'BPJS PBI', 'RSU El-Syifa Kuningan', 'AL-GOFUR', 'routine', '8113', '10013638240', 'dr. Irman Badruzzaman, Sp.B', NULL, NULL, NULL, NULL, NULL, NULL, '{\"code\": \"A01.0\", \"system\": \"http://hl7.org/fhir/sid/icd-10\", \"display\": \"Demam tifoid\"}', 0, 'Diminta', '2026-02-14 04:12:00', NULL, '2026-02-14 06:15:00', NULL, 'Analyza');
+
 -- --------------------------------------------------------
 
 --
@@ -959,14 +1004,137 @@ DROP TABLE IF EXISTS `laboratorium_rincian`;
 CREATE TABLE IF NOT EXISTS `laboratorium_rincian` (
   `id_laboratorium_rincian` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_laboratorium` varchar(255) NOT NULL,
-  `id_referensi_pemeriksaan` int NOT NULL,
+  `id_referensi_pemeriksaan` int UNSIGNED DEFAULT NULL,
+  `id_laboratorium_spesimen` int UNSIGNED DEFAULT NULL,
+  `id_service_request` varchar(255) DEFAULT NULL,
   `nama_pemeriksaan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `category_pemeriksaan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `metode_pemeriksaan` varchar(255) DEFAULT NULL,
+  `metode_pemeriksaan_display` varchar(255) DEFAULT NULL,
+  `metode_pemeriksaan_code` varchar(255) DEFAULT NULL,
+  `metode_pemeriksaan_system` text,
   `hasil` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `interpertasi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `keterangan` text,
-  PRIMARY KEY (`id_laboratorium_rincian`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id_laboratorium_rincian`),
+  KEY `rincian_to_laboratorium` (`id_laboratorium`),
+  KEY `rincian_to_referensi_pemeriksaan` (`id_referensi_pemeriksaan`),
+  KEY `rincian_to_spesimen` (`id_laboratorium_spesimen`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `laboratorium_rincian`
+--
+
+INSERT INTO `laboratorium_rincian` (`id_laboratorium_rincian`, `id_laboratorium`, `id_referensi_pemeriksaan`, `id_laboratorium_spesimen`, `id_service_request`, `nama_pemeriksaan`, `category_pemeriksaan`, `metode_pemeriksaan`, `metode_pemeriksaan_display`, `metode_pemeriksaan_code`, `metode_pemeriksaan_system`, `hasil`, `interpertasi`, `keterangan`) VALUES
+(1, 'SRySMb8v4daVffhf9yxMdz7alMLXXKaRnF8E', 5, NULL, NULL, 'Hemoglobin', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 'SRySMb8v4daVffhf9yxMdz7alMLXXKaRnF8E', 6, NULL, NULL, 'Golongan Darah', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 'SRySMb8v4daVffhf9yxMdz7alMLXXKaRnF8E', 8, NULL, NULL, 'Glukosa Puasa', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 'SRySMb8v4daVffhf9yxMdz7alMLXXKaRnF8E', 9, NULL, NULL, 'Trombosit', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 'SRySMb8v4daVffhf9yxMdz7alMLXXKaRnF8E', 7, NULL, NULL, 'Warna Urin', 'Urin', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 'DbZ0bsCoWQ9QNPdeSI4w9rQNpC01scWpqJ5F', 8, NULL, NULL, 'Glukosa Puasa', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 'DbZ0bsCoWQ9QNPdeSI4w9rQNpC01scWpqJ5F', 6, NULL, NULL, 'Golongan Darah', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 'DbZ0bsCoWQ9QNPdeSI4w9rQNpC01scWpqJ5F', 7, NULL, NULL, 'Warna Urin', 'Urin', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 'JQvllpXw6LjYEgSsoVPZKgXci6j1tnVASx2I', 7, NULL, NULL, 'Warna Urin', 'Urin', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(10, 'EajdtblrcZIAFeDQUiwlj5QRnAtnKOT6WUMX', 8, NULL, NULL, 'Glukosa Puasa', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(11, 'EajdtblrcZIAFeDQUiwlj5QRnAtnKOT6WUMX', 6, NULL, NULL, 'Golongan Darah', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 'EajdtblrcZIAFeDQUiwlj5QRnAtnKOT6WUMX', 5, NULL, NULL, 'Hemoglobin', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(13, 'EajdtblrcZIAFeDQUiwlj5QRnAtnKOT6WUMX', 9, NULL, NULL, 'Trombosit', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(14, '7QUowkjmOU11zFgf5hvxs40ws98kmgd5JtcG', 8, NULL, NULL, 'Glukosa Puasa', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 'gp3YVEDBsfrc1RHLJDCTGh3XuNArBPOhHy9k', 8, NULL, NULL, 'Glukosa Puasa', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(16, 'gp3YVEDBsfrc1RHLJDCTGh3XuNArBPOhHy9k', 6, NULL, NULL, 'Golongan Darah', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(17, '0C1IITrHfJyvQdJyi1YQbyCSDp8IFiH7IZMN', 8, NULL, NULL, 'Glukosa Puasa', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(18, '0C1IITrHfJyvQdJyi1YQbyCSDp8IFiH7IZMN', 6, NULL, NULL, 'Golongan Darah', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(19, '0C1IITrHfJyvQdJyi1YQbyCSDp8IFiH7IZMN', 5, NULL, NULL, 'Hemoglobin', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(20, '0C1IITrHfJyvQdJyi1YQbyCSDp8IFiH7IZMN', 9, NULL, NULL, 'Trombosit', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(21, '0C1IITrHfJyvQdJyi1YQbyCSDp8IFiH7IZMN', 7, NULL, NULL, 'Warna Urin', 'Urin', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(22, 'juAxVVZFUHCCwJyD06o2BqTp5z0gU6KIMIq7', 5, NULL, NULL, 'Hemoglobin', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(23, 'juAxVVZFUHCCwJyD06o2BqTp5z0gU6KIMIq7', 9, NULL, NULL, 'Trombosit', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(24, 'bCBsGtSSEb9L8EGIaywST3iR0Knjk9Ol5zdr', 8, NULL, '17586542-886f-4d3d-b8f8-157602101be5', 'Glukosa Puasa', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(25, 'bCBsGtSSEb9L8EGIaywST3iR0Knjk9Ol5zdr', 6, NULL, 'e0ca933b-f1c1-4765-8883-bb4c9fb34e90', 'Golongan Darah', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(26, 'bCBsGtSSEb9L8EGIaywST3iR0Knjk9Ol5zdr', 5, NULL, '97002e58-5a46-4271-b062-266b392f525f', 'Hemoglobin', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(27, 'bCBsGtSSEb9L8EGIaywST3iR0Knjk9Ol5zdr', 9, NULL, NULL, 'Trombosit', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(28, 'bCBsGtSSEb9L8EGIaywST3iR0Knjk9Ol5zdr', 7, NULL, NULL, 'Warna Urin', 'Urin', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(29, 'u9gteRcvspTaRmJahSNWOhUukizLeZ7WA6zc', 8, NULL, NULL, 'Glukosa Puasa', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(30, 'u9gteRcvspTaRmJahSNWOhUukizLeZ7WA6zc', 6, NULL, NULL, 'Golongan Darah', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(31, 'u9gteRcvspTaRmJahSNWOhUukizLeZ7WA6zc', 5, NULL, NULL, 'Hemoglobin', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(32, 'u9gteRcvspTaRmJahSNWOhUukizLeZ7WA6zc', 9, NULL, NULL, 'Trombosit', 'Hematologi', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(33, 'u9gteRcvspTaRmJahSNWOhUukizLeZ7WA6zc', 7, NULL, NULL, 'Warna Urin', 'Urin', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `laboratorium_spesimen`
+--
+
+DROP TABLE IF EXISTS `laboratorium_spesimen`;
+CREATE TABLE IF NOT EXISTS `laboratorium_spesimen` (
+  `id_laboratorium_spesimen` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_laboratorium` varchar(255) NOT NULL,
+  `id_speciment` varchar(255) NOT NULL COMMENT 'ID Speciment Dari SATUSEHAT',
+  `datetime_spesimen` datetime NOT NULL COMMENT 'Waktu pengambilan spesimen',
+  `nama_spesimen` varchar(255) NOT NULL,
+  `display_spesimen` varchar(255) DEFAULT NULL,
+  `code_spesimen` varchar(255) DEFAULT NULL,
+  `system_spesimen` text,
+  `nama_metode_sample` varchar(255) NOT NULL,
+  `display_metode_sample` varchar(255) DEFAULT NULL,
+  `code_metode_sample` varchar(255) DEFAULT NULL,
+  `system_metode_sample` text,
+  `bodysite_nama` varchar(255) DEFAULT NULL,
+  `bodysite_display` varchar(255) DEFAULT NULL,
+  `bodysite_code` varchar(255) DEFAULT NULL,
+  `bodysite_system` text,
+  `nama_container` varchar(255) NOT NULL,
+  `display_container` varchar(255) DEFAULT NULL,
+  `code_container` varchar(255) DEFAULT NULL,
+  `system_container` text,
+  `quantity_value` decimal(15,2) NOT NULL COMMENT 'Jumlah spesimen yang diambil',
+  `quantity_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'Unit jumlah yang digunakan',
+  `quantity_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'Kode Unit jumlah yang digunakan',
+  `quantity_system` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT 'Standar/Sistem Unit jumlah yang digunakan',
+  `collector_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'Nama petugas yang mengambil Spesimen',
+  `collector_ihs` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'ID IHS petugas yang mengambil Spesimen',
+  PRIMARY KEY (`id_laboratorium_spesimen`),
+  KEY `id_laboratorium` (`id_laboratorium`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `laboratorium_spesimen`
+--
+
+INSERT INTO `laboratorium_spesimen` (`id_laboratorium_spesimen`, `id_laboratorium`, `id_speciment`, `datetime_spesimen`, `nama_spesimen`, `display_spesimen`, `code_spesimen`, `system_spesimen`, `nama_metode_sample`, `display_metode_sample`, `code_metode_sample`, `system_metode_sample`, `bodysite_nama`, `bodysite_display`, `bodysite_code`, `bodysite_system`, `nama_container`, `display_container`, `code_container`, `system_container`, `quantity_value`, `quantity_unit`, `quantity_code`, `quantity_system`, `collector_name`, `collector_ihs`) VALUES
+(1, 'u9gteRcvspTaRmJahSNWOhUukizLeZ7WA6zc', '', '2026-02-14 06:15:00', 'Darah Lengkap', 'Whole blood specimen', '119297000', 'http://snomed.info/sct', 'Pungsi Vena (Phlebotomy)', 'Venipuncture - action', '28520004', 'http://snomed.info/sct', 'Arteri Radialis Kanan', 'Structure of right radial artery', '45631007', 'http://snomed.info/sct', 'Tabung Serum (Merah)', 'Blood specimen tube with clot activator', '706047007', 'http://snomed.info/sct', 5.00, 'mL', 'mL', 'http://unitsofmeasure.org', 'Solihul Hadi', '10001742501');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referensi_body_site`
+--
+
+DROP TABLE IF EXISTS `referensi_body_site`;
+CREATE TABLE IF NOT EXISTS `referensi_body_site` (
+  `id_referensi_body_site` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `body_site_nama` varchar(255) NOT NULL COMMENT 'Nama BodySite dalam Indonesia',
+  `body_site_display` varchar(255) NOT NULL COMMENT 'Nama BodySite sesuai standar',
+  `body_site_code` varchar(255) NOT NULL COMMENT 'Kode BodySite Sesuai Standar',
+  `body_site_system` text NOT NULL COMMENT 'Sistem Bodysite Yang Digunakan',
+  PRIMARY KEY (`id_referensi_body_site`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `referensi_body_site`
+--
+
+INSERT INTO `referensi_body_site` (`id_referensi_body_site`, `body_site_nama`, `body_site_display`, `body_site_code`, `body_site_system`) VALUES
+(1, 'Vena Fossa Cubiti Kanan', 'Structure of right cubital fossa', '13214003', 'http://snomed.info/sct'),
+(2, 'Vena Fossa Cubiti Kiri', 'Structure of left cubital fossa', '31362007', 'http://snomed.info/sct'),
+(3, 'Nasofaring (Hidung)', 'Nasopharyngeal structure', '25860005', 'http://snomed.info/sct'),
+(5, 'Orofaring (Tenggorokan)', 'Common pharyngeal cavity structure', '54019009', 'http://snomed.info/sct'),
+(6, 'Ujung Jari Tangan', 'Structure of skin of finger', '48856004', 'http://snomed.info/sct'),
+(7, 'Lobus Telinga (Daun Telinga)', 'Structure of lobe of ear', '31252000', 'http://snomed.info/sct'),
+(8, 'Arteri Radialis Kanan', 'Structure of right radial artery', '45631007', 'http://snomed.info/sct'),
+(9, 'Arteri Radialis Kiri', 'Structure of left radial artery', '63521008', 'http://snomed.info/sct');
 
 -- --------------------------------------------------------
 
@@ -1392,6 +1560,20 @@ ALTER TABLE `access_reset`
 --
 ALTER TABLE `api_token`
   ADD CONSTRAINT `api_token_to_account` FOREIGN KEY (`id_api_account`) REFERENCES `api_account` (`id_api_account`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `laboratorium_rincian`
+--
+ALTER TABLE `laboratorium_rincian`
+  ADD CONSTRAINT `rincian_to_laboratorium` FOREIGN KEY (`id_laboratorium`) REFERENCES `laboratorium` (`id_laboratorium`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rincian_to_referensi_pemeriksaan` FOREIGN KEY (`id_referensi_pemeriksaan`) REFERENCES `referensi_pemeriksaan` (`id_referensi_pemeriksaan`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `rincian_to_spesimen` FOREIGN KEY (`id_laboratorium_spesimen`) REFERENCES `laboratorium_spesimen` (`id_laboratorium_spesimen`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `laboratorium_spesimen`
+--
+ALTER TABLE `laboratorium_spesimen`
+  ADD CONSTRAINT `spesimen_to_laboratorium` FOREIGN KEY (`id_laboratorium`) REFERENCES `laboratorium` (`id_laboratorium`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `referensi_category`

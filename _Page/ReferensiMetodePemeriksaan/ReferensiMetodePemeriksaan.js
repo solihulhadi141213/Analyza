@@ -83,6 +83,7 @@ $(document).ready(function() {
     // TAMBAH SATUAN / UNIT
     // ===============================================================================
     $('#ModalTambah').on('show.bs.modal', function (e) {
+        
         // Menampilkan Datalist Category Dengan AJAX
         $.ajax({
             type 	    : 'POST',
@@ -91,6 +92,9 @@ $(document).ready(function() {
                 $('#list_system').html(data);
             }
         });
+    });
+    $('#ModalTambah').on('shown.bs.modal', function () {
+        $('#nama_metode_pemeriksaan').trigger('focus');
     });
 
     //Proses Tambah
