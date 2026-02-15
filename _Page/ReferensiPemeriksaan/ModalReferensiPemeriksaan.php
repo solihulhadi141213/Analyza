@@ -112,17 +112,6 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="nama_pemeriksaan">
-                                <small>Nama Pemeriksaan</small>
-                            </label>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" name="nama_pemeriksaan" id="nama_pemeriksaan" class="form-control">
-                            <small class="text text-grayish"><small>Nama pemeriksaan dalam bahasa indonesia</small></small>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
                             <label for="category_pemeriksaan">
                                 <small>Kategori Pemeriksaan</small>
                             </label>
@@ -134,13 +123,13 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="code_pemeriksaan">
-                                <small><i>Code</i></small>
+                            <label for="nama_pemeriksaan">
+                                <small>Nama Pemeriksaan</small>
                             </label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="code_pemeriksaan" id="code_pemeriksaan" required>
-                            <small class="text text-grayish"><small>Kode Pemeriksaan Berdasarkan Referensi Yang Digunakan</small></small>
+                            <input type="text" name="nama_pemeriksaan" id="nama_pemeriksaan" class="form-control">
+                            <small class="text text-grayish"><small>Nama pemeriksaan dalam bahasa indonesia</small></small>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -152,6 +141,17 @@
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="display_pemeriksaan" id="display_pemeriksaan" required>
                             <small class="text text-grayish">Display Pemeriksaan Berdasarkan Referensi Yang Digunakan</small>
+                        </div>
+                    </div>
+                     <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="code_pemeriksaan">
+                                <small><i>Code</i></small>
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="code_pemeriksaan" id="code_pemeriksaan" required>
+                            <small class="text text-grayish"><small>Kode Pemeriksaan Berdasarkan Referensi Yang Digunakan</small></small>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -172,7 +172,7 @@
                             </label>
                         </div>
                         <div class="col-md-8">
-                            <select name="id_referensi_satuan" id="id_referensi_satuan" class="form-control" required>
+                            <select name="id_referensi_satuan" id="id_referensi_satuan" class="form-control">
                                 <option value="">Pilih</option>
                             </select>
                         </div>
@@ -641,6 +641,128 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-check"></i> Yakin Banget
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- REFERENSI INTERPERTASI -->
+ <div class="modal fade" id="ModalReferensiInterpertasi" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Referensi Interpertasi Pemeriksaan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormReferensiInterpertasi">
+                        <!-- Form Tambah Nilai Rujukan Muncul Disini -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KLASIFIKASI USIA -->
+<div class="modal fade" id="ModalTambahKlasifikasiUsia" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesTambahKlasifikasiUsia">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Tambah Klasifikasi Usia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormTambahKlasifikasiUsia">
+                            <!-- Form Tambah Nilai Rujukan Muncul Disini -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiTambahKlasifikasiUsia">
+                            <!-- Notifikasi Proses Akan Muncul Disini -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEditKlasifikasiUsia" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditKlasifikasiUsia">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Edit Klasifikasi Usia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormEditKlasifikasiUsia">
+                            <!-- Form Tambah Nilai Rujukan Muncul Disini -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiEditKlasifikasiUsia">
+                            <!-- Notifikasi Proses Akan Muncul Disini -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalHapusKlasifikasiUsia" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusKlasifikasiUsia">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-trash"></i> Hapus Klasifikasi Usia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormHapusKlasifikasiUsia">
+                            <!-- Form Tambah Nilai Rujukan Muncul Disini -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiHapusKlasifikasiUsia">
+                            <!-- Notifikasi Proses Akan Muncul Disini -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Yakin Banget
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle"></i> Tutup

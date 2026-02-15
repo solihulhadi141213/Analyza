@@ -151,7 +151,7 @@
                 </label>
             </div>
             <div class="col-md-8">
-                <select name="id_referensi_satuan" id="id_referensi_satuan_edit" class="form-control" required>
+                <select name="id_referensi_satuan" id="id_referensi_satuan_edit" class="form-control">
                     <option value="">Pilih</option>
                     '.$result_satuan.'
                 </select>

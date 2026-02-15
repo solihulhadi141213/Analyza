@@ -141,9 +141,27 @@
 
         // Routing Allow Age
         if($allow_age==1){
-            $label_allow_age = '<label class="badge bg-success">Yes</label>';
+            $jumlah_kelas_usia = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_usia FROM referensi_usia WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
+            if(empty($jumlah_kelas_usia)){
+                $label_allow_age = '
+                    <a href="javascript:void(0);" class="modal_class_age" data-id="'.$id_referensi_pemeriksaan.'">
+                        <span class="badge bg-danger">
+                            <i class="bi bi-list"></i> <i>Class Age</i>
+                        </span>
+                    </a>
+                ';
+            }else{
+                $label_allow_age = '
+                    <a href="javascript:void(0);" class="modal_class_age" data-id="'.$id_referensi_pemeriksaan.'">
+                        <span class="badge bg-success">
+                            <i class="bi bi-list"></i> <i>Class Age</i> ('.$jumlah_kelas_usia.')
+                        </span>
+                    </a>
+                ';
+            }
+            
         }else{
-            $label_allow_age = '<label class="badge bg-dark">No</label>';
+            $label_allow_age = '<label class="badge bg-dark"><i class="bi bi-x"></i> Unclassified</label>';
         }
 
         // Routing Allow Sex
@@ -152,11 +170,32 @@
         }else{
             $label_allow_sex = '<label class="badge bg-dark">No</label>';
         }
+
+        // Menentukan Warna Text Untuk Kolom Interpertation
+        if($result_interpertation_type=="Range"){
+            $jumlah_referensi_interpertasi = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_range FROM referensi_range WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
+            if(empty($jumlah_referensi_interpertasi)){
+                $result_interpertation_text ="text-danger";
+            }else{
+                $result_interpertation_text ="text-grayish";
+            }
+        }else{
+            if($result_interpertation_type=="Category"){
+                $jumlah_referensi_interpertasi = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_category FROM referensi_category WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
+                if(empty($jumlah_referensi_interpertasi)){
+                    $result_interpertation_text ="text-danger";
+                }else{
+                    $result_interpertation_text ="text-grayish";
+                }    
+            }else{
+                $jumlah_referensi_interpertasi = 0;
+                $result_interpertation_text ="text-grayish";
+            }
+        }
         
         echo '
             <tr>
                 <td><small>'.$no.'</small></td>
-                <td><small>'.$category_pemeriksaan.'</small></td>
                 <td>
                     <a href="javascript:void(0);" class="modal_detail" data-id="'.$id_referensi_pemeriksaan  .'">
                         <small>'.$nama_pemeriksaan.'</small>
@@ -169,14 +208,23 @@
                     </small>
                 </td>
                 <td>
+                    <span class="badge border border-dark border-1">
+                        <small class="">
+                            <small class="text text-dark">'.$category_pemeriksaan.'</small>
+                        </small>
+                    </span>
+                </td>
+                <td>
                     <small class="text text-grayish underscore_doted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="'.$keterangan_result_type.'">
                         '.$result_type.'
                     </small>
                 </td>
                 <td>
-                    <small class="text text-grayish underscore_doted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="'.$keterangan_result_interpertation_type.'">
-                        '.$result_interpertation_type.'
-                    </small>
+                    <a href="javascript:void(0);" class="modal_referensi_interpertasi" data-id="'.$id_referensi_pemeriksaan.'">
+                        <small class="text '.$result_interpertation_text.' underscore_doted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="'.$keterangan_result_interpertation_type.'">
+                            '.$result_interpertation_type.'
+                        </small>
+                    </a>
                 </td>
                 <td><small>'.$label_allow_age.'</small></td>
                 <td><small>'.$label_allow_sex.'</small></td>
@@ -192,12 +240,12 @@
                             <h6>Option</h6>
                         </li>
                         <li>
-                            <a class="dropdown-item modal_detail" href="javascript:void(0)" data-id="'.$id_referensi_pemeriksaan  .'">
+                            <a class="dropdown-item modal_detail" href="javascript:void(0)" data-id="'.$id_referensi_pemeriksaan.'">
                                 <i class="bi bi-info-circle"></i> Detail
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item modal_edit" href="javascript:void(0)" data-id="'.$id_referensi_pemeriksaan  .'">
+                            <a class="dropdown-item modal_edit" href="javascript:void(0)" data-id="'.$id_referensi_pemeriksaan.'">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
                         </li>

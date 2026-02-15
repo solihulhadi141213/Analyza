@@ -38,6 +38,11 @@
     $label                    = $_POST['label_hasil'];
 
     // Variabel Tidak Wajib
+    if(empty($_POST['id_referensi_usia'])){
+        $id_referensi_usia = NULL;
+    }else{
+        $id_referensi_usia = $_POST['id_referensi_usia'];
+    }
     if(empty($_POST['nilai_hasil'])){
         $nilai_hasil = "";
     }else{
@@ -82,6 +87,12 @@
         $fhir_system = "";
     }else{
         $fhir_system = $_POST['fhir_system'];
+    }
+
+    if(empty($_POST['normal_value'])){
+        $normal_value = 0;
+    }else{
+        $normal_value = $_POST['normal_value'];
     }
 
     // Validasi Nilai 'umur_unit'
@@ -151,6 +162,7 @@
     $query = $Conn->prepare("
         INSERT INTO referensi_category (
             id_referensi_pemeriksaan,
+            id_referensi_usia,
             umur_kategori,
             umur_min,
             umur_max,
@@ -160,8 +172,9 @@
             label,
             fhir_display,
             fhir_code,
-            fhir_system
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?)
+            fhir_system,
+            normal_value
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
     ");
 
     if (!$query) {
@@ -173,8 +186,9 @@
     }
 
     $query->bind_param(
-        "issssssssss",
+        "iissssssssssi",
         $id_referensi_pemeriksaan,
+        $id_referensi_usia,
         $umur_kategori,
         $umur_min,
         $umur_max,
@@ -184,7 +198,8 @@
         $label,
         $fhir_display,
         $fhir_code,
-        $fhir_system
+        $fhir_system,
+        $normal_value
     );
 
     // ======================================================

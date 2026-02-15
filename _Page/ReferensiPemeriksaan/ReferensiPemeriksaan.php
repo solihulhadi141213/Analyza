@@ -46,15 +46,20 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-12 border-1 border-bottom text-center" id="DaftarTags">
+                               <!-- Daftar TAG Akan Tampil Disini -->
+                            </div>
+                        </div>
                         <div class="table table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th><b>No</b></th>
-                                        <th><b>Kategori</b></th>
                                         <th><b>Nama Pemeriksaan</b></th>
                                         <th><b><i>Display</i></b></th>
                                         <th><b><i>Code</i></b></th>
+                                        <th><b>Tags</b></th>
                                         <th><b><i>Result Type</i></b></th>
                                         <th><b><i>Interpertation</i></b></th>
                                         <th><b><i>Age</i></b></th>

@@ -198,6 +198,13 @@
         $show_sex_1 = "";
         $show_sex_2 = "";
     }
+
+    // Normal Value
+    if(empty($Data['normal_value'])){
+        $label_normal_value = '';
+    }else{
+        $label_normal_value = 'checked';
+    }
        
     //Tampilkan Data
     echo '
@@ -219,7 +226,7 @@
                     </label>
                 </div>
                 <div class="col-md-8">
-                    <input type="text" name="umur_kategori" id="umur_kategori_edit" class="form-control" value="'.$umur_kategori.'" required>
+                    <input type="text" readonly name="umur_kategori" id="umur_kategori_edit" class="form-control" value="'.$umur_kategori.'" required>
                     <small class="text text-grayish">
                         <small>Klasifikasi usia berdasarkan jarak usia Min - Max (Contoh : Balita, Neonatus, Anak-anak, Remaja Dll.)</small>
                     </small>
@@ -232,7 +239,7 @@
                     </label>
                 </div>
                 <div class="col-md-8">
-                    <input type="number" min="0" step="1" name="umur_min" id="umur_min_edit" class="form-control" placeholder="0" value="'.$umur_min.'">
+                    <input type="number" readonly min="0" step="1" name="umur_min" id="umur_min_edit" class="form-control" placeholder="0" value="'.$umur_min.'">
                 </div>
             </div>
             <div class="row mb-3">
@@ -242,7 +249,7 @@
                     </label>
                 </div>
                 <div class="col-md-8">
-                    <input type="number" min="0" step="1" name="umur_max" id="umur_max_edit" class="form-control" placeholder="0" value="'.$umur_max.'">
+                    <input type="number" readonly min="0" step="1" name="umur_max" id="umur_max_edit" class="form-control" placeholder="0" value="'.$umur_max.'">
                 </div>
             </div>
             <div class="row mb-3">
@@ -252,7 +259,7 @@
                     </label>
                 </div>
                 <div class="col-md-8">
-                    <select class="form-control" name="umur_unit" id="umur_unit_edit" required>
+                    <select disabled class="form-control" name="umur_unit" id="umur_unit_edit" required>
                         <option '.$label_unit_usia_1.' value="Tahun">Tahun</option>
                         <option '.$label_unit_usia_2.' value="Bulan">Bulan</option>
                         <option '.$label_unit_usia_3.' value="Hari">Hari</option>
@@ -444,6 +451,21 @@
                 <small class="text text-grayish">
                     <small>Diisi Hanya Jika Hasil Pemeriksaan Menghasilkan Kesimpulan Akhir (Contoh : Normal, Abnormal)</small>
                 </small>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+               <small><i>Normal Value</i></small>
+            </div>
+            <div class="col-md-8">
+                <div class="form-check">
+                    <input class="form-check-input" '.$label_normal_value.' type="checkbox" id="normal_value_edit" name="normal_value" value="1">
+                    <label class="form-check-label" for="normal_value_edit">
+                        <small class="text text-grayish">
+                            <small>Tetapkan Sebagai Nilai Normal</small>
+                        </small>
+                    </label>
+                </div>
             </div>
         </div>
     ';

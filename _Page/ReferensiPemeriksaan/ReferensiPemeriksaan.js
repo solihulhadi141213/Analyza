@@ -39,6 +39,16 @@ function ShowTable() {
             });
         }
     });
+
+    $('#DaftarTags').html('Loading..');
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/ReferensiPemeriksaan/DaftarTags.php',
+        data    : ProsesFilter,
+        success: function(data) {
+            $('#DaftarTags').html(data);
+        }
+    });
 }
 
 //Fungsi Menampilkan List Kategori
@@ -401,6 +411,14 @@ $(document).ready(function() {
         ShowTable(0);
     });
 
+    // Ketika Tag dipilih
+    $(document).on('click', '.PilihTags', function() {
+       var PilihTags = $(this).data('id');
+        $('#keyword').val(PilihTags);
+        $('#KeywordBy').val('category_pemeriksaan');
+        ShowTable(0);
+    });
+
     // ===================================================================================
     // TAMBAH (INSERT) PMERIKSAAN
     // ===================================================================================
@@ -408,6 +426,11 @@ $(document).ready(function() {
         $('#ModalTambah').modal('show');
 
         ShowListKategori();
+    });
+
+    // Autofocus
+    $('#ModalTambah').on('shown.bs.modal', function () {
+        $('#category_pemeriksaan').trigger('focus');
     });
 
     $('#id_referensi_satuan').select2({
@@ -804,7 +827,8 @@ $(document).ready(function() {
      $(document).on('click', '.modal_tambah_range', function () {
 
         //tangkap data 'id_referensi_pemeriksaan' dan buat variabel
-        var id_referensi_pemeriksaan   = $(this).data('id');
+        var id_referensi_pemeriksaan = $(this).data('id');
+        var id_referensi_usia        = $(this).data('usia');
 
         //tampilkan modal
         $('#ModalTambahRange').modal('show');
@@ -819,7 +843,7 @@ $(document).ready(function() {
         $.ajax({
             type 	    : 'POST',
             url 	    : '_Page/ReferensiPemeriksaan/FormTambahRange.php',
-            data        : {id_referensi_pemeriksaan: id_referensi_pemeriksaan},
+            data        : {id_referensi_pemeriksaan: id_referensi_pemeriksaan, id_referensi_usia: id_referensi_usia},
             success     : function(data){
                 $('#FormTambahRange').html(data);
             }
@@ -1063,7 +1087,8 @@ $(document).ready(function() {
     $(document).on('click', '.modal_tambah_category', function () {
 
         //tangkap data 'id_referensi_pemeriksaan' dan buat variabel
-        var id_referensi_pemeriksaan   = $(this).data('id');
+        var id_referensi_pemeriksaan = $(this).data('id');
+        var id_referensi_usia        = $(this).data('usia');
 
         //tampilkan modal
         $('#ModalTambahCategory').modal('show');
@@ -1078,7 +1103,7 @@ $(document).ready(function() {
         $.ajax({
             type 	    : 'POST',
             url 	    : '_Page/ReferensiPemeriksaan/FormTambahCategory.php',
-            data        : {id_referensi_pemeriksaan: id_referensi_pemeriksaan},
+            data        : {id_referensi_pemeriksaan: id_referensi_pemeriksaan, id_referensi_usia: id_referensi_usia},
             success     : function(data){
                 $('#FormTambahCategory').html(data);
             }
@@ -1618,6 +1643,256 @@ $(document).ready(function() {
                     ShowDetail();
                 }else{
                     $('#NotifikasiDeleteRelasi').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // REFERENSI INTERPERTASI
+    // ===================================================================================
+    $(document).on('click', '.modal_referensi_interpertasi', function () {
+
+        //tangkap data 'id_referensi_pemeriksaan' dan buat variabel
+        var id_referensi_pemeriksaan   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalReferensiInterpertasi').modal('show');
+
+        //Form Loading
+        $('#FormReferensiInterpertasi').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/ReferensiPemeriksaan/FormReferensiInterpertasi.php',
+            data        : {id_referensi_pemeriksaan: id_referensi_pemeriksaan},
+            success     : function(data){
+                $('#FormReferensiInterpertasi').html(data);
+            }
+        });
+    });
+
+    // ===================================================================================
+    // KLASIFIKASI USIA
+    // ===================================================================================
+    $(document).on('click', '.modal_tambah_kelas_usia', function () {
+
+        //tangkap data 'id_referensi_pemeriksaan' dan buat variabel
+        var id_referensi_pemeriksaan   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalTambahKlasifikasiUsia').modal('show');
+        
+        //Kosongkan Notifikasi
+        $('#NotifikasiTambahKlasifikasiUsia').html('');
+        
+        //Form Loading
+        $('#FormTambahKlasifikasiUsia').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/ReferensiPemeriksaan/FormTambahKlasifikasiUsia.php',
+            data        : {id_referensi_pemeriksaan: id_referensi_pemeriksaan},
+            success     : function(data){
+                $('#FormTambahKlasifikasiUsia').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesTambahKlasifikasiUsia' disubmit */
+    $('#ProsesTambahKlasifikasiUsia').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesTambahKlasifikasiUsia=$('#ProsesTambahKlasifikasiUsia').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiTambahKlasifikasiUsia').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesTambahKlasifikasiUsia.php',
+            dataType: 'json',
+            data    : ProsesTambahKlasifikasiUsia,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiTambahKlasifikasiUsia').html('');
+
+                    //Tutup modal
+                    $('#ModalTambahKlasifikasiUsia').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiTambahKlasifikasiUsia').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    $(document).on('click', '.modal_edit_kelasifikasi_usia', function () {
+
+        //tangkap data 'id_referensi_usia' dan buat variabel
+        var id_referensi_usia   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalEditKlasifikasiUsia').modal('show');
+        
+        //Kosongkan Notifikasi
+        $('#NotifikasiEditKlasifikasiUsia').html('');
+        
+        //Form Loading
+        $('#FormEditKlasifikasiUsia').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/ReferensiPemeriksaan/FormEditKlasifikasiUsia.php',
+            data        : {id_referensi_usia: id_referensi_usia},
+            success     : function(data){
+                $('#FormEditKlasifikasiUsia').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesEditKlasifikasiUsia' disubmit */
+    $('#ProsesEditKlasifikasiUsia').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesEditKlasifikasiUsia=$('#ProsesEditKlasifikasiUsia').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiEditKlasifikasiUsia').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesEditKlasifikasiUsia.php',
+            dataType: 'json',
+            data    : ProsesEditKlasifikasiUsia,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiEditKlasifikasiUsia').html('');
+
+                    //Tutup modal
+                    $('#ModalEditKlasifikasiUsia').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiEditKlasifikasiUsia').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    $(document).on('click', '.modal_hapus_kelasifikasi_usia', function () {
+
+        //tangkap data 'id_referensi_usia' dan buat variabel
+        var id_referensi_usia   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalHapusKlasifikasiUsia').modal('show');
+        
+        //Kosongkan Notifikasi
+        $('#NotifikasiHapusKlasifikasiUsia').html('');
+        
+        //Form Loading
+        $('#FormHapusKlasifikasiUsia').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/ReferensiPemeriksaan/FormHapusKlasifikasiUsia.php',
+            data        : {id_referensi_usia: id_referensi_usia},
+            success     : function(data){
+                $('#FormHapusKlasifikasiUsia').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesHapusKlasifikasiUsia' disubmit */
+    $('#ProsesHapusKlasifikasiUsia').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesHapusKlasifikasiUsia=$('#ProsesHapusKlasifikasiUsia').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiHapusKlasifikasiUsia').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesHapusKlasifikasiUsia.php',
+            dataType: 'json',
+            data    : ProsesHapusKlasifikasiUsia,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiHapusKlasifikasiUsia').html('');
+
+                    //Tutup modal
+                    $('#ModalHapusKlasifikasiUsia').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiHapusKlasifikasiUsia').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
                 }
                 
             }

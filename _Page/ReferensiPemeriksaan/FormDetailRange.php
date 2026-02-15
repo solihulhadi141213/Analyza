@@ -172,7 +172,7 @@
             </div>
             <div class="row mb-2 mt-3">
                 <div class="col-12 mt-3">
-                    <small><b># Detail Nilai Rujukan</b></small>
+                    <small><b># Nnilai Dan Operator</b></small>
                 </div>
             </div>
             <div class="row mb-2">

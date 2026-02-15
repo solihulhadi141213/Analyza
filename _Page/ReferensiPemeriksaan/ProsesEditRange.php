@@ -50,6 +50,7 @@
     $label                    = $_POST['label_hasil'];
 
     // Variabel Tidak Wajib
+    
     if(empty($_POST['nilai_min'])){
         $nilai_min = 0;
     }else{
@@ -59,26 +60,6 @@
         $nilai_max = 0;
     }else{
         $nilai_max = $_POST['nilai_max'];
-    }
-    if(empty($_POST['umur_kategori'])){
-        $umur_kategori = "";
-    }else{
-        $umur_kategori = $_POST['umur_kategori'];
-    }
-    if(empty($_POST['umur_min'])){
-        $umur_min = 0;
-    }else{
-        $umur_min = $_POST['umur_min'];
-    }
-    if(empty($_POST['umur_max'])){
-        $umur_max = 0;
-    }else{
-        $umur_max = $_POST['umur_max'];
-    }
-    if(empty($_POST['umur_unit'])){
-        $umur_unit = "";
-    }else{
-        $umur_unit = $_POST['umur_unit'];
     }
     if(empty($_POST['jenis_kelamin'])){
         $jenis_kelamin = "All";
@@ -106,16 +87,10 @@
         $conclusion = $_POST['conclusion'];
     }
 
-    // Validasi Nilai 'umur_unit'
-    if(!empty($umur_unit)){
-        $enum_umur_unit = ['Hari','Bulan','Tahun'];
-        if (!in_array($umur_unit, $enum_umur_unit)) {
-            echo json_encode([
-                'status'  => 'error',
-                'message' => 'Tipe satuan usia tidak valid'
-            ]);
-            exit;
-        }
+    if(empty($_POST['normal_value'])){
+        $normal_value = 0;
+    }else{
+        $normal_value = $_POST['normal_value'];
     }
 
     // Validasi Nilai 'jenis_kelamin'
@@ -158,15 +133,6 @@
     $allow_age = $Data['allow_age'];
     $allow_sex = $Data['allow_sex'];
 
-    if($allow_age==1){
-        if(empty($umur_unit)){
-            echo json_encode([
-                'status'  => 'error',
-                'message' => "Satuan / Unit usia wajib diisi"
-            ]);
-            exit;
-        }
-    }
 
     if($allow_sex==1){
         if(empty($jenis_kelamin)){
@@ -182,10 +148,6 @@
     $query = $Conn->prepare("
         UPDATE referensi_range SET
             id_referensi_pemeriksaan = ?,
-            umur_kategori = ?,
-            umur_min = ?,
-            umur_max = ?,
-            umur_unit = ?,
             jenis_kelamin = ?,
             nilai_min = ?,
             nilai_max = ?,
@@ -194,17 +156,14 @@
             fhir_display = ?,
             fhir_code = ?,
             fhir_system = ?,
-            conclusion = ?
+            conclusion = ?,
+            normal_value = ?
         WHERE id_referensi_range = ?
     ");
 
     $query->bind_param(
-        "isssssssssssssi",
+        "isssssssssii",
         $id_referensi_pemeriksaan,
-        $umur_kategori,
-        $umur_min,
-        $umur_max,
-        $umur_unit,
         $jenis_kelamin,
         $nilai_min,
         $nilai_max,
@@ -214,6 +173,7 @@
         $fhir_code,
         $fhir_system,
         $conclusion,
+        $normal_value,
         $id_referensi_range
     );
 

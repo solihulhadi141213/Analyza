@@ -135,6 +135,13 @@
         $show_sex_2 = "selected";
     }
 
+    // Normal Value
+    if(empty($Data['normal_value'])){
+        $label_normal_value = '';
+    }else{
+        $label_normal_value = 'checked';
+    }
+
     // Tampilkan Data
     echo '
         <input type="hidden" name="id_referensi_category" value="'.$id_referensi_category.'">
@@ -299,6 +306,21 @@
                 <small class="text text-grayish">
                     <small>Standar system yang digunakan.</small>
                 </small>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+               <small><i>Normal Value</i></small>
+            </div>
+            <div class="col-md-8">
+                <div class="form-check">
+                    <input class="form-check-input" '.$label_normal_value.' type="checkbox" id="normal_value_edit2" name="normal_value" value="1">
+                    <label class="form-check-label" for="normal_value_edit2">
+                        <small class="text text-grayish">
+                            <small>Tetapkan Sebagai Nilai Normal</small>
+                        </small>
+                    </label>
+                </div>
             </div>
         </div>
     ';

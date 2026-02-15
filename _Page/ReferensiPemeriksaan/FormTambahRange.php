@@ -27,6 +27,33 @@
         exit;
     }
 
+    if(empty($_POST['id_referensi_usia'])){
+        $id_referensi_usia = "";
+        $umur_kategori     = "";
+        $umur_min          = "";
+        $umur_max          = "";
+        $umur_unit         = "";
+        $notasi_usia       = "";
+    }else{
+        $id_referensi_usia = $_POST['id_referensi_usia'];
+
+        // Buka Detail Klasifikasi Usia
+        $umur_kategori = GetDetailData($Conn, 'referensi_usia', 'id_referensi_usia', $id_referensi_usia, 'umur_kategori');
+        $umur_min      = GetDetailData($Conn, 'referensi_usia', 'id_referensi_usia', $id_referensi_usia, 'umur_min');
+        $umur_max      = GetDetailData($Conn, 'referensi_usia', 'id_referensi_usia', $id_referensi_usia, 'umur_max');
+        $umur_unit     = GetDetailData($Conn, 'referensi_usia', 'id_referensi_usia', $id_referensi_usia, 'umur_unit');
+
+        if(empty($umur_min)){
+            $notasi_usia = "0 - $umur_max $umur_unit";
+        }else{
+            if(empty($umur_max)){
+                $notasi_usia = "> $umur_min $umur_unit";
+            }else{
+                $notasi_usia = "$umur_min - $umur_max $umur_unit";
+            }
+        }
+    }
+
     //Buat variabel 'id_referensi_pemeriksaan' dan sanitasi
     $id_referensi_pemeriksaan = validateAndSanitizeInput($_POST['id_referensi_pemeriksaan']);
 
@@ -61,71 +88,39 @@
     //Tampilkan Data
     echo '
         <input type="hidden" name="id_referensi_pemeriksaan" value="'.$id_referensi_pemeriksaan.'">
+        <input type="hidden" name="id_referensi_usia" value="'.$id_referensi_usia.'">
+        <input type="hidden" name="umur_kategori" value="'.$umur_kategori.'">
+        <input type="hidden" name="umur_min" value="'.$umur_min.'">
+        <input type="hidden" name="umur_max" value="'.$umur_max.'">
+        <input type="hidden" name="umur_unit" value="'.$umur_unit.'">
     ';
-    
-
     if($allow_age==true){
+        echo '
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <small><b>Klasifikasi Berdasarkan Usia</b></small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small>Kategori Usia</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$umur_kategori.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small>Rentang Usia</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$notasi_usia.'</small>
+                </div>
+            </div>
+        ';
+    }
+    if($allow_sex==true){
         echo '
             <div class="row mb-3">
                 <div class="col-md-12">
-                   <small> <b>Klasifikasi Berdasarkan Usia</b></small>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="umur_kategori">
-                        <small>Klasifikasi Usia</small>
-                    </label>
-                </div>
-                <div class="col-md-8">
-                    <input type="text" name="umur_kategori" id="umur_kategori" class="form-control" required>
-                    <small class="text text-grayish">
-                        <small>Klasifikasi usia berdasarkan jarak usia Min - Max (Contoh : Balita, Neonatus, Anak-anak, Remaja Dll.)</small>
-                    </small>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="umur_min">
-                        <small>Usia Min</small>
-                    </label>
-                </div>
-                <div class="col-md-8">
-                    <input type="number" min="0" step="1" name="umur_min" id="umur_min" class="form-control" placeholder="0">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="umur_max">
-                        <small>Usia Max</small>
-                    </label>
-                </div>
-                <div class="col-md-8">
-                    <input type="number" min="0" step="1" name="umur_max" id="umur_max" class="form-control" placeholder="0">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="umur_unit">
-                        <small>Unit / Satuan Usia</small>
-                    </label>
-                </div>
-                <div class="col-md-8">
-                    <select class="form-control" name="umur_unit" id="umur_unit" required>
-                        <option value="Tahun">Tahun</option>
-                        <option value="Bulan">Bulan</option>
-                        <option value="Hari">Hari</option>
-                    </select>
-                </div>
-            </div>
-            
-        ';
-    }
-
-    if($allow_sex==true){
-        echo '
-            <div class="row mb-3 mt-3">
-                <div class="col-md-12 mt-3">
                     <small><b>Klasifikasi Berdasarkan Jenis Kelamin</b></small>
                 </div>
             </div>
@@ -148,7 +143,7 @@
 
     echo '
         <div class="row mb-3 mt-3">
-            <div class="col-md-12 mt-3">
+            <div class="col-md-12">
                 <small><b>Dasar Penentuan Interpertasi Hasil</b></small>
             </div>
         </div>
@@ -305,6 +300,21 @@
                 <small class="text text-grayish">
                     <small>Diisi Hanya Jika Hasil Pemeriksaan Menghasilkan Kesimpulan Akhir (Contoh : Normal, Abnormal)</small>
                 </small>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+               <small><i>Normal Value</i></small>
+            </div>
+            <div class="col-md-8">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="normal_value" name="normal_value" value="1">
+                    <label class="form-check-label" for="normal_value">
+                        <small class="text text-grayish">
+                            <small>Tetapkan Sebagai Nilai Normal</small>
+                        </small>
+                    </label>
+                </div>
             </div>
         </div>
     ';

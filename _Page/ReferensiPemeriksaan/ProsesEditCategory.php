@@ -59,6 +59,12 @@
     $fhir_system                  = isset($_POST['fhir_system']) ? trim($_POST['fhir_system']) : "";
     $conclusion                   = isset($_POST['conclusion']) ? trim($_POST['conclusion']) : "";
 
+    if(empty($_POST['normal_value'])){
+        $normal_value = 0;
+    }else{
+        $normal_value = $_POST['normal_value'];
+    }
+
     // Validasi Enum
     if(!empty($umur_unit)){
         $enum_umur_unit = ['Hari', 'Bulan', 'Tahun'];
@@ -223,6 +229,11 @@
         $set_parts[] = "jenis_kelamin = ?";
         $types .= "s";
         $params[] = $jenis_kelamin;
+    }
+    if(in_array('normal_value', $available_columns, true)){
+        $set_parts[] = "normal_value = ?";
+        $types .= "i";
+        $params[] = $normal_value;
     }
     if(empty($set_parts)){
         echo json_encode([

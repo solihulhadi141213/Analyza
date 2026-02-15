@@ -227,152 +227,356 @@
                             <b class="card-title"># Referensi Nilai Rujukan <i>(Range)</i></b>
                         </div>
                         <div class="col-4 text-end">
-                            <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_range" data-id="<?php echo "$id_referensi_pemeriksaan"; ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Referensi Nilai Rujukan">
-                                <i class="bi bi-plus"></i>
-                            </button>
+                            <?php
+                                if($allow_age==1){
+                                    echo '
+                                        <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_kelas_usia" data-id="'.$id_referensi_pemeriksaan.'">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    ';
+                                }else{
+                                    echo '
+                                        <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_range" data-id="'.$id_referensi_pemeriksaan.'" data-usia="">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    ';
+                                }
+                            ?>
+                            
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="table table-responsive">
-                        <table class="table table-striped table-hover">
+                        <table class="table table-bordered table-sm">
                             <thead>
-                                <tr>
+                                <tr class="table-dark">
                                     <td align="center"><b>No</b></td>
+                                    <td align="center"><b>L/P</b></td>
                                     <td align="left"><b>Klasifikasi</b></td>
                                     <td align="left"><b>Nilai</b></td>
-                                    <td align="left"><b>Usia</b></td>
-                                    <td align="left"><b>L/P</b></td>
+                                    <td align="center"><b>Unit</b></td>
                                     <td align="left"><b>Kesimpulan</b></td>
+                                    <td align="center"><b>Normal?</b></td>
                                     <td align="center"><b>Opsi</b></td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                    $jumlah_range = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_range FROM referensi_range WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
-                                    if(empty($jumlah_range)){
-                                        echo '
-                                            <tr>
-                                                <td colspan="7" align="center">
-                                                    <span class="text-danger">Tidak Ada Data Referensi Nilai Rujukan Yang Ditampilkan</span>
-                                                </td>
-                                            </tr>
-                                        ';
-                                    }else{
-                                        $no=1;
-                                        $query = mysqli_query($Conn, "SELECT*FROM referensi_range WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
-                                        while ($data = mysqli_fetch_array($query)) {
-                                            $id_referensi_range = $data['id_referensi_range'];
-                                            $umur_kategori      = $data['umur_kategori'] ?? '-';
-                                            $umur_min           = $data['umur_min'];
-                                            $umur_max           = $data['umur_max'];
-                                            $umur_unit          = $data['umur_unit'];
-                                            $jenis_kelamin      = $data['jenis_kelamin'];
-                                            $nilai_min           = $data['nilai_min'];
-                                            $nilai_max           = $data['nilai_max'];
-                                            $operator           = $data['operator'];
-                                            $label              = $data['label'];
-                                            $fhir_display       = $data['fhir_display'];
-                                            $fhir_code          = $data['fhir_code'];
-                                            $fhir_system        = $data['fhir_system'];
-                                            $conclusion         = $data['conclusion'];
-
-                                            // Number Format
-                                            $tampil_min = number_format($nilai_min, 2, ',', '.');
-                                            $tampil_max = number_format($nilai_max, 2, ',', '.');
-
-                                            // Menentukan Penyataan nilai rujukan
-                                            if($operator=="<"){
-                                                $nilai_rujukan = "< $tampil_min";
-                                            }
-                                            if($operator==">"){
-                                                $nilai_rujukan = "> $tampil_max";
-                                            }
-                                            if($operator=="<="){
-                                                $nilai_rujukan = "< $tampil_min";
-                                            }
-                                            if($operator==">="){
-                                                $nilai_rujukan = "> $tampil_max";
-                                            }
-                                            if($operator=="-"){
-                                                $nilai_rujukan = "$tampil_min - $tampil_max";
-                                            }
-                                             if($operator=="between"){
-                                                $nilai_rujukan = "$tampil_min > - < $tampil_max";
-                                            }
-                                            if($allow_age==1){
-                                                if(empty($umur_min)){
-                                                    $show_age = "$umur_kategori (> $umur_max $umur_unit)";
-                                                }else{
-                                                    if(empty($umur_max)){
-                                                        $show_age = "$umur_kategori (< $umur_min $umur_unit)";
-                                                    }else{
-                                                         $show_age = "$umur_kategori ($umur_min - $umur_max $umur_unit)";
-                                                    }
-                                                }
-                                                
-                                            }else{
-                                                $show_age = 'All';
-                                            }
-
-                                            if($allow_sex==1){
-                                                if($jenis_kelamin==""){
-                                                    $show_sex = "All";
-                                                }else{
-                                                    if($jenis_kelamin=="Laki-laki"){
-                                                        $show_sex = "L";
-                                                    }else{
-                                                        if($jenis_kelamin=="Perempuan"){
-                                                            $show_sex = "P";
-                                                        }else{
-                                                            $show_sex = "All";
-                                                        }
-                                                    }
-                                                }
-                                            }else{
-                                                $show_sex = "All";
-                                            }
-
+                                    // Jika data Berdasarkan usia
+                                    if($allow_age==1){
+                                        $JumlahKlasifikasiUsia = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_usia FROM referensi_usia WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
+                                        if(empty($JumlahKlasifikasiUsia)){
                                             echo '
                                                 <tr>
-                                                    <td align="center"><small>'.$no.'</small></td>
-                                                    <td align="left">
-                                                        <a href="javascript:void(0);" class="modal_detail_range" data-id="'.$id_referensi_range.'">
-                                                            <small>'.$label.'</small>
-                                                        </a>
-                                                    </td>
-                                                    <td align="left"><small>'.$nilai_rujukan.' '.$unit_display.'</small></td>
-                                                    <td align="left"><small>'.$show_age.'</small></td>
-                                                    <td align="left">'.$show_sex.'</td>
-                                                    <td align="left">'.$conclusion.'</td>
-                                                    <td align="center">
-                                                        <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                                            <li class="dropdown-header text-start">
-                                                                <h6>Option</h6>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item modal_detail_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
-                                                                    <i class="bi bi-info-circle"></i> Detail
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item modal_edit_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
-                                                                    <i class="bi bi-pencil"></i> Edit
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item modal_delete_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
-                                                                    <i class="bi bi-x"></i> Hapus
-                                                                </a>
-                                                            </li>
-                                                        </ul>
+                                                    <td colspan="8" align="center">
+                                                        <span class="text-danger">Tidak Ada Data Referensi Interpertasi Hasil Yang Ditampilkan</span>
                                                     </td>
                                                 </tr>
                                             ';
-                                            $no++;
+                                        }else{
+                                            $NomorUsia=1;
+                                            $QryUsia = mysqli_query($Conn, "SELECT*FROM referensi_usia WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
+                                            while ($DataUsia = mysqli_fetch_array($QryUsia)) {
+                                                $id_referensi_usia = $DataUsia['id_referensi_usia'];
+                                                $umur_kategori     = $DataUsia['umur_kategori'];
+                                                $umur_unit         = $DataUsia['umur_unit'];
+                                                if(empty($DataUsia['umur_min'])){
+                                                    $umur_max    = $DataUsia['umur_max'];
+                                                    $notasi_usia = "0 - $umur_max $umur_unit";
+                                                }else{
+                                                    if(empty($DataUsia['umur_max'])){
+                                                        $umur_min    = $DataUsia['umur_min'];
+                                                        $notasi_usia = "> $umur_min $umur_unit";
+                                                    }else{
+                                                        $umur_min    = $DataUsia['umur_min'];
+                                                        $umur_max    = $DataUsia['umur_max'];
+                                                        $notasi_usia = "$umur_min - $umur_max $umur_unit";
+                                                    }
+                                                }
+
+                                                // Menampilkan Baris Kelas usia
+                                                echo '
+                                                    <tr>
+                                                        <td align="center"><b>'.$NomorUsia.'</b></td>
+                                                        <td align="left" colspan="6"><b>'.$umur_kategori.' ('.$notasi_usia.')</b></td>
+                                                        <td align="center">
+                                                            <button type="button" class="btn btn-sm btn-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                                <li class="dropdown-header text-start">
+                                                                    <h6>Option</h6>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_tambah_range" href="javascript:void(0)" data-id="'.$id_referensi_pemeriksaan.'" data-usia="'.$id_referensi_usia.'">
+                                                                        <i class="bi bi-plus"></i> Tambah Interpertasi
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_edit_kelasifikasi_usia" href="javascript:void(0)" data-id="'.$id_referensi_usia  .'">
+                                                                        <i class="bi bi-pencil"></i> Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_hapus_kelasifikasi_usia" href="javascript:void(0)" data-id="'.$id_referensi_usia  .'">
+                                                                        <i class="bi bi-x"></i> Hapus
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                ';
+
+                                                // Menampilkan List Interpertasi Berdasarkan usia
+                                                $jumlah_range = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_range FROM referensi_range WHERE id_referensi_usia='$id_referensi_usia' AND id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
+                                                if(empty($jumlah_range)){
+                                                    echo '
+                                                        <tr>
+                                                            <td colspan="8" align="center">
+                                                                <span class="text-danger">Tidak Ada Data Referensi Interpertasi Hasil Yang Ditampilkan</span>
+                                                            </td>
+                                                        </tr>
+                                                    ';
+                                                }else{
+                                                    $no=1;
+                                                    $query = mysqli_query($Conn, "SELECT*FROM referensi_range WHERE id_referensi_usia='$id_referensi_usia' AND id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
+                                                    while ($data = mysqli_fetch_array($query)) {
+                                                        $id_referensi_range = $data['id_referensi_range'];
+                                                        $umur_kategori      = $data['umur_kategori'] ?? '-';
+                                                        $umur_min           = $data['umur_min'];
+                                                        $umur_max           = $data['umur_max'];
+                                                        $umur_unit          = $data['umur_unit'];
+                                                        $jenis_kelamin      = $data['jenis_kelamin'];
+                                                        $nilai_min          = $data['nilai_min'];
+                                                        $nilai_max          = $data['nilai_max'];
+                                                        $operator           = $data['operator'];
+                                                        $label              = $data['label'];
+                                                        $fhir_display       = $data['fhir_display'];
+                                                        $fhir_code          = $data['fhir_code'];
+                                                        $fhir_system        = $data['fhir_system'];
+                                                        $conclusion         = $data['conclusion'];
+                                                        $normal_value       = $data['normal_value'];
+
+                                                        // Number Format
+                                                        $tampil_min = number_format($nilai_min, 2, ',', '.');
+                                                        $tampil_max = number_format($nilai_max, 2, ',', '.');
+
+                                                        // Menentukan Penyataan nilai rujukan
+                                                        if($operator=="<"){
+                                                            $nilai_rujukan = "< $tampil_min";
+                                                        }
+                                                        if($operator==">"){
+                                                            $nilai_rujukan = "> $tampil_max";
+                                                        }
+                                                        if($operator=="<="){
+                                                            $nilai_rujukan = "< $tampil_min";
+                                                        }
+                                                        if($operator==">="){
+                                                            $nilai_rujukan = "> $tampil_max";
+                                                        }
+                                                        if($operator=="-"){
+                                                            $nilai_rujukan = "$tampil_min - $tampil_max";
+                                                        }
+                                                        if($operator=="between"){
+                                                            $nilai_rujukan = "$tampil_min > - < $tampil_max";
+                                                        }
+
+                                                        if($allow_sex==1){
+                                                            if($jenis_kelamin==""){
+                                                                $show_sex = "All";
+                                                            }else{
+                                                                if($jenis_kelamin=="Laki-laki"){
+                                                                    $show_sex = "L";
+                                                                }else{
+                                                                    if($jenis_kelamin=="Perempuan"){
+                                                                        $show_sex = "P";
+                                                                    }else{
+                                                                        $show_sex = "All";
+                                                                    }
+                                                                }
+                                                            }
+                                                        }else{
+                                                            $show_sex = "All";
+                                                        }
+
+                                                        // Normal Value
+                                                        if(empty($data['normal_value'])){
+                                                            $label_normal_value = '<span class="text-danger"><i class="bi bi-x-circle"></i></span>';
+                                                        }else{
+                                                            $label_normal_value = '<span class="text-success"><i class="bi bi-check-circle"></i></span>';
+                                                        }
+
+                                                        echo '
+                                                            <tr>
+                                                                <td align="center"><small>'.$NomorUsia.'.'.$no.'</small></td>
+                                                                <td align="center"><small>'.$show_sex.'</small></td>
+                                                                <td align="left">
+                                                                    <a href="javascript:void(0);" class="modal_detail_range" data-id="'.$id_referensi_range.'">
+                                                                        <small>'.$label.'</small>
+                                                                    </a>
+                                                                </td>
+                                                                <td align="left"><small>'.$nilai_rujukan.'</small></td>
+                                                                <td align="center"><small>'.$unit_display.'</small></td>
+                                                                <td align="left"><small>'.$conclusion.'</small></td>
+                                                                <td align="center">'.$label_normal_value.'</td>
+                                                                <td align="center">
+                                                                    <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                                        <li class="dropdown-header text-start">
+                                                                            <h6>Option</h6>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="dropdown-item modal_detail_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
+                                                                                <i class="bi bi-info-circle"></i> Detail
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="dropdown-item modal_edit_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
+                                                                                <i class="bi bi-pencil"></i> Edit
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="dropdown-item modal_delete_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
+                                                                                <i class="bi bi-x"></i> Hapus
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        ';
+                                                        $no++;
+                                                    }
+                                                }
+
+                                                $NomorUsia++;
+                                            }
+                                        }
+                                    }else{  
+
+                                        // Jika Data Tidak Dikelompokan Berdasakan Usia
+                                        $jumlah_range = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_range FROM referensi_range WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
+                                        if(empty($jumlah_range)){
+                                            echo '
+                                                <tr>
+                                                    <td colspan="8" align="center">
+                                                        <span class="text-danger">Tidak Ada Data Referensi Nilai Rujukan Yang Ditampilkan</span>
+                                                    </td>
+                                                </tr>
+                                            ';
+                                        }else{
+                                            $no=1;
+                                            $query = mysqli_query($Conn, "SELECT*FROM referensi_range WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
+                                            while ($data = mysqli_fetch_array($query)) {
+                                                $id_referensi_range = $data['id_referensi_range'];
+                                                $umur_kategori      = $data['umur_kategori'] ?? '-';
+                                                $umur_min           = $data['umur_min'];
+                                                $umur_max           = $data['umur_max'];
+                                                $umur_unit          = $data['umur_unit'];
+                                                $jenis_kelamin      = $data['jenis_kelamin'];
+                                                $nilai_min          = $data['nilai_min'];
+                                                $nilai_max          = $data['nilai_max'];
+                                                $operator           = $data['operator'];
+                                                $label              = $data['label'];
+                                                $fhir_display       = $data['fhir_display'];
+                                                $fhir_code          = $data['fhir_code'];
+                                                $fhir_system        = $data['fhir_system'];
+                                                $conclusion         = $data['conclusion'];
+                                                $normal_value       = $data['normal_value'];
+
+                                                // Number Format
+                                                $tampil_min = number_format($nilai_min, 2, ',', '.');
+                                                $tampil_max = number_format($nilai_max, 2, ',', '.');
+
+                                                // Menentukan Penyataan nilai rujukan
+                                                if($operator=="<"){
+                                                    $nilai_rujukan = "< $tampil_min";
+                                                }
+                                                if($operator==">"){
+                                                    $nilai_rujukan = "> $tampil_max";
+                                                }
+                                                if($operator=="<="){
+                                                    $nilai_rujukan = "< $tampil_min";
+                                                }
+                                                if($operator==">="){
+                                                    $nilai_rujukan = "> $tampil_max";
+                                                }
+                                                if($operator=="-"){
+                                                    $nilai_rujukan = "$tampil_min - $tampil_max";
+                                                }
+                                                if($operator=="between"){
+                                                    $nilai_rujukan = "$tampil_min > - < $tampil_max";
+                                                }
+
+                                                if($allow_sex==1){
+                                                    if($jenis_kelamin==""){
+                                                        $show_sex = "All";
+                                                    }else{
+                                                        if($jenis_kelamin=="Laki-laki"){
+                                                            $show_sex = "L";
+                                                        }else{
+                                                            if($jenis_kelamin=="Perempuan"){
+                                                                $show_sex = "P";
+                                                            }else{
+                                                                $show_sex = "All";
+                                                            }
+                                                        }
+                                                    }
+                                                }else{
+                                                    $show_sex = "All";
+                                                }
+
+                                                // Normal Value
+                                                if(empty($data['normal_value'])){
+                                                    $label_normal_value = '<span class="text-danger"><i class="bi bi-x-circle"></i></span>';
+                                                }else{
+                                                    $label_normal_value = '<span class="text-success"><i class="bi bi-check-circle"></i></span>';
+                                                }
+
+                                                echo '
+                                                    <tr>
+                                                        <td align="center"><small>'.$no.'</small></td>
+                                                        <td align="center"><small>'.$show_sex.'</small></td>
+                                                        <td align="left">
+                                                            <a href="javascript:void(0);" class="modal_detail_range" data-id="'.$id_referensi_range.'">
+                                                                <small>'.$label.'</small>
+                                                            </a>
+                                                        </td>
+                                                        <td align="left"><small>'.$nilai_rujukan.'</small></td>
+                                                        <td align="center"><small>'.$unit_display.'</small></td>
+                                                        <td align="left"><small>'.$conclusion.'</small></td>
+                                                        <td align="center">'.$label_normal_value.'</td>
+                                                        <td align="center">
+                                                            <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                                <li class="dropdown-header text-start">
+                                                                    <h6>Option</h6>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_detail_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
+                                                                        <i class="bi bi-info-circle"></i> Detail
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_edit_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
+                                                                        <i class="bi bi-pencil"></i> Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_delete_range" href="javascript:void(0)" data-id="'.$id_referensi_range  .'">
+                                                                        <i class="bi bi-x"></i> Hapus
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                ';
+                                                $no++;
+                                            }
                                         }
                                     }
                                 ?>
@@ -389,9 +593,21 @@
                             <b class="card-title"># Referensi <i> Category </i></b>
                         </div>
                         <div class="col-4 text-end">
-                            <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_category" data-id="<?php echo "$id_referensi_pemeriksaan"; ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Referensi Category">
-                                <i class="bi bi-plus"></i>
-                            </button>
+                            <?php
+                                if($allow_age==1){
+                                    echo '
+                                        <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_kelas_usia" data-id="'.$id_referensi_pemeriksaan.'">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    ';
+                                }else{
+                                    echo '
+                                        <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_category" data-id="'.$id_referensi_pemeriksaan.'" data-usia="">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    ';
+                                }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -399,116 +615,304 @@
                     <div class="table table-responsive">
                         <table class="table table-striped table-hover">
                             <thead>
-                                <tr>
+                                <tr class="table-dark">
                                     <td align="center"><b>No</b></td>
+                                    <td align="left"><b>L/P</b></td>
                                     <td align="left"><b>Label Category</b></td>
                                     <td align="left"><b>Hasil</b></td>
-                                    <td align="left"><b>Usia</b></td>
-                                    <td align="left"><b>L/P</b></td>
+                                    <td align="center"><b>Normal?</b></td>
                                     <td align="center"><b>Opsi</b></td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                    $jumlah_category = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_category FROM referensi_category WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
-                                    if(empty($jumlah_category)){
-                                        echo '
-                                            <tr>
-                                                <td colspan="6" align="center">
-                                                    <span class="text-danger">Tidak Ada Data Referensi Nilai Rujukan Yang Ditampilkan</span>
-                                                </td>
-                                            </tr>
-                                        ';
-                                    }else{
-                                        $no=1;
-                                        $query = mysqli_query($Conn, "SELECT*FROM referensi_category WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
-                                        while ($data = mysqli_fetch_array($query)) {
-                                            $id_referensi_category = $data['id_referensi_category'];
-                                            $umur_kategori         = $data['umur_kategori'] ?? '-';
-                                            $umur_min              = $data['umur_min'];
-                                            $umur_max              = $data['umur_max'];
-                                            $umur_unit             = $data['umur_unit'];
-                                            $jenis_kelamin         = $data['jenis_kelamin'];
-                                            $nilai_hasil           = $data['nilai_hasil'];
-                                            $label                 = $data['label'];
-                                            $fhir_display          = $data['fhir_display'];
-                                            $fhir_code             = $data['fhir_code'];
-                                            $fhir_system           = $data['fhir_system'];
-
-                                            // Menampilkan Usia
-                                            if($allow_age==1){
-                                                if(empty($umur_min)){
-                                                    $show_age = "$umur_kategori (> $umur_max $umur_unit)";
-                                                }else{
-                                                    if(empty($umur_max)){
-                                                        $show_age = "$umur_kategori (< $umur_min $umur_unit)";
-                                                    }else{
-                                                         $show_age = "$umur_kategori ($umur_min - $umur_max $umur_unit)";
-                                                    }
-                                                }
-                                                
-                                            }else{
-                                                $show_age = 'All';
-                                            }
-
-                                            // Menampilkan Jenis Kelamin
-                                            if($allow_sex==1){
-                                                if($jenis_kelamin==""){
-                                                    $show_sex = "All";
-                                                }else{
-                                                    if($jenis_kelamin=="Laki-laki"){
-                                                        $show_sex = "L";
-                                                    }else{
-                                                        if($jenis_kelamin=="Perempuan"){
-                                                            $show_sex = "P";
-                                                        }else{
-                                                            $show_sex = "All";
-                                                        }
-                                                    }
-                                                }
-                                            }else{
-                                                $show_sex = "All";
-                                            }
-
+                                    if($allow_age==1){
+                                        // Jika Category Berkaitan Dengan Klasifikasi Usia
+                                        $JumlahKlasifikasiUsia = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_usia FROM referensi_usia WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
+                                        if(empty($JumlahKlasifikasiUsia)){
                                             echo '
                                                 <tr>
-                                                    <td align="center"><small>'.$no.'</small></td>
-                                                    <td align="left">
-                                                        <a href="javascript:void(0);" class="modal_detail_category" data-id="'.$id_referensi_category.'">
-                                                            <small>'.$label.'</small>
-                                                        </a>
-                                                    </td>
-                                                    <td align="left"><small>'.$nilai_hasil.'</small></td>
-                                                    <td align="left"><small>'.$show_age.'</small></td>
-                                                    <td align="left">'.$show_sex.'</td>
-                                                    <td align="center">
-                                                        <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                                            <li class="dropdown-header text-start">
-                                                                <h6>Option</h6>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item modal_detail_category" href="javascript:void(0)" data-id="'.$id_referensi_category  .'">
-                                                                    <i class="bi bi-info-circle"></i> Detail
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item modal_edit_category" href="javascript:void(0)" data-id="'.$id_referensi_category  .'">
-                                                                    <i class="bi bi-pencil"></i> Edit
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item modal_delete_category" href="javascript:void(0)" data-id="'.$id_referensi_category  .'">
-                                                                    <i class="bi bi-x"></i> Hapus
-                                                                </a>
-                                                            </li>
-                                                        </ul>
+                                                    <td colspan="8" align="center">
+                                                        <span class="text-danger">Tidak Ada Data Referensi Interpertasi Hasil Yang Ditampilkan</span>
                                                     </td>
                                                 </tr>
                                             ';
-                                            $no++;
+                                        }else{
+                                            $NomorUsia=1;
+                                            $QryUsia = mysqli_query($Conn, "SELECT*FROM referensi_usia WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
+                                            while ($DataUsia = mysqli_fetch_array($QryUsia)) {
+                                                $id_referensi_usia = $DataUsia['id_referensi_usia'];
+                                                $umur_kategori     = $DataUsia['umur_kategori'];
+                                                $umur_unit         = $DataUsia['umur_unit'];
+                                                if(empty($DataUsia['umur_min'])){
+                                                    $umur_max    = $DataUsia['umur_max'];
+                                                    $notasi_usia = "0 - $umur_max $umur_unit";
+                                                }else{
+                                                    if(empty($DataUsia['umur_max'])){
+                                                        $umur_min    = $DataUsia['umur_min'];
+                                                        $notasi_usia = "> $umur_min $umur_unit";
+                                                    }else{
+                                                        $umur_min    = $DataUsia['umur_min'];
+                                                        $umur_max    = $DataUsia['umur_max'];
+                                                        $notasi_usia = "$umur_min - $umur_max $umur_unit";
+                                                    }
+                                                }
+
+                                                // Menampilkan Baris Kelas usia
+                                                echo '
+                                                    <tr>
+                                                        <td align="center"><b>'.$NomorUsia.'</b></td>
+                                                        <td align="left" colspan="4"><b>'.$umur_kategori.' ('.$notasi_usia.')</b></td>
+                                                        <td align="center">
+                                                            <button type="button" class="btn btn-sm btn-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                                <li class="dropdown-header text-start">
+                                                                    <h6>Option</h6>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_tambah_category" href="javascript:void(0)" data-id="'.$id_referensi_pemeriksaan.'" data-usia="'.$id_referensi_usia.'">
+                                                                        <i class="bi bi-plus"></i> Tambah Interpertasi
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_edit_kelasifikasi_usia" href="javascript:void(0)" data-id="'.$id_referensi_usia  .'">
+                                                                        <i class="bi bi-pencil"></i> Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_hapus_kelasifikasi_usia" href="javascript:void(0)" data-id="'.$id_referensi_usia  .'">
+                                                                        <i class="bi bi-x"></i> Hapus
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                ';
+
+                                                // Menampilkan data Category
+                                                $jumlah_category = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_category FROM referensi_category WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan' AND id_referensi_usia='$id_referensi_usia'"));
+                                                if(empty($jumlah_category)){
+                                                    echo '
+                                                        <tr>
+                                                            <td colspan="6" align="center">
+                                                                <span class="text-danger">Tidak Ada Data Referensi Nilai Rujukan Yang Ditampilkan</span>
+                                                            </td>
+                                                        </tr>
+                                                    ';
+                                                }else{
+                                                    $no=1;
+                                                    $query = mysqli_query($Conn, "SELECT*FROM referensi_category WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan' AND id_referensi_usia='$id_referensi_usia'");
+                                                    while ($data = mysqli_fetch_array($query)) {
+                                                        $id_referensi_category = $data['id_referensi_category'];
+                                                        $umur_kategori         = $data['umur_kategori'] ?? '-';
+                                                        $umur_min              = $data['umur_min'];
+                                                        $umur_max              = $data['umur_max'];
+                                                        $umur_unit             = $data['umur_unit'];
+                                                        $jenis_kelamin         = $data['jenis_kelamin'];
+                                                        $nilai_hasil           = $data['nilai_hasil'];
+                                                        $label                 = $data['label'];
+                                                        $fhir_display          = $data['fhir_display'];
+                                                        $fhir_code             = $data['fhir_code'];
+                                                        $fhir_system           = $data['fhir_system'];
+
+                                                        // Menampilkan Usia
+                                                        if($allow_age==1){
+                                                            if(empty($umur_min)){
+                                                                $show_age = "$umur_kategori (> $umur_max $umur_unit)";
+                                                            }else{
+                                                                if(empty($umur_max)){
+                                                                    $show_age = "$umur_kategori (< $umur_min $umur_unit)";
+                                                                }else{
+                                                                    $show_age = "$umur_kategori ($umur_min - $umur_max $umur_unit)";
+                                                                }
+                                                            }
+                                                            
+                                                        }else{
+                                                            $show_age = 'All';
+                                                        }
+
+                                                        // Menampilkan Jenis Kelamin
+                                                        if($allow_sex==1){
+                                                            if($jenis_kelamin==""){
+                                                                $show_sex = "All";
+                                                            }else{
+                                                                if($jenis_kelamin=="Laki-laki"){
+                                                                    $show_sex = "L";
+                                                                }else{
+                                                                    if($jenis_kelamin=="Perempuan"){
+                                                                        $show_sex = "P";
+                                                                    }else{
+                                                                        $show_sex = "All";
+                                                                    }
+                                                                }
+                                                            }
+                                                        }else{
+                                                            $show_sex = "All";
+                                                        }
+
+                                                        // Normal Value
+                                                        if(empty($data['normal_value'])){
+                                                            $label_normal_value = '<span class="text-danger"><i class="bi bi-x-circle"></i></span>';
+                                                        }else{
+                                                            $label_normal_value = '<span class="text-success"><i class="bi bi-check-circle"></i></span>';
+                                                        }
+
+                                                        echo '
+                                                            <tr>
+                                                                <td align="center"><small>'.$no.'</small></td>
+                                                                <td align="left"><small>'.$show_sex.'</small></td>
+                                                                <td align="left">
+                                                                    <a href="javascript:void(0);" class="modal_detail_category" data-id="'.$id_referensi_category.'">
+                                                                        <small>'.$label.'</small>
+                                                                    </a>
+                                                                </td>
+                                                                <td align="left"><small>'.$nilai_hasil.'</small></td>
+                                                                <td align="center">'.$label_normal_value.'</td>
+                                                                <td align="center">
+                                                                    <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                                        <li class="dropdown-header text-start">
+                                                                            <h6>Option</h6>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="dropdown-item modal_detail_category" href="javascript:void(0)" data-id="'.$id_referensi_category  .'">
+                                                                                <i class="bi bi-info-circle"></i> Detail
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="dropdown-item modal_edit_category" href="javascript:void(0)" data-id="'.$id_referensi_category  .'">
+                                                                                <i class="bi bi-pencil"></i> Edit
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="dropdown-item modal_delete_category" href="javascript:void(0)" data-id="'.$id_referensi_category  .'">
+                                                                                <i class="bi bi-x"></i> Hapus
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        ';
+                                                        $no++;
+                                                    }
+                                                }
+                                                
+
+                                                $NomorUsia++;
+                                            }
+                                        }
+                                    }else{
+                                        $jumlah_category = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_category FROM referensi_category WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
+                                        if(empty($jumlah_category)){
+                                            echo '
+                                                <tr>
+                                                    <td colspan="6" align="center">
+                                                        <span class="text-danger">Tidak Ada Data Referensi Nilai Rujukan Yang Ditampilkan</span>
+                                                    </td>
+                                                </tr>
+                                            ';
+                                        }else{
+                                            $no=1;
+                                            $query = mysqli_query($Conn, "SELECT*FROM referensi_category WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
+                                            while ($data = mysqli_fetch_array($query)) {
+                                                $id_referensi_category = $data['id_referensi_category'];
+                                                $umur_kategori         = $data['umur_kategori'] ?? '-';
+                                                $umur_min              = $data['umur_min'];
+                                                $umur_max              = $data['umur_max'];
+                                                $umur_unit             = $data['umur_unit'];
+                                                $jenis_kelamin         = $data['jenis_kelamin'];
+                                                $nilai_hasil           = $data['nilai_hasil'];
+                                                $label                 = $data['label'];
+                                                $fhir_display          = $data['fhir_display'];
+                                                $fhir_code             = $data['fhir_code'];
+                                                $fhir_system           = $data['fhir_system'];
+
+                                                // Menampilkan Usia
+                                                if($allow_age==1){
+                                                    if(empty($umur_min)){
+                                                        $show_age = "$umur_kategori (> $umur_max $umur_unit)";
+                                                    }else{
+                                                        if(empty($umur_max)){
+                                                            $show_age = "$umur_kategori (< $umur_min $umur_unit)";
+                                                        }else{
+                                                            $show_age = "$umur_kategori ($umur_min - $umur_max $umur_unit)";
+                                                        }
+                                                    }
+                                                    
+                                                }else{
+                                                    $show_age = 'All';
+                                                }
+
+                                                // Menampilkan Jenis Kelamin
+                                                if($allow_sex==1){
+                                                    if($jenis_kelamin==""){
+                                                        $show_sex = "All";
+                                                    }else{
+                                                        if($jenis_kelamin=="Laki-laki"){
+                                                            $show_sex = "L";
+                                                        }else{
+                                                            if($jenis_kelamin=="Perempuan"){
+                                                                $show_sex = "P";
+                                                            }else{
+                                                                $show_sex = "All";
+                                                            }
+                                                        }
+                                                    }
+                                                }else{
+                                                    $show_sex = "All";
+                                                }
+
+                                                // Normal Value
+                                                if(empty($data['normal_value'])){
+                                                    $label_normal_value = '<span class="text-danger"><i class="bi bi-x-circle"></i></span>';
+                                                }else{
+                                                    $label_normal_value = '<span class="text-success"><i class="bi bi-check-circle"></i></span>';
+                                                }
+
+                                                echo '
+                                                    <tr>
+                                                        <td align="center"><small>'.$no.'</small></td>
+                                                        <td align="left"><small>'.$show_sex.'</small></td>
+                                                        <td align="left">
+                                                            <a href="javascript:void(0);" class="modal_detail_category" data-id="'.$id_referensi_category.'">
+                                                                <small>'.$label.'</small>
+                                                            </a>
+                                                        </td>
+                                                        <td align="left"><small>'.$nilai_hasil.'</small></td>
+                                                        <td align="center">'.$label_normal_value.'</td>
+                                                        <td align="center">
+                                                            <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                                <li class="dropdown-header text-start">
+                                                                    <h6>Option</h6>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_detail_category" href="javascript:void(0)" data-id="'.$id_referensi_category  .'">
+                                                                        <i class="bi bi-info-circle"></i> Detail
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_edit_category" href="javascript:void(0)" data-id="'.$id_referensi_category  .'">
+                                                                        <i class="bi bi-pencil"></i> Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item modal_delete_category" href="javascript:void(0)" data-id="'.$id_referensi_category  .'">
+                                                                        <i class="bi bi-x"></i> Hapus
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                ';
+                                                $no++;
+                                            }
                                         }
                                     }
                                 ?>
