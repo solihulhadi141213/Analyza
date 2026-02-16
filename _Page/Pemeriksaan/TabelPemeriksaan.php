@@ -151,10 +151,14 @@
 
                 // Status
                 if($status=="Diminta"){
-                    $label_status = '<span class="badge bg-secondary">Diminta</span>';
+                    $label_status = '
+                        <a href="javascript:void(0);" class="modal_terima_pemeriksaan" data-id="'.$id_laboratorium.'">
+                            <span class="badge bg-danger">Diminta</span>
+                        </a>
+                    ';
                 }else{
                     if($status=="Ditolak"||$status=="Dibatalkan"){
-                        $label_status = '<span class="badge bg-danger">Batal</span>';
+                        $label_status = '<span class="badge bg-secondary">Batal</span>';
                     }else{
                         if($status=="Diterima"){
                             $label_status = '<span class="badge bg-info">Diterima</span>';

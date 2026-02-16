@@ -477,3 +477,14 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-12">
+        <b><small>G. Keterangan</i></small></b>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <label for="keterangan"><small><i>Catatan / Keterangan Lain</i></small></label>
+        <textarea class="form-control" name="keterangan" id="keterangan"></textarea>
+    </div>
+</div>

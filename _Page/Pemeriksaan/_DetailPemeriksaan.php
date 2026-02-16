@@ -57,27 +57,28 @@
     }
 
     // Buat Variabel
-    $id_pasien             = $Data['id_pasien'] ?? '';
-    $id_kunjungan          = $Data['id_kunjungan'] ?? '';
-    $ihs_pasien            = $Data['ihs_pasien'] ?? '';
-    $id_encounter          = $Data['id_encounter'] ?? '';
-    $nama                  = $Data['nama'] ?? '';
-    $gender                = $Data['gender'] ?? '';
-    $tanggal_lahir         = $Data['tanggal_lahir'] ?? '';
-    $tujuan                = $Data['tujuan'] ?? '';
-    $pembayaran            = $Data['pembayaran'] ?? '';
-    $fakses                = $Data['fakses'] ?? '';
-    $unit                  = $Data['unit'] ?? '';
-    $priority              = $Data['priority'] ?? '';
-    $puasa                 = $Data['puasa'] ?? '0';
-    $status                = $Data['status'] ?? '';
-    $kode_dokter_pengirim  = $Data['kode_dokter_pengirim'] ?? '';
-    $ihs_dokter_pengirim   = $Data['ihs_dokter_pengirim'] ?? '';
-    $nama_dokter_pengirim  = $Data['nama_dokter_pengirim'] ?? '';
-    $datetime_diminta      = $Data['datetime_diminta'] ?? '';
-    $datetime_diterima     = $Data['datetime_diterima'] ?? '';
-    $datetime_spesimen     = $Data['datetime_spesimen'] ?? '';
-    $datetime_hasil        = $Data['datetime_hasil'] ?? '';
+    $id_pasien            = $Data['id_pasien'] ?? '';
+    $id_kunjungan         = $Data['id_kunjungan'] ?? '';
+    $ihs_pasien           = $Data['ihs_pasien'] ?? '';
+    $id_encounter         = $Data['id_encounter'] ?? '';
+    $nama                 = $Data['nama'] ?? '';
+    $gender               = $Data['gender'] ?? '';
+    $tanggal_lahir        = $Data['tanggal_lahir'] ?? '';
+    $tujuan               = $Data['tujuan'] ?? '';
+    $pembayaran           = $Data['pembayaran'] ?? '';
+    $fakses               = $Data['fakses'] ?? '';
+    $unit                 = $Data['unit'] ?? '';
+    $priority             = $Data['priority'] ?? '';
+    $puasa                = $Data['puasa'] ?? '0';
+    $status               = $Data['status'] ?? '';
+    $kode_dokter_pengirim = $Data['kode_dokter_pengirim'] ?? '';
+    $ihs_dokter_pengirim  = $Data['ihs_dokter_pengirim'] ?? '';
+    $nama_dokter_pengirim = $Data['nama_dokter_pengirim'] ?? '';
+    $datetime_diminta     = $Data['datetime_diminta'] ?? '';
+    $datetime_diterima    = $Data['datetime_diterima'] ?? '';
+    $datetime_spesimen    = $Data['datetime_spesimen'] ?? '';
+    $datetime_hasil       = $Data['datetime_hasil'] ?? '';
+    $keterangan           = $Data['keterangan'] ?? '';
 
     $label_puasa = ((string)$puasa === '1') ? 'Puasa' : 'Tidak Puasa';
     $tanggal_lahir_label = !empty($tanggal_lahir) ? date('d/m/Y', strtotime($tanggal_lahir)) : '-';
@@ -275,68 +276,139 @@
                                 <small class="text text-grayish text-long">'.$ihs_dokter_pengirim.'</small>
                             </div>
                         </div>
+                        <div class="row mb-2">
+                            <div class="col-4"><small>Catatan / Keterangan Lain</small></div>
+                            <div class="col-1"><small>:</small></div>
+                            <div class="col-7">
+                                <small class="text text-grayish text-long">'.$keterangan.'</small>
+                            </div>
+                        </div>
                     ';
                 ?>
             </div>
         </div>
         <?php
-            // Procedure Hanya Jika Pasien Puasa
-            if($puasa==1){
+            // Cek Apakah Sudah Punya id_laboratorium_procedure 
+            $id_laboratorium_procedure = GetDetailData($Conn, 'laboratorium_procedure', 'id_laboratorium', $id_laboratorium, 'id_laboratorium_procedure');
 
-                // Cek Apakah Sudah Punya id_laboratorium_procedure 
-                $id_laboratorium_procedure = GetDetailData($Conn, 'laboratorium_procedure', 'id_laboratorium', $id_laboratorium, 'id_laboratorium_procedure');
+            // Jika Belum Punya
+            if(empty($id_laboratorium_procedure)){
+                echo '
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-10">
+                                    <b><i># Procedure</i></b>
+                                </div>
+                                <div class="col-2 text-end">
+                                    <button type="button" class="btn btn-sm btn-floating btn-secondary modal_kirim_procedure" data-id="'.$id_laboratorium.'">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-danger">
+                                <small>
+                                    <b>Penting!!</b> Perlu menyertakan informasi <i>Procerude</i> puasa.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                ';
+            }else{
 
-                // Jika Belum Punya
-                if(empty($id_laboratorium_procedure)){
+                // Jika Sudah Ada Maka Tampilkan
+                $QryProcedure = $Conn->prepare("SELECT * FROM laboratorium_procedure WHERE id_laboratorium_procedure = ?");
+                $QryProcedure->bind_param("i", $id_laboratorium_procedure);
+                if (!$QryProcedure->execute()) {
+                    $error_procedure=$Conn->error;
                     echo '
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-10">
-                                        <b><i># Procedure</i></b>
-                                    </div>
-                                    <div class="col-2 text-end">
-                                        <button type="button" class="btn btn-sm btn-floating btn-secondary modal_kirim_procedure" data-id="'.$id_laboratorium.'">
-                                            <i class="bi bi-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="alert alert-danger">
-                                    <small>
-                                        <b>Penting!!</b> Perlu menyertakan informasi <i>Procerude</i> puasa.
-                                    </small>
-                                </div>
-                            </div>
+                        <div class="alert alert-danger text-center">
+                            <small>Terjadi kesalahan pada saat membuka data dari database procedure!<br>Keterangan : '.$error_procedure.'</small>
                         </div>
                     ';
                 }else{
+                    $ResultProcedure = $QryProcedure->get_result();
+                    $DataProcedure = $ResultProcedure->fetch_assoc();
+                    $QryProcedure->close();
 
-                    // Jika Sudah Ada Maka Tampilkan
-                    echo '
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-10">
-                                        <b><i># Procedure</i></b>
+                    if (empty($DataProcedure)) {
+                        echo '
+                            <div class="alert alert-danger text-center">
+                                <small>Data procedure tidak ditemukan!</small>
+                            </div>
+                        ';
+                    }else{
+                        $procedure_description = $DataProcedure['procedure_description'];
+                        $procedure_display     = $DataProcedure['procedure_display'];
+                        $procedure_code        = $DataProcedure['procedure_code'];
+                        $procedure_system      = $DataProcedure['procedure_system'];
+                        $datetime_start        = $DataProcedure['datetime_start'];
+                        $datetim_end           = $DataProcedure['datetim_end'];
+
+                        // Jika id_procedure Sudah Ada/Kosong
+                        if(empty($DataProcedure['id_procedure'])){
+                            $id_procedure = '
+                                <a href="javascript:void(0);" class="text-warning modal_kirim_resource_procedure" data-id="'.$id_laboratorium_procedure.'">
+                                    <small>Kirim Resource <i class="bi bi-chevron-right"></i></small>
+                                </a>
+                            ';
+                        }else{
+                            $id_procedure = $DataProcedure['id_procedure'];
+                            $id_procedure = '
+                                <a href="javascript:void(0);" class="modal_detail_procedure" data-id="'.$id_procedure.'">
+                                    <small>Lihat Resource <i class="bi bi-arrow-up-square"></i></small>
+                                </a>
+                            ';
+                        }
+                        echo '
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <b><i># Procedure</i></b>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <button type="button" class="btn btn-sm btn-floating btn-outline-danger modal_hapus_procedure" data-id="'.$id_laboratorium_procedure.'" title="Hapus Procedure">
+                                                <i class="bi bi-x"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-floating btn-outline-success modal_edit_procedure" data-id="'.$id_laboratorium_procedure.'" title="Edit Procedure">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="col-2 text-end">
-                                        <button type="button" class="btn btn-sm btn-floating btn-secondary modal_edit_procedure" data-id="'.$id_laboratorium.'">
-                                            <i class="bi bi-plus"></i>
-                                        </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-2">
+                                        <div class="col-4"><small>ID Procedure</small></div>
+                                        <div class="col-1"><small>:</small></div>
+                                        <div class="col-7"><small class="text text-grayish">'.$id_procedure.'</small></div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-4"><small>Deskripsi</small></div>
+                                        <div class="col-1"><small>:</small></div>
+                                        <div class="col-7"><small class="text text-grayish">'.$procedure_description.'</small></div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-4"><small>Display</small></div>
+                                        <div class="col-1"><small>:</small></div>
+                                        <div class="col-7"><small class="text text-grayish">'.$procedure_display.'</small></div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-4"><small>Code</small></div>
+                                        <div class="col-1"><small>:</small></div>
+                                        <div class="col-7"><small class="text text-grayish">'.$procedure_code.'</small></div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-4"><small>System</small></div>
+                                        <div class="col-1"><small>:</small></div>
+                                        <div class="col-7"><small class="text text-grayish">'.$procedure_system.'</small></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div class="alert alert-danger">
-                                    <small>
-                                        <b>Penting!!</b> Perlu menyertakan informasi <i>Procerude</i> puasa.
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    ';
+                        ';
+                    }
                 }
             }
         ?>

@@ -84,6 +84,13 @@
     $diagnosis_display    = validateAndSanitizeInput($_POST['diagnosis_display'] ?? '');
     $diagnosis_code       = validateAndSanitizeInput($_POST['diagnosis_code'] ?? '');
     $diagnosis_system     = validateAndSanitizeInput($_POST['diagnosis_system'] ?? '');
+
+    // Jika ada keterangan
+    if(!empty($_POST['keterangan'])){
+        $keterangan     = validateAndSanitizeInput($_POST['keterangan']);
+    }else{
+        $keterangan     = "";
+    }
     
     $id_referensi_pemeriksaan_raw = $_POST['id_referensi_pemeriksaan'] ?? [];
     if (!is_array($id_referensi_pemeriksaan_raw)) {
@@ -172,8 +179,9 @@
                 puasa,
                 status,
                 datetime_diminta,
+                keterangan,
                 form_system
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         ");
 
         if (!$stmtLaboratorium) {
@@ -181,7 +189,7 @@
         }
 
         $stmtLaboratorium->bind_param(
-            "siissssssssssssssisss",
+            "siissssssssssssssissss",
             $id_laboratorium,
             $id_pasien_int,
             $id_kunjungan_int,
@@ -202,6 +210,7 @@
             $puasa,
             $status,
             $datetime_diminta,
+            $keterangan,
             $form_system
         );
 

@@ -6,7 +6,7 @@
     require_once "../../_Config/Connection.php";
     require_once "../../_Config/GlobalFunction.php";
     require_once "../../_Config/Session.php";
-
+    
     /* Response default */
     $response = [
         'status'  => 'error',
@@ -23,16 +23,22 @@
     }
 
     // Validasi Data Wajib (Mandatory)
-    if(empty($_POST['id_laboratorium_rincian'])){
-        echo json_encode(['status'  => 'error','message' => 'ID Rincian Laboratorium Tidak Boleh Kosong!']);
+    if(empty($_POST['id_laboratorium_procedure'])){
+        echo json_encode(['status'  => 'error','message' => 'ID Lokal Prosedur Puasa Tidak Boleh Kosong!']);
         exit;
     }
-    if(empty($_POST['payload'])){
-        echo json_encode(['status'  => 'error','message' => 'Payload Data Tidak Boleh Kosong!']);
+    if(empty($_POST['id_laboratorium'])){
+        echo json_encode(['status'  => 'error','message' => 'ID Laboratorium TidakBoleh Kosong!']);
         exit;
     }
-    $id_laboratorium_rincian = $_POST['id_laboratorium_rincian'];
-    $payload                 = $_POST['payload'];
+    if(empty($_POST['payload_procedure'])){
+        echo json_encode(['status'  => 'error','message' => 'Payload Tidak Boleh Kosong!']);
+        exit;
+    }
+
+    $id_laboratorium_procedure = $_POST['id_laboratorium_procedure'];
+    $id_laboratorium = $_POST['id_laboratorium'];
+    $payload_procedure = $_POST['payload_procedure'];
 
     // Membuka Pengaturan Koneksi SATUSEHAT
     $status_active = 1;
@@ -48,11 +54,11 @@
         exit;
     }
     if(empty($config['organization_id'])){
-       echo json_encode(['status'  => 'error','message' => 'Koneksi Satusehat Tidak Ditemukan']);
+    echo json_encode(['status'  => 'error','message' => 'Koneksi Satusehat Tidak Ditemukan']);
         exit;
     }
 
-   // GENERATE TOKEN SATUSEHAT
+    // GENERATE TOKEN SATUSEHAT
     $tokenResult = generateTokenSatuSehat($Conn);
 
     if ($tokenResult['status'] !== 'success') {
@@ -67,7 +73,7 @@
 
     // Menentukan URL
     $url_api = rtrim($config['url_connection_satu_sehat'], '/');
-    $url_api = $url_api . '/fhir-r4/v1/ServiceRequest';
+    $url_api = $url_api . '/fhir-r4/v1/Procedure';
 
     // KIRIM KE SATUSEHAT
     $curl = curl_init();
@@ -76,7 +82,7 @@
         CURLOPT_URL => $url_api,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => $payload,
+        CURLOPT_POSTFIELDS => $payload_procedure,
         CURLOPT_HTTPHEADER => [
             'Authorization: Bearer ' . $token,
             'Content-Type: application/json',
@@ -96,19 +102,21 @@
     if ($curl_error) {
         echo json_encode([
             'status'  => 'error',
-            'message' => 'cURL Error: ' . $curl_error
+            'message' => 'cURL Error: ' . $curl_error,
+            'payload' => $payload_procedure
         ]);
         exit;
     }
 
-   // DECODE RESPONSE
+    // DECODE RESPONSE
     $result = json_decode($response, true);
 
     if (json_last_error() !== JSON_ERROR_NONE) {
         echo json_encode([
             'status'  => 'error',
             'message' => 'Response bukan JSON valid.',
-            'response_raw' => substr($response, 0, 300)
+            'response_raw' => substr($response, 0, 300),
+            'payload' => $payload_procedure
         ]);
         exit;
     }
@@ -126,28 +134,30 @@
         echo json_encode([
             'status'  => 'error',
             'message' => $msg,
-            'http_code' => $http_code
+            'http_code' => $http_code,
+            'payload' => $payload_procedure
         ]);
         exit;
     }
 
-    // SIMPAN ID KE DATABASE
-    $id_service_request = $result['id'] ?? null;
+    //id_procedure
+    $id_procedure = $result['id'] ?? null;
 
-     if ($id_service_request) {
-        $upd = $Conn->prepare("UPDATE laboratorium_rincian SET id_service_request = ? WHERE id_laboratorium_rincian = ?");
-        $upd->bind_param("si", $id_service_request, $id_laboratorium_rincian);
-        $upd->execute();
-        $upd->close();
+    if(empty($id_procedure)){
+        echo json_encode(['status'  => 'error','message' => 'Tidak Ada Response ID procedure yang diterima!']);
+        exit;
     }
+    $upd = $Conn->prepare("UPDATE laboratorium_procedure SET id_procedure = ? WHERE id_laboratorium_procedure = ?");
+    $upd->bind_param("si", $id_procedure, $id_laboratorium_procedure);
+    $upd->execute();
+    $upd->close();
 
     // ======================================================
     // RESPONSE SUKSES
     // ======================================================
     echo json_encode([
         'status'        => 'success',
-        'message'       => 'ServiceRequest Berhasil dikirim ke SATUSEHAT'
+        'message'       => 'Procedure Berhasil dikirim ke SATUSEHAT'
     ]);
     exit;
-
 ?>

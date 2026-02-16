@@ -1,0 +1,44 @@
+[
+    {
+        "description": "Tidak Puasa / Sewaktu",
+        "display"    : "Not fasting",
+        "code"       : "313304003",
+        "system"     : "http://snomed.info/sct"
+    },
+    {
+        "description": "Puasa (8-12 Jam)",
+        "display"    : "Fasting",
+        "code"       : "44054006",
+        "system"     : "http://snomed.info/sct"
+    },
+    {
+        "description": "Puasa Lebih dari 12 Jam",
+        "display"    : "Fasting for more than 12 hours",
+        "code"       : "1217081005",
+        "system"     : "http://snomed.info/sct"
+    },
+    {
+        "description": "Setelah Makan (Post Prandial)",
+        "display"    : "Postprandial",
+        "code"       : "255226008",
+        "system"     : "http://snomed.info/sct"
+    },
+    {
+        "description": "Pre-Prandial (Sebelum Makan)",
+        "display"    : "Preprandial",
+        "code"       : "255227004",
+        "system"     : "http://snomed.info/sct"
+    },
+    {
+        "description": "Puasa Modifikasi (Hanya Air Putih)",
+        "display"    : "Water only fast",
+        "code"       : "413241006",
+        "system"     : "http://snomed.info/sct"
+    },
+    {
+        "description": "Puasa Semalam (Overnight Fast)",
+        "display"    : "Overnight fast",
+        "code"       : "255416001",
+        "system"     : "http://snomed.info/sct"
+    }
+]

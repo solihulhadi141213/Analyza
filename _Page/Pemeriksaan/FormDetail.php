@@ -371,4 +371,18 @@
         ';
         $QryDetail->close();
     }
+
+    // Jika Ditemukan Adanya Keterangan
+    if(!empty($Data['keterangan'])){
+        echo '
+            <div class="row mb-3 mt-3">
+                <div class="col-12 mb-2">
+                    <small><b>F. Catatan / Keterangan Lain</b></small>
+                </div>
+                <div class="col-12 mb-2">
+                    <small><i>('.$Data['keterangan'].')</i></small>
+                </div>
+            </div>
+        ';
+    }
 ?>
