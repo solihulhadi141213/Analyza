@@ -416,7 +416,16 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <b class="card-title"># Rincian Pemeriksaan</b>
+                <div class="row">
+                    <div class="col-10">
+                        <b class="card-title"># Rincian Pemeriksaan</b>
+                    </div>
+                    <div class="col-2 text-end">
+                        <button type="button" class="btn btn-sm btn-floating btn-secondary modal_tambah_rincian" data-id="<?php echo $id_laboratorium; ?>">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table table-responsive table-sm">
@@ -571,24 +580,9 @@
                                                     <td class="text-center">'.$sp.'</td>
                                                     <td class="text-center">'.$ob.'</td>
                                                     <td class="text-center">
-                                                        <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="bi bi-three-dots-vertical"></i>
+                                                        <button type="button" class="btn btn-sm btn-danger btn-floating modal_hapus_rincian"  data-id="'.$id_laboratorium_rincian.'">
+                                                            <i class="bi bi-x"></i>
                                                         </button>
-                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                                            <li class="dropdown-header text-start">
-                                                                <h6>Option</h6>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item modal_edit_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
-                                                                    <i class="bi bi-pencil"></i> Edit
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item modal_hapus_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
-                                                                    <i class="bi bi-x"></i> Hapus
-                                                                </a>
-                                                            </li>
-                                                        </ul>
                                                     </td>
                                                 </tr>
                                             ';
@@ -774,9 +768,44 @@
                                             $id_laboratorium_rincian  = $data2['id_laboratorium_rincian'];
                                             
                                             $nama_pemeriksaan         = $data2['nama_pemeriksaan'];
-                                            $hasil                    = $data2['hasil'] ?? '-';
                                             $interpertasi             = $data2['interpertasi'] ?? '-';
                                             $keterangan               = $data2['keterangan'] ?? '-';
+
+                                            // Inisialiasi Tombol
+                                            if(empty($data2['hasil'])){
+                                                $label_hasil ='-';
+                                            }else{
+                                                $label_hasil = $data2['hasil'] ?? '-';
+                                            }
+                                            if(empty($data2['hasil'])){
+                                                $tombol_hasil ='
+                                                    <a href="javascript:void(0);" class="btn btn-sm btn-outline-danger btn-floating modal_laboratorium_hasil" data-id="'.$id_laboratorium_rincian.'">
+                                                        <i class="bi bi-plus"></i>
+                                                    </a>
+                                                ';
+                                            }else{
+                                                $hasil = $data2['hasil'] ?? '-';
+                                                $tombol_hasil ='
+                                                    <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                        <li class="dropdown-header text-start">
+                                                            <h6>Option</h6>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item modal_edit_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
+                                                                <i class="bi bi-pencil"></i> Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item modal_hapus_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
+                                                                <i class="bi bi-x"></i> Hapus
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                ';
+                                            }
 
                                             // Satuan
                                             if(empty($data2['id_referensi_pemeriksaan'])){
@@ -794,33 +823,14 @@
                                                         <small class="text text-grayish">'.$nama_pemeriksaan.'</small>
                                                     </td>
                                                     <td class="text-center">
-                                                        <small class="text">'.$hasil.'</small>
+                                                        <small class="text">'.$label_hasil.'</small>
                                                     </td>
                                                     <td class="text-center">
                                                         <small class="text text-grayish">'.$unit_satuan.'</small>
                                                     </td>
                                                     <td class="text-center">-</td>
                                                     <td class="text-center">'.$interpertasi.'</td>
-                                                    <td class="text-center">
-                                                        <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                                            <li class="dropdown-header text-start">
-                                                                <h6>Option</h6>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item modal_edit_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
-                                                                    <i class="bi bi-pencil"></i> Edit
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item modal_hapus_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
-                                                                    <i class="bi bi-x"></i> Hapus
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </td>
+                                                    <td class="text-center">'.$tombol_hasil.'</td>
                                                 </tr>
                                             ';
 

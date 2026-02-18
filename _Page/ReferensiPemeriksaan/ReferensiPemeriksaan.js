@@ -475,11 +475,16 @@ $(document).ready(function() {
                 <option value="None">Interpertasi Tidak Digunakan</option>
             `);
         }
-        if(result_type=="Coded" || result_type=="Text" || result_type=="Boolean"){
+        if(result_type=="Text" || result_type=="Boolean"){
             $('#result_interpertation_type').html(`
                 <option value="">Pilih</option>
                 <option value="Category">Category (Hasil merujuk pada kelompok kategori tertentu)</option>
                 <option value="None">Interpertasi Tidak Digunakan</option>
+            `);
+        }
+        if(result_type=="Coded"){
+            $('#result_interpertation_type').html(`
+                <option value="Category">Category (Hasil merujuk pada kelompok kategori tertentu)</option>
             `);
         }
     });

@@ -23,15 +23,14 @@
                     <div class="row align-items-center">
 
                         <div class="col-12 col-md-3 mb-3 mb-md-0 text-center text-md-start" id="image_menarik">
-                            <img src="assets/img/<?php echo $app_logo; ?>" width="150px" 
-                                class="img-fluid" alt="<?php echo $company_name; ?>">
+                            <img src="assets/img/<?php echo $app_logo; ?>" width="100px" class="img-fluid" alt="<?php echo $company_name; ?>">
                         </div>
 
                         <div class="col-12 col-md-9 text-center text-md-end">
                             <div id="title_menarik"><?php echo $company_name; ?></div>
                             <div id="alamat_company"><?php echo $company_address; ?></div>
-                            <div id="tanggal_menarik">Hari, 01 Januari 1900</div>
-                            <div id="jam_menarik">00:00 WIB</div>
+                            <!-- <div id="tanggal_menarik">Hari, 01 Januari 1900</div>
+                            <div id="jam_menarik">00:00 WIB</div> -->
                         </div>
 
                     </div>

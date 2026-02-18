@@ -9,7 +9,7 @@ function loadChart(jsonUrl, titleText) {
 
         const options = {
             chart: {
-                type: 'area',
+                type: 'bar',
                 height: 400,
                 toolbar: { show: false }
             },

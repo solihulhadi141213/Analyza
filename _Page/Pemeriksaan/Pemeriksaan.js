@@ -1441,6 +1441,161 @@ $(document).ready(function() {
         });
     });
 
+    
+    // ===================================================================================
+    // RINCIAN PEMERIKSAAN
+    // ===================================================================================
+    $(document).on('click', '.modal_tambah_rincian', function () {
+
+        //tangkap data 'id_laboratorium' dan buat variabel
+        var id_laboratorium   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalTambahRincian').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiTambahRincian').html('');
+
+        //Form Loading
+        $('#FormTambahRincian').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormTambahRincian.php',
+            data        : {id_laboratorium: id_laboratorium},
+            success     : function(data){
+                $('#FormTambahRincian').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesTambahRincian' disubmit */
+    $('#ProsesTambahRincian').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesTambahRincian=$('#ProsesTambahRincian').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiTambahRincian').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesTambahRincian.php',
+            dataType: 'json',
+            data    : ProsesTambahRincian,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiTambahRincian').html('');
+
+                    //Tutup modal
+                    $('#ModalTambahRincian').modal('hide');
+
+                    //reload tabel
+                    ShowDetail();
+                    ShowTable();
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+                }else{
+                    var payload = response.payload;
+                    $('#NotifikasiTambahRincian').html('<div class="alert alert-danger"><small>'+message+' <br> <pre>'+payload+'</pre></small></div>');
+                }
+                
+            }
+        });
+    });
+
+    $(document).on('click', '.modal_hapus_rincian', function () {
+
+        //tangkap data 'id_laboratorium_rincian' dan buat variabel
+        var id_laboratorium_rincian   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalHapusRincian').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiHapusRincian').html('');
+
+        //Form Loading
+        $('#FormHapusRincian').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormHapusRincian.php',
+            data        : {id_laboratorium_rincian: id_laboratorium_rincian},
+            success     : function(data){
+                $('#FormHapusRincian').html(data);
+            }
+        });
+    });
+    /* Ketika 'ProsesHapusRincian' disubmit */
+    $('#ProsesHapusRincian').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesHapusRincian=$('#ProsesHapusRincian').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiHapusRincian').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesHapusRincian.php',
+            dataType: 'json',
+            data    : ProsesHapusRincian,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiHapusRincian').html('');
+
+                    //Tutup modal
+                    $('#ModalHapusRincian').modal('hide');
+
+                    //reload tabel
+                    ShowDetail();
+                    ShowTable();
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+                }else{
+                    var payload = response.payload;
+                    $('#NotifikasiHapusRincian').html('<div class="alert alert-danger"><small>'+message+' <br> <pre>'+payload+'</pre></small></div>');
+                }
+                
+            }
+        });
+    });
+    
     // ===================================================================================
     // KIRIM ServiceRequest
     // ===================================================================================
@@ -1811,5 +1966,59 @@ $(document).ready(function() {
                 $('#FormDetailIdSpesimen').html(data);
             }
         });
+    });
+
+    // ===================================================================================
+    // HASIL
+    // ===================================================================================
+    $(document).on('click', '.modal_laboratorium_hasil', function () {
+
+        //tangkap data 'id_laboratorium' dan buat variabel
+        var id_laboratorium_rincian   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalLaboratoriumHasil').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiLaboratoriumHasil').html('');
+
+        //Form Loading
+        $('#FormLaboratoriumHasil').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormLaboratoriumHasil.php',
+            data        : {id_laboratorium_rincian: id_laboratorium_rincian},
+            success     : function(data){
+                $('#FormLaboratoriumHasil').html(data);
+            }
+        });
+    });
+
+    $('#ProsesLaboratoriumHasil').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesLaboratoriumHasil=$('#ProsesLaboratoriumHasil').serialize();
+        
+        //tampilkan modal
+        $('#ModalLaboratoriumInterpertasi').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiLaboratoriumInterpertasi').html('');
+
+        //Form Loading
+        $('#FormLaboratoriumInterpertasi').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormLaboratoriumInterpertasi.php',
+            data        : ProsesLaboratoriumHasil,
+            success     : function(data){
+                $('#FormLaboratoriumInterpertasi').html(data);
+            }
+        });
+        
     });
 });

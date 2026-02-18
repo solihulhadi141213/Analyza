@@ -761,7 +761,7 @@
 
                                                         echo '
                                                             <tr>
-                                                                <td align="center"><small>'.$no.'</small></td>
+                                                                <td align="center"><small>'.$NomorUsia.'.'.$no.'</small></td>
                                                                 <td align="left"><small>'.$show_sex.'</small></td>
                                                                 <td align="left">
                                                                     <a href="javascript:void(0);" class="modal_detail_category" data-id="'.$id_referensi_category.'">
