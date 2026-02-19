@@ -68,24 +68,13 @@
         $allow_sex = GetDetailData($Conn, 'referensi_pemeriksaan', 'id_referensi_pemeriksaan', $id_referensi_pemeriksaan, 'allow_sex');
         
         // Menentukan Penyataan nilai rujukan
-        if($operator=="<"){
-            $nilai_rujukan = "< $nilai_min";
+        if($operator=="More"){
+            $nilai_rujukan = "n ≥ $nilai_max";
         }
-        if($operator==">"){
-            $nilai_rujukan = "> $nilai_max";
-        }
-        if($operator=="<="){
-            $nilai_rujukan = "< $nilai_min";
-        }
-        if($operator==">="){
-            $nilai_rujukan = "> $nilai_max";
-        }
-        if($operator=="-"){
+        if($operator=="Between"){
             $nilai_rujukan = "$nilai_min - $nilai_max";
         }
-            if($operator=="between"){
-            $nilai_rujukan = "$nilai_min > - < $nilai_max";
-        }
+        
         if($allow_age==1){
             if(empty($umur_min)){
                 $show_age = "$umur_kategori (> $umur_max $umur_unit)";

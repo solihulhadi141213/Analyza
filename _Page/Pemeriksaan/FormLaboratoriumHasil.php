@@ -187,12 +187,15 @@
 ?>
     <input type="hidden" name="id_laboratorium" value="<?php echo $id_laboratorium; ?>">
     <input type="hidden" name="id_laboratorium_rincian" value="<?php echo $id_laboratorium_rincian; ?>">
+    <input type="hidden" name="id_referensi_pemeriksaan" value="<?php echo $id_referensi_pemeriksaan; ?>">
     <input type="hidden" name="id_referensi_usia" value="<?php echo $id_referensi_usia; ?>">
     <input type="hidden" name="gender" value="<?php echo $gender; ?>">
     <input type="hidden" name="usia" value="<?php echo $usia_pasien; ?>">
     <input type="hidden" name="satuan_usia" value="<?php echo $SatuanUsia; ?>">
     <input type="hidden" name="result_type" value="<?php echo $result_type; ?>">
     <input type="hidden" name="result_interpertation_type" value="<?php echo $result_interpertation_type; ?>">
+    <input type="hidden" name="allow_age" value="<?php echo $allow_age; ?>">
+    <input type="hidden" name="allow_sex" value="<?php echo $allow_sex; ?>">
     
     <div class="row mb-2">
         <div class="col-12">
@@ -266,6 +269,33 @@
     <div class="row mb-2 mt-3">
         <div class="col-12">
             <small>
+                <b>C. Tipe Interpertasi</b>
+            </small>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4"><small>Tipe Data Hasil</small></div>
+        <div class="col-1"><small>:</small></div>
+        <div class="col-7"><small class="text text-grayish"><?php echo $result_type; ?></small></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4"><small>Metode Interpertasi</small></div>
+        <div class="col-1"><small>:</small></div>
+        <div class="col-7"><small class="text text-grayish"><?php echo $result_interpertation_type; ?></small></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4"><small>Interpertasi Usia</small></div>
+        <div class="col-1"><small>:</small></div>
+        <div class="col-7"><small class="text text-grayish"><?php echo $allow_age; ?></small></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4"><small>Interpertasi Gender</small></div>
+        <div class="col-1"><small>:</small></div>
+        <div class="col-7"><small class="text text-grayish"><?php echo $allow_sex; ?></small></div>
+    </div>
+    <div class="row mb-2 mt-3">
+        <div class="col-12">
+            <small>
                 <b>C. Form Hasil</b>
             </small>
         </div>
@@ -298,7 +328,7 @@
                     </div>
                 ';
             }
-            if($result_type=="Text"){
+            if($result_type=="Boolean"){
                 echo '
                     <div class="col-md-7">
                         <div class="form-check">

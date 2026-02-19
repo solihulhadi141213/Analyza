@@ -148,6 +148,22 @@
             </div>
         </div>
     ';
+    echo '
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="operator">
+                    <small>Operator</small>
+                </label>
+            </div>
+            <div class="col-md-8">
+                <select class="form-control form_operator" name="operator" id="operator">
+                    <option value="">Pilih</option>
+                    <option value="More"> More Than (n >= Nilai Max) </option>
+                    <option value="Between"> Between (n >= Nilai Min & n <= Nilai Max) </option>
+                </select>
+            </div>
+        </div>
+    ';
     if($result_type=="Numeric"){
         echo '
             <div class="row mb-3">
@@ -158,7 +174,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-group mb-3">
-                        <input type="number" min="0" step="1" name="nilai_min" id="nilai_min" class="form-control" placeholder="0.00">
+                        <input type="number" min="0" step="1" name="nilai_min" id="nilai_min" class="form-control nilai_min" placeholder="0.00">
                         <span class="input-group-text" id="basic-addon2">'.$unit_display.'</span>
                     </div>
                 </div>
@@ -171,7 +187,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-group mb-3">
-                        <input type="number" min="0" step="1" name="nilai_max" id="nilai_max" class="form-control" placeholder="0.00">
+                        <input type="number" min="0" step="1" name="nilai_max" id="nilai_max" class="form-control nilai_max" placeholder="0.00">
                         <span class="input-group-text" id="basic-addon2">'.$unit_display.'</span>
                     </div>
                 </div>
@@ -208,26 +224,7 @@
             </div>
         ';
     }
-    echo '
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="operator">
-                    <small>Operator</small>
-                </label>
-            </div>
-            <div class="col-md-8">
-                <select class="form-control" name="operator" id="operator">
-                    <option value="">Pilih</option>
-                    <option value="<"> X < N Min </option>
-                    <option value=">"> X > N Max </option>
-                    <option value="<="> X <= N Min </option>
-                    <option value=">="> X >= N Max </option>
-                    <option value="-"> N min - N Max (X >= N min | X <= N max) </option>
-                    <option value="between"> Between (X > N min | X < N max) </option>
-                </select>
-            </div>
-        </div>
-    ';
+    
     
     
 

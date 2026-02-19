@@ -68,23 +68,11 @@
         $allow_sex = GetDetailData($Conn, 'referensi_pemeriksaan', 'id_referensi_pemeriksaan', $id_referensi_pemeriksaan, 'allow_sex');
         
         // Menentukan Penyataan nilai rujukan
-        if($operator=="<"){
-            $nilai_rujukan = "< $nilai_min";
+        if($operator=="More"){
+            $nilai_rujukan = "n ≥ $nilai_min";
         }
-        if($operator==">"){
-            $nilai_rujukan = "> $nilai_max";
-        }
-        if($operator=="<="){
-            $nilai_rujukan = "< $nilai_min";
-        }
-        if($operator==">="){
-            $nilai_rujukan = "> $nilai_max";
-        }
-        if($operator=="-"){
+        if($operator=="Between"){
             $nilai_rujukan = "$nilai_min - $nilai_max";
-        }
-            if($operator=="between"){
-            $nilai_rujukan = "$nilai_min > - < $nilai_max";
         }
         if($allow_age==1){
             if(empty($umur_min)){
@@ -125,7 +113,7 @@
             <input type="hidden" name="id_referensi_pemeriksaan" value="'.$id_referensi_pemeriksaan.'">
             <div class="row mb-2">
                 <div class="col-12">
-                    <small><b># Klasifikasi Nilai Rujukan</b></small>
+                    <small><b># Klasifikasi Nilai</b></small>
                 </div>
             </div>
             <div class="row mb-2">
@@ -164,7 +152,7 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-4"><small>Nilai Rujukan</small></div>
+                <div class="col-4"><small>Operator Nilai</small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
                     <small class="text text-grayish text-long">'.$nilai_rujukan.' '.$unit_display.'</small>
@@ -172,7 +160,7 @@
             </div>
             <div class="row mb-2 mt-3">
                 <div class="col-12 mt-3">
-                    <small><b># Nnilai Dan Operator</b></small>
+                    <small><b># Nilai Dan Operator</b></small>
                 </div>
             </div>
             <div class="row mb-2">

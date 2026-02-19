@@ -363,24 +363,13 @@
                                                         $tampil_max = number_format($nilai_max, 2, ',', '.');
 
                                                         // Menentukan Penyataan nilai rujukan
-                                                        if($operator=="<"){
-                                                            $nilai_rujukan = "< $tampil_min";
+                                                        if($operator=="More"){
+                                                            $nilai_rujukan = "n ≥ $tampil_min";
                                                         }
-                                                        if($operator==">"){
-                                                            $nilai_rujukan = "> $tampil_max";
-                                                        }
-                                                        if($operator=="<="){
-                                                            $nilai_rujukan = "< $tampil_min";
-                                                        }
-                                                        if($operator==">="){
-                                                            $nilai_rujukan = "> $tampil_max";
-                                                        }
-                                                        if($operator=="-"){
+                                                        if($operator=="Between"){
                                                             $nilai_rujukan = "$tampil_min - $tampil_max";
                                                         }
-                                                        if($operator=="between"){
-                                                            $nilai_rujukan = "$tampil_min > - < $tampil_max";
-                                                        }
+                                                        
 
                                                         if($allow_sex==1){
                                                             if($jenis_kelamin==""){

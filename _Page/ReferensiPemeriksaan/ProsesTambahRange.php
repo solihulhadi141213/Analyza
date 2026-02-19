@@ -136,7 +136,7 @@
     }
 
     // Validasi Nilai 'operator'
-    $enum_operator = ['<','>','between','<=','>=','-'];
+    $enum_operator = ['More','Between'];
     if (!in_array($operator, $enum_operator)) {
         echo json_encode([
             'status'  => 'error',

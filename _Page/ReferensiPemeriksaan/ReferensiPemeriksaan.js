@@ -464,14 +464,30 @@ $(document).ready(function() {
         }
     });
 
+    // Ketika Operator Di Pilih
+    $(document).on('change', '#operator', function() {
+        var operator = $(this).val();
+        // Reset nilai ke 0 setiap kali operator berubah
+        $('#nilai_min, #nilai_max').val(0);
+
+        if (operator == '' || operator == 'Between') {
+            // Semuanya bisa diisi
+            $('#nilai_min').prop('readonly', false);
+            $('#nilai_max').prop('readonly', false);
+        } 
+        else if (operator == 'More') {
+            // Hanya nilai_max yang bisa diisi, nilai_min dikunci
+            $('#nilai_min').prop('readonly', false);
+            $('#nilai_max').prop('readonly', true);
+        }
+    });
+
     /* Ketika 'result_type' diubah */
     $(document).on('change', '#result_type', function() {
         var result_type = $('#result_type').val();
         if(result_type=="Numeric" || result_type=="Decimal"){
             $('#result_interpertation_type').html(`
-                <option value="">Pilih</option>
                 <option value="Range">Range (Hasil merujuk pada jarak nilai tertentu)</option>
-                <option value="Category">Category (Hasil merujuk pada kelompok kategori tertentu)</option>
                 <option value="None">Interpertasi Tidak Digunakan</option>
             `);
         }

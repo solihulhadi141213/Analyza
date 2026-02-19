@@ -94,67 +94,25 @@
     
     // Menentukan Penyataan nilai rujukan
     if($operator==""){
-        $operator_0 = "selected";
-        $operator_1 = "";
-        $operator_2 = "";
-        $operator_3 = "";
-        $operator_4 = "";
-        $operator_5 = "";
-        $operator_6 = "";
+        $operator0 = "selected";
+        $operator1 = "";
+        $operator2 = "";
+        $nilai_min_readonly = "readonly";
+        $nilai_max_readonly = "readonly";
     }
-    if($operator=="<"){
-        $operator_0 = "";
-        $operator_1 = "selected";
-        $operator_2 = "";
-        $operator_3 = "";
-        $operator_4 = "";
-        $operator_5 = "";
-        $operator_6 = "";
+    if($operator=="More"){
+        $operator0 = "";
+        $operator1 = "selected";
+        $operator2 = "";
+        $nilai_min_readonly = "";
+        $nilai_max_readonly = "readonly";
     }
-    if($operator==">"){
-        $operator_0 = "";
-        $operator_1 = "";
-        $operator_2 = "selected";
-        $operator_3 = "";
-        $operator_4 = "";
-        $operator_5 = "";
-        $operator_6 = "";
-    }
-    if($operator=="<="){
-        $operator_0 = "";
-        $operator_1 = "";
-        $operator_2 = "";
-        $operator_3 = "selected";
-        $operator_4 = "";
-        $operator_5 = "";
-        $operator_6 = "";
-    }
-    if($operator==">="){
-        $operator_0 = "";
-        $operator_1 = "";
-        $operator_2 = "";
-        $operator_3 = "";
-        $operator_4 = "selected";
-        $operator_5 = "";
-        $operator_6 = "";
-    }
-    if($operator=="-"){
-        $operator_0 = "";
-        $operator_1 = "";
-        $operator_2 = "";
-        $operator_3 = "";
-        $operator_4 = "";
-        $operator_5 = "selected";
-        $operator_6 = "";
-    }
-    if($operator=="between"){
-        $operator_0 = "";
-        $operator_1 = "";
-        $operator_2 = "";
-        $operator_3 = "";
-        $operator_4 = "";
-        $operator_5 = "";
-        $operator_6 = "selected";
+    if($operator=="Between"){
+        $operator0 = "";
+        $operator1 = "";
+        $operator2 = "selected";
+        $nilai_min_readonly = "";
+        $nilai_max_readonly = "";
     }
     if($allow_age==1){
         if(empty($umur_min)){
@@ -301,6 +259,22 @@
             </div>
         </div>
     ';
+    echo '
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="operator_edit">
+                    <small>Operator</small>
+                </label>
+            </div>
+            <div class="col-md-8">
+                <select class="form-control" name="operator" id="operator_edit">
+                    <option '.$operator0.' value="">Pilih</option>
+                    <option '.$operator1.' value="More"> More Than (n >= Nilai Max) </option>
+                    <option '.$operator2.' value="Between"> Between (n >= Nilai Min & n <= Nilai Max) </option>
+                </select>
+            </div>
+        </div>
+    ';
     if($result_type=="Numeric"){
         echo '
             <div class="row mb-3">
@@ -311,7 +285,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-group mb-3">
-                        <input type="number" min="0" step="1" name="nilai_min" id="nilai_min_edit" class="form-control" placeholder="0.00" value="'.$nilai_min.'">
+                        <input type="number" '.$nilai_min_readonly.' min="0" step="1" name="nilai_min" id="nilai_min_edit" class="form-control" placeholder="0.00" value="'.$nilai_min.'">
                         <span class="input-group-text" id="basic-addon2">'.$unit_display.'</span>
                     </div>
                 </div>
@@ -324,7 +298,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-group mb-3">
-                        <input type="number" min="0" step="1" name="nilai_max" id="nilai_max_edit" class="form-control" placeholder="0.00" value="'.$nilai_max.'">
+                        <input type="number" '.$nilai_max_readonly.' min="0" step="1" name="nilai_max" id="nilai_max_edit" class="form-control" placeholder="0.00" value="'.$nilai_max.'">
                         <span class="input-group-text" id="basic-addon2">'.$unit_display.'</span>
                     </div>
                 </div>
@@ -341,7 +315,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-group mb-3">
-                        <input type="number" min="0" step="0.01" name="nilai_min" id="nilai_min_edit" class="form-control" placeholder="0.00" value="'.$nilai_min.'">
+                        <input type="number" '.$nilai_min_readonly.' min="0" step="0.01" name="nilai_min" id="nilai_min_edit" class="form-control" placeholder="0.00" value="'.$nilai_min.'">
                         <span class="input-group-text" id="basic-addon2">'.$unit_display.'</span>
                     </div>
                 </div>
@@ -354,33 +328,14 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-group mb-3">
-                        <input type="number" min="0" step="0.01" name="nilai_max" id="nilai_max_edit" class="form-control" placeholder="0.00" value="'.$nilai_max.'">
+                        <input type="number" '.$nilai_max_readonly.' min="0" step="0.01" name="nilai_max" id="nilai_max_edit" class="form-control" placeholder="0.00" value="'.$nilai_max.'">
                         <span class="input-group-text" id="basic-addon2">'.$unit_display.'</span>
                     </div>
                 </div>
             </div>
         ';
     }
-    echo '
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="operator_edit">
-                    <small>Operator</small>
-                </label>
-            </div>
-            <div class="col-md-8">
-                <select class="form-control" name="operator" id="operator_edit">
-                    <option '.$operator_0.' value="">Pilih</option>
-                    <option '.$operator_1.' value="<"> X < N Min </option>
-                    <option '.$operator_2.' value=">"> X > N Max </option>
-                    <option '.$operator_3.' value="<="> X <= N Min </option>
-                    <option '.$operator_4.' value=">="> X >= N Max </option>
-                    <option '.$operator_5.' value="-"> N min - N Max (X >= N min | X <= N max) </option>
-                    <option '.$operator_6.' value="between"> Between (X > N min | X < N max) </option>
-                </select>
-            </div>
-        </div>
-    ';
+    
     
     echo '
         <div class="row mb-3 mt-3">
