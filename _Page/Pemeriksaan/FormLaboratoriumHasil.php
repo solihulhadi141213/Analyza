@@ -296,7 +296,7 @@
     <div class="row mb-2 mt-3">
         <div class="col-12">
             <small>
-                <b>C. Form Hasil</b>
+                <b>D. Form Hasil</b>
             </small>
         </div>
     </div>
@@ -460,5 +460,72 @@
                 ';
             }
         ?>
+    </div>
+     <div class="row mb-2 mt-3">
+        <div class="col-12">
+            <small>
+                <b>E. Metode Pemeriksaan</b>
+            </small>
+        </div>
+    </div>
+    <?php
+        // Buka Data hasil Mapping
+        $nama_metode_pemeriksaan    = "";
+        $display_metode_pemeriksaan = "";
+        $code_metode_pemeriksaan    = "";
+        $system_metode_pemeriksaan  = "";
+
+        $QryRef = $Conn->prepare("SELECT id_referensi_metode_pemeriksaan FROM referensi_pemeriksaan_relasi WHERE id_referensi_pemeriksaan = ?");
+        $QryRef->bind_param("i", $id_referensi_pemeriksaan);
+        if (!$QryRef->execute()) {
+            $ErrorRef=$Conn->error;
+            echo '
+                <div class="alert alert-danger text-center">
+                    <small>Terjadi kesalahan pada saat membuka data dari tabel laboratorium!<br>Keterangan : '.$ErrorRef.'</small>
+                </div>
+            ';
+        }
+        $ResultRef = $QryRef->get_result();
+        $DataRef = $ResultRef->fetch_assoc();
+        $QryRef->close();
+        if (!empty($DataRef['id_referensi_metode_pemeriksaan'])) {
+            $id_referensi_metode_pemeriksaan = $DataRef['id_referensi_metode_pemeriksaan'];
+            $nama_metode_pemeriksaan    = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'nama_metode_pemeriksaan');
+            $display_metode_pemeriksaan = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'display_metode_pemeriksaan');
+            $code_metode_pemeriksaan    = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'code_metode_pemeriksaan');
+            $system_metode_pemeriksaan  = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'system_metode_pemeriksaan');
+        }
+    ?>
+    <div class="row mb-2">
+        <div class="col-5"><small>Pilih Metode</small></div>
+        <div class="col-7">
+            <select name="id_referensi_metode_pemeriksaan" id="id_referensi_metode_pemeriksaan" class="form-control">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-5"><small>Nama Metode</small></div>
+        <div class="col-7">
+            <input type="text" class="form-control" name="metode_pemeriksaan" id="metode_pemeriksaan" value="<?php echo $nama_metode_pemeriksaan; ?>">
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-5"><small><i>Display</i></small></div>
+        <div class="col-7">
+            <input type="text" class="form-control" name="metode_pemeriksaan_display" value="<?php echo $display_metode_pemeriksaan; ?>">
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-5"><small><i>Code</i></small></div>
+        <div class="col-7">
+            <input type="text" class="form-control" name="metode_pemeriksaan_code" value="<?php echo $code_metode_pemeriksaan; ?>">
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-5"><small><i>System</i></small></div>
+        <div class="col-7">
+            <input type="text" class="form-control" name="metode_pemeriksaan_system" value="<?php echo $system_metode_pemeriksaan; ?>">
+        </div>
     </div>
     

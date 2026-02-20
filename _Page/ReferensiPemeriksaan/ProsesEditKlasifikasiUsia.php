@@ -127,23 +127,89 @@
         $umur_unit,
         $id_referensi_usia
     );
-
-    // ======================================================
-    // EKSEKUSI
-    // ======================================================
-    if ($query->execute()) {
-        echo json_encode([
-            'status'  => 'success',
-            'message' => 'Data referensi usia berhasil diperbarui'
-        ]);
-    } else {
-        echo json_encode([
+    if (!$query->execute()) {
+         echo json_encode([
             'status'  => 'error',
             'message' => 'Gagal menyimpan data'
         ]);
+        exit;
+    }
+    $query->close();
+
+    // Lanjut Update 'referensi_range'
+    $query2 = $Conn->prepare("
+        UPDATE  referensi_range SET
+            umur_kategori = ?,
+            umur_min = ?,
+            umur_max = ?,
+            umur_unit = ?
+        WHERE id_referensi_usia = ?
+    ");
+    if (!$query2) {
+        echo json_encode([
+            'status'  => 'error',
+            'message' => 'Gagal mempersiapkan query update'
+        ]);
+        $Conn->close();
+        exit;
     }
 
-    $query->close();
+    $query2->bind_param(
+        "siisi",
+        $umur_kategori,
+        $umur_min,
+        $umur_max,
+        $umur_unit,
+        $id_referensi_usia
+    );
+    if (!$query2->execute()) {
+         echo json_encode([
+            'status'  => 'error',
+            'message' => 'Gagal Update Data Ke Tabel referensi_range'
+        ]);
+        exit;
+    }
+    $query2->close();
+
+    // Lanjut Update 'referensi_category'
+    $query3 = $Conn->prepare("
+        UPDATE  referensi_category SET
+            umur_kategori = ?,
+            umur_min = ?,
+            umur_max = ?,
+            umur_unit = ?
+        WHERE id_referensi_usia = ?
+    ");
+    if (!$query3) {
+        echo json_encode([
+            'status'  => 'error',
+            'message' => 'Gagal mempersiapkan query update'
+        ]);
+        $Conn->close();
+        exit;
+    }
+
+    $query3->bind_param(
+        "siisi",
+        $umur_kategori,
+        $umur_min,
+        $umur_max,
+        $umur_unit,
+        $id_referensi_usia
+    );
+    if (!$query3->execute()) {
+         echo json_encode([
+            'status'  => 'error',
+            'message' => 'Gagal Update Data Ke Tabel referensi_category'
+        ]);
+        exit;
+    }
+    $query3->close();
+
+    echo json_encode([
+        'status'  => 'success',
+        'message' => 'Data referensi usia berhasil diperbarui'
+    ]);
     $Conn->close();
 
 ?>

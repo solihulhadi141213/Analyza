@@ -755,9 +755,9 @@
                                     while ($data = mysqli_fetch_array($query)) {
                                         $category_pemeriksaan = $data['category_pemeriksaan'];
                                         echo '
-                                            <tr class="table-secondary">
-                                                <td class="text-center"><small>'.$no.'</small></td>
-                                                <td class="text-left" colspan="6"><small>'.$category_pemeriksaan.'</small></td>
+                                            <tr>
+                                                <td class="text-center"><b>'.$no.'</b></td>
+                                                <td class="text-left" colspan="6"><b>'.$category_pemeriksaan.'</b></td>
                                             </tr>
                                         ';
 
@@ -766,9 +766,10 @@
                                         $query2 = mysqli_query($Conn, "SELECT * FROM laboratorium_rincian WHERE id_laboratorium='$id_laboratorium' AND category_pemeriksaan='$category_pemeriksaan' ORDER BY nama_pemeriksaan ASC");
                                         while ($data2 = mysqli_fetch_array($query2)) {
                                             $id_laboratorium_rincian  = $data2['id_laboratorium_rincian'];
-                                            
+                                            $id_referensi_pemeriksaan = $data2['id_referensi_pemeriksaan'];
                                             $nama_pemeriksaan         = $data2['nama_pemeriksaan'];
                                             $interpertasi             = $data2['interpertasi'] ?? '-';
+                                            $conclusion             = $data2['conclusion'] ?? '-';
                                             $keterangan               = $data2['keterangan'] ?? '-';
 
                                             // Inisialiasi Tombol
@@ -794,8 +795,13 @@
                                                             <h6>Option</h6>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item modal_edit_rincian" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
-                                                                <i class="bi bi-pencil"></i> Edit
+                                                            <a class="dropdown-item modal_detail_hasil" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
+                                                                <i class="bi bi-info-circle"></i> Detail
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item modal_laboratorium_hasil" href="javascript:void(0)" data-id="'.$id_laboratorium_rincian.'">
+                                                                <i class="bi bi-plus"></i> Hasil Ulang
                                                             </a>
                                                         </li>
                                                         <li>
@@ -814,6 +820,64 @@
                                                 $id_referensi_pemeriksaan = $data2['id_referensi_pemeriksaan'];
                                                 $unit_satuan =  GetDetailData($Conn, 'referensi_pemeriksaan', 'id_referensi_pemeriksaan', $id_referensi_pemeriksaan, 'unit_display');
                                             }
+                                            // Mencari Nilai Normal
+                                            $nilai_normal_pemeriksaan = [];
+                                            $result_interpertation_type = GetDetailData($Conn, 'referensi_pemeriksaan', 'id_referensi_pemeriksaan', $id_referensi_pemeriksaan, 'result_interpertation_type');
+                                            if($result_interpertation_type=="Range"){
+                                                $QryRange = mysqli_query($Conn, "SELECT * FROM referensi_range WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan' AND normal_value=1");
+                                                while ($dataRange = mysqli_fetch_array($QryRange)) {
+                                                    
+                                                    $jenis_kelamin = $dataRange['jenis_kelamin'];
+                                                    $nilai_min     = $dataRange['nilai_min'];
+                                                    $nilai_max     = $dataRange['nilai_max'];
+                                                    $nilai_max     = $dataRange['nilai_max'];
+                                                    $operator      = $dataRange['operator'];
+
+                                                    // Jika usia tidak kosong
+                                                    if(!empty($dataRange['umur_kategori'])){
+                                                        $umur_kategori  = $dataRange['umur_kategori'];
+                                                        if(empty($dataRange['umur_max'])){
+                                                            $umur_min  = $dataRange['umur_min'];
+                                                            $umur_unit = $dataRange['umur_unit'];
+                                                            $notasi_usia = "≥ $umur_min $umur_unit";
+                                                        }else{
+                                                            $umur_min  = $dataRange['umur_min'];
+                                                            $umur_max  = $dataRange['umur_max'];
+                                                            $umur_unit = $dataRange['umur_unit'];
+                                                            $notasi_usia = "$umur_min - $umur_max $umur_unit";
+                                                        }
+
+                                                        $label_usia = "($notasi_usia / $umur_kategori)";
+                                                    }else{
+                                                        $label_usia = "";
+                                                    }
+
+                                                    // Jika jenis Kelamin Tidak All
+                                                    if($dataRange['jenis_kelamin']!=="All"){
+                                                        if($dataRange['jenis_kelamin']=="Laki-laki"){
+                                                            $label_jenis_kelamin = "(L)";
+                                                        }
+                                                        if($dataRange['jenis_kelamin']=="Perempuan"){
+                                                            $label_jenis_kelamin = "(P)";
+                                                        }
+                                                    }else{
+                                                        $label_jenis_kelamin = "";
+                                                    }
+
+                                                    // Jika Operator More
+                                                    if($operator=="More"){
+                                                        $label_nilai = "≥ $nilai_min";
+                                                    }else{
+                                                        $label_nilai = "$nilai_min - $nilai_max";
+                                                    }
+
+                                                    $nilai_normal_pemeriksaan[] = '- '.$label_nilai.' '.$unit_satuan.' '.$label_usia.' '.$label_jenis_kelamin;
+                                                }
+                                            }
+                                            if(empty($nilai_normal_pemeriksaan)){ $nilai_normal_pemeriksaan = "-"; }else{ $nilai_normal_pemeriksaan = implode("<br>", $nilai_normal_pemeriksaan); }
+
+                                            
+                                            // Tampilkan Hasil
                                             echo '
                                                 <tr>
                                                     <td class="text-center">
@@ -828,8 +892,16 @@
                                                     <td class="text-center">
                                                         <small class="text text-grayish">'.$unit_satuan.'</small>
                                                     </td>
-                                                    <td class="text-center">-</td>
-                                                    <td class="text-center">'.$interpertasi.'</td>
+                                                    <td class="text-left">
+                                                        <small class="text text-grayish">
+                                                            <small>'.$nilai_normal_pemeriksaan.'</small>
+                                                        </small>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <small>
+                                                            <small>'.$conclusion.'</small>
+                                                        </small>
+                                                    </td>
                                                     <td class="text-center">'.$tombol_hasil.'</td>
                                                 </tr>
                                             ';

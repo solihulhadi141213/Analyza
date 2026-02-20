@@ -157,8 +157,8 @@ function SelectDokter() {
                 params.page = params.page || 1;
 
                 return {
-                    results: response.results,
-                    pagination: { more: response.more }
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
                 };
             },
             cache: true
@@ -208,8 +208,8 @@ function SelectDokter2() {
                 params.page = params.page || 1;
 
                 return {
-                    results: response.results,
-                    pagination: { more: response.more }
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
                 };
             },
             cache: true
@@ -285,8 +285,8 @@ function SelectDiagnosis() {
                 params.page = params.page || 1;
 
                 return {
-                    results: response.results,
-                    pagination: { more: response.more }
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
                 };
             },
             cache: true
@@ -334,8 +334,8 @@ function SelectSpesimen() {
                 params.page = params.page || 1;
 
                 return {
-                    results: response.results,
-                    pagination: { more: response.more }
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
                 };
             },
             cache: true
@@ -382,8 +382,8 @@ function SelectMetodeSpesimen() {
                 params.page = params.page || 1;
 
                 return {
-                    results: response.results,
-                    pagination: { more: response.more }
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
                 };
             },
             cache: true
@@ -429,8 +429,8 @@ function SelectBodySite() {
                 params.page = params.page || 1;
 
                 return {
-                    results: response.results,
-                    pagination: { more: response.more }
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
                 };
             },
             cache: true
@@ -476,8 +476,56 @@ function SelectContainer() {
                 params.page = params.page || 1;
 
                 return {
-                    results: response.results,
-                    pagination: { more: response.more }
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
+                };
+            },
+            cache: true
+        },
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+
+function SelectMetodePemeriksaan() {
+    let el = $('#id_referensi_metode_pemeriksaan');
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormLaboratoriumHasil'),
+        placeholder       : "Pilih Metode Pemeriksaan",
+        allowClear        : true,
+        tags              : false,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/Pemeriksaan/ListMetodePemeriksaan.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
                 };
             },
             cache: true
@@ -1992,8 +2040,38 @@ $(document).ready(function() {
             data        : {id_laboratorium_rincian: id_laboratorium_rincian},
             success     : function(data){
                 $('#FormLaboratoriumHasil').html(data);
+
+                SelectMetodePemeriksaan();
             }
         });
+    });
+
+    // Select Metode Pemeriksaan
+    $(document).on('select2:select', '#id_referensi_metode_pemeriksaan', function (e) {
+        let data = e.params.data || {};
+
+        // Autofill jika dari database
+        if (!data.isNew) {
+            $('#id_referensi_metode_pemeriksaan').val(data.id);
+            $('#metode_pemeriksaan').val(data.text || '');
+            $('input[name="metode_pemeriksaan_display"]').val(data.display || '');
+            $('input[name="metode_pemeriksaan_code"]').val(data.code || '');
+            $('input[name="metode_pemeriksaan_system"]').val(data.system || '');
+        } else {
+            // Jika manual input → kosongkan autofill
+            $('#id_referensi_metode_pemeriksaan').val('');
+            $('#metode_pemeriksaan').val('');
+            $('input[name="metode_pemeriksaan_display"]').val('');
+            $('input[name="metode_pemeriksaan_code"]').val('');
+            $('input[name="metode_pemeriksaan_system"]').val('');
+        }
+    });
+    $(document).on('select2:clear', '#id_referensi_metode_pemeriksaan', function () {
+        $('#id_referensi_metode_pemeriksaan').val('');
+        $('#metode_pemeriksaan').val('');
+        $('input[name="metode_pemeriksaan_display"]').val('');
+        $('input[name="metode_pemeriksaan_code"]').val('');
+        $('input[name="metode_pemeriksaan_system"]').val('');
     });
 
     $('#ProsesLaboratoriumHasil').submit(function(){
@@ -2021,4 +2099,55 @@ $(document).ready(function() {
         });
         
     });
+    
+
+    $('#ProsesLaboratoriumInterpertasi').off('submit').on('submit', function(e){
+        e.preventDefault();
+
+        var $form = $(this);
+        var $submitBtn = $form.find('button[type="submit"]');
+        var ProsesLaboratoriumInterpertasi = $form.serialize();
+
+        // Cegah double submit
+        $submitBtn.prop('disabled', true);
+        $('#NotifikasiLaboratoriumInterpertasi').html('Loading...');
+
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesLaboratoriumInterpertasi.php',
+            dataType: 'json',
+            data    : ProsesLaboratoriumInterpertasi,
+            success : function(response) {
+                var status  = response && response.status ? response.status : 'error';
+                var message = response && response.message ? response.message : 'Terjadi kesalahan yang tidak diketahui.';
+
+                if(status === 'success'){
+                    $('#NotifikasiLaboratoriumInterpertasi').html('');
+                    $('#ModalLaboratoriumInterpertasi').modal('hide');
+                    $('#ModalLaboratoriumHasil').modal('hide');
+
+                    ShowDetail();
+                    ShowTable();
+
+                    $('#put_message').html('<i class="bi bi-check-circle me-2"></i> ' + message);
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {delay: 3000});
+                    toast.show();
+                }else{
+                    $('#NotifikasiLaboratoriumInterpertasi').html('<div class="alert alert-danger"><small>' + message + '</small></div>');
+                }
+            },
+            error : function(xhr) {
+                var message = 'Terjadi kesalahan pada server.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                $('#NotifikasiLaboratoriumInterpertasi').html('<div class="alert alert-danger"><small>' + message + '</small></div>');
+            },
+            complete : function() {
+                $submitBtn.prop('disabled', false);
+            }
+        });
+    });
 });
+

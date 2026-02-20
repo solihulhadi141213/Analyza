@@ -66,6 +66,8 @@
         ';
         exit;
     }
+
+    // Buat Variabel Dengan Value Wajib
     $id_laboratorium            = $_POST['id_laboratorium'];
     $id_laboratorium_rincian    = $_POST['id_laboratorium_rincian'];
     $id_referensi_pemeriksaan   = $_POST['id_referensi_pemeriksaan'];
@@ -108,9 +110,31 @@
     // Cek Jika Interpertasi Berkaitan Dengan Range Atau Category
     $id_referensi_category = NULL;
     $id_referensi_range    = NULL;
-    $hasil                 = "";
+    $hasil                 = $hasil_pemeriksaan;
     $hasil_interpertasi    = "";
     $hasil_conclusion      = "";
+    $id_referensi_usia     = "";
+    $umur_kategori         = "";
+
+    // Apabila Pemeriksaan Berbasis Usia (Cari id_referensi_usia dari tabel referensi_usia)
+    if($allow_age==1){
+        $query_referensi_usia = mysqli_query($Conn, "SELECT * FROM referensi_usia WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
+        while ($RowReferensiUsia = mysqli_fetch_assoc($query_referensi_usia)) {
+            if($RowReferensiUsia['umur_unit']==$satuan_usia){
+                if(empty($RowReferensiUsia['umur_max'])){
+                    if($usia>=$RowReferensiUsia['umur_min']){
+                        $id_referensi_usia = $RowReferensiUsia['id_referensi_usia'];
+                        $umur_kategori     = $RowReferensiUsia['umur_kategori'];
+                    }
+                }else{
+                    if($usia>=$RowReferensiUsia['umur_min'] && $usia<=$RowReferensiUsia['umur_max']){
+                        $id_referensi_usia = $RowReferensiUsia['id_referensi_usia'];
+                        $umur_kategori     = $RowReferensiUsia['umur_kategori'];
+                    }
+                }
+            }
+        }
+    }
 
     //Jika 'result_type' adalah 'Coded'
     // Untuk result_type = Coded maka result_interpertation_type adalah Category
@@ -132,7 +156,6 @@
         $ResultCodedInterpertation = $QryCodedInterpertation->get_result();
         $DataCodedInterpertation = $ResultCodedInterpertation->fetch_assoc();
         $QryCodedInterpertation->close();
-
         if (empty($DataCodedInterpertation)) {
             echo '
                 <div class="alert alert-danger text-center">
@@ -172,19 +195,190 @@
 
                 // Apabila Pemeriksaan Tidak Berkaitan Dengan Usia dan Jenis Kelamin
                 if($allow_age==0 && $allow_sex==0){
+                    if($operator=="Between"){
+                        if($hasil_pemeriksaan>=$nilai_min && $hasil_pemeriksaan<=$nilai_max){
+                            $id_referensi_category = NULL;
+                            $id_referensi_range = $RowRangeList['id_referensi_range'];
+                            $hasil                 = $hasil_pemeriksaan;
+                            $hasil_interpertasi    = $label;
+                            $hasil_conclusion      = $conclusion;
+                        }
+                    }
+                    if($operator=="More"){
+                        if($hasil_pemeriksaan>=$nilai_min){
+                            $id_referensi_category = NULL;
+                            $id_referensi_range    = $RowRangeList['id_referensi_range'];
+                            $hasil                 = $hasil_pemeriksaan;
+                            $hasil_interpertasi    = $label;
+                            $hasil_conclusion      = $conclusion;
+                        }
+                    }
+                }
+                // Apabila Pemeriksaan Berkaitan Dengan Usia dan Jenis Kelamin
+                if($allow_age==1 && $allow_sex==1){
+                    if($RowRangeList['jenis_kelamin']==$gender){
+                        if($RowRangeList['id_referensi_usia']==$id_referensi_usia){
+                            if($operator=="Between"){
+                                if($hasil_pemeriksaan>=$nilai_min && $hasil_pemeriksaan<=$nilai_max){
+                                    $id_referensi_category = NULL;
+                                    $id_referensi_range    = $RowRangeList['id_referensi_range'];
+                                    $hasil                 = $hasil_pemeriksaan;
+                                    $hasil_interpertasi    = $label;
+                                    $hasil_conclusion      = $conclusion;
+                                }
+                            }
+                            if($operator=="More"){
+                                if($hasil_pemeriksaan>=$nilai_min){
+                                    $id_referensi_category = NULL;
+                                    $id_referensi_range    = $RowRangeList['id_referensi_range'];
+                                    $hasil                 = $hasil_pemeriksaan;
+                                    $hasil_interpertasi    = $label;
+                                    $hasil_conclusion      = $conclusion;
+                                }
+                            }
+                        }
+                    }
                     
                 }
+                // Apabila Pemeriksaan Berkaitan Dengan Usia Saja
+                if($allow_age==1 && $allow_sex==0){
+                    if($RowRangeList['id_referensi_usia']==$id_referensi_usia){
+                        if($operator=="Between"){
+                            if($hasil_pemeriksaan>=$nilai_min && $hasil_pemeriksaan<=$nilai_max){
+                                $id_referensi_category = NULL;
+                                $id_referensi_range    = $RowRangeList['id_referensi_range'];
+                                $hasil                 = $hasil_pemeriksaan;
+                                $hasil_interpertasi    = $label;
+                                $hasil_conclusion      = $conclusion;
+                            }
+                        }
+                        if($operator=="More"){
+                            if($hasil_pemeriksaan>=$nilai_min){
+                                $id_referensi_category = NULL;
+                                $id_referensi_range    = $RowRangeList['id_referensi_range'];
+                                $hasil                 = $hasil_pemeriksaan;
+                                $hasil_interpertasi    = $label;
+                                $hasil_conclusion      = $conclusion;
+                            }
+                        }
+                    }
+                    
+                }
+                // Apabila Pemeriksaan Berkaitan Dengan Usia Saja
+                if($allow_age==1 && $allow_sex==0){
+                    if($RowRangeList['id_referensi_usia']==$id_referensi_usia){
+                        if($operator=="Between"){
+                            if($hasil_pemeriksaan>=$nilai_min && $hasil_pemeriksaan<=$nilai_max){
+                                $id_referensi_category = NULL;
+                                $id_referensi_range    = $RowRangeList['id_referensi_range'];
+                                $hasil                 = $hasil_pemeriksaan;
+                                $hasil_interpertasi    = $label;
+                                $hasil_conclusion      = $conclusion;
+                            }
+                        }
+                        if($operator=="More"){
+                            if($hasil_pemeriksaan>=$nilai_min){
+                                $id_referensi_category = NULL;
+                                $id_referensi_range    = $RowRangeList['id_referensi_range'];
+                                $hasil                 = $hasil_pemeriksaan;
+                                $hasil_interpertasi    = $label;
+                                $hasil_conclusion      = $conclusion;
+                            }
+                        }
+                    }
+                    
+                }
+                // Apabila Pemeriksaan Berkaitan Dengan Jenis Kelamin Saja
+                if($allow_age==0 && $allow_sex==1){
+                    if($RowRangeList['jenis_kelamin']==$gender){
+                        if($operator=="Between"){
+                            if($hasil_pemeriksaan>=$nilai_min && $hasil_pemeriksaan<=$nilai_max){
+                                $id_referensi_category = NULL;
+                                $id_referensi_range    = $RowRangeList['id_referensi_range'];
+                                $hasil                 = $hasil_pemeriksaan;
+                                $hasil_interpertasi    = $label;
+                                $hasil_conclusion      = $conclusion;
+                            }
+                        }
+                        if($operator=="More"){
+                            if($hasil_pemeriksaan>=$nilai_min){
+                                $id_referensi_category = NULL;
+                                $id_referensi_range    = $RowRangeList['id_referensi_range'];
+                                $hasil                 = $hasil_pemeriksaan;
+                                $hasil_interpertasi    = $label;
+                                $hasil_conclusion      = $conclusion;
+                            }
+                        }
+                    }
+                    
+                }
+
+            }
+        }
+    }
+    if($result_type=='Coded'){
+        if($result_interpertation_type=='None'){
+            $id_referensi_category = NULL;
+            $id_referensi_range    = NULL;
+            $hasil                 = $hasil_pemeriksaan;
+            $hasil_interpertasi    = "";
+            $hasil_conclusion      = "";
+        }else{  
+            // Menampilkan Semua List Referensi Category
+            $query_category_list = mysqli_query($Conn, "SELECT * FROM referensi_category WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan' AND id_referensi_category='$hasil_pemeriksaan'");
+            while ($RowCategoryList = mysqli_fetch_assoc($query_category_list)) {
+                $id_referensi_category = $RowCategoryList['id_referensi_category'];
+                $hasil                 = $RowCategoryList['nilai_hasil'];
+                $hasil_interpertasi    = $RowCategoryList['label'];
+                $hasil_conclusion      = $RowCategoryList['fhir_display'];
             }
         }
     }
    
-    
-
-    // Inisialisasi hasil untuk simpan pada database
+    // Menangkap Metode Pemeriksaan
+    if(empty($_POST['metode_pemeriksaan'])){
+        $metode_pemeriksaan = "";
+    }else{
+        $metode_pemeriksaan = $_POST['metode_pemeriksaan'];
+    }
+    if(empty($_POST['metode_pemeriksaan_display'])){
+        $metode_pemeriksaan_display = "";
+    }else{
+        $metode_pemeriksaan_display = $_POST['metode_pemeriksaan_display'];
+    }
+    if(empty($_POST['metode_pemeriksaan_code'])){
+        $metode_pemeriksaan_code = "";
+    }else{
+        $metode_pemeriksaan_code = $_POST['metode_pemeriksaan_code'];
+    }
+    if(empty($_POST['metode_pemeriksaan_system'])){
+        $metode_pemeriksaan_system = "";
+    }else{
+        $metode_pemeriksaan_system = $_POST['metode_pemeriksaan_system'];
+    }
 ?>
+    <!-- Untuk Mengirim FK -->
     <input type="hidden" name="id_laboratorium_rincian" value="<?php echo $id_laboratorium_rincian; ?>">
     <input type="hidden" name="id_referensi_category" value="<?php echo $id_referensi_category; ?>">
     <input type="hidden" name="id_referensi_range" value="<?php echo $id_referensi_range; ?>">
+
+    <!-- Untuk Mengirim Metode Pemeriksaan -->
+     <input type="hidden" name="metode_pemeriksaan" value="<?php echo $metode_pemeriksaan; ?>">
+     <input type="hidden" name="metode_pemeriksaan_display" value="<?php echo $metode_pemeriksaan_display; ?>">
+     <input type="hidden" name="metode_pemeriksaan_code" value="<?php echo $metode_pemeriksaan_code; ?>">
+     <input type="hidden" name="metode_pemeriksaan_system" value="<?php echo $metode_pemeriksaan_system; ?>">
+
+    <!-- Tampilkan Informasi Dasar -->
+    <div class="row mb-2">
+        <div class="col-4"><small>Tipe Data Hasil</small></div>
+        <div class="col-1"><small>:</small></div>
+        <div class="col-7"><small class="text text-grayish"><?php echo $result_type; ?></small></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4"><small>Klasifikasi Usia</small></div>
+        <div class="col-1"><small>:</small></div>
+        <div class="col-7"><small class="text text-grayish"><?php echo $umur_kategori; ?></small></div>
+    </div>
     <div class="row mb-2">
         <div class="col-md-12">
             <label for="hasil"><small>Hasil Pemeriksaan</small></label>

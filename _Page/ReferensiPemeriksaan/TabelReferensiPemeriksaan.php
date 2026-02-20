@@ -192,7 +192,18 @@
                 $result_interpertation_text ="text-grayish";
             }
         }
-        
+
+        // Cek Apakah Sudah Di Mapping
+        $id_referensi_pemeriksaan_relasi = GetDetailData($Conn, 'referensi_pemeriksaan_relasi', 'id_referensi_pemeriksaan', $id_referensi_pemeriksaan, 'id_referensi_pemeriksaan_relasi');
+        if(!empty($id_referensi_pemeriksaan_relasi)){
+            $label_aleret = "";
+        }else{
+            $label_aleret = '
+                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-warning border border-light rounded-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Referensi Pemeriksaan Belum Di Mapping">
+                    <span class="visually-hidden">New alerts</span>
+                </span>
+            ';
+        }
         echo '
             <tr>
                 <td><small>'.$no.'</small></td>
@@ -231,9 +242,7 @@
                 <td>
                     <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots-vertical"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle p-2 bg-warning border border-light rounded-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Test">
-                            <span class="visually-hidden">New alerts</span>
-                        </span>
+                        '.$label_aleret.'
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
                         <li class="dropdown-header text-start">

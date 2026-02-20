@@ -214,6 +214,240 @@
                 </div>
             </div>
         </div>
+        <?php
+            // Memeriksa Relasi
+            $id_referensi_pemeriksaan_relasi = GetDetailData($Conn, 'referensi_pemeriksaan_relasi', 'id_referensi_pemeriksaan ', $id_referensi_pemeriksaan , 'id_referensi_pemeriksaan_relasi');
+            if(empty($id_referensi_pemeriksaan_relasi)){
+                $tombol_relasi = '
+                    <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_relasi" data-id="'.$id_referensi_pemeriksaan.'" title="Tambah Referensi Metode Dan Spesimen">
+                        <i class="bi bi-plus"></i>
+                    </button>
+                ';
+            }else{
+                $tombol_relasi = '
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-floating modal_delete_relasi" data-id="'.$id_referensi_pemeriksaan_relasi.'" title="Hapus Referensi Metode Dan Spesimen">
+                        <i class="bi bi-x"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-primary btn-floating modal_edit_relasi" data-id="'.$id_referensi_pemeriksaan_relasi.'" title="Edit Referensi Metode Dan Spesimen">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                ';
+            }
+        ?>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-8">
+                        <b class="card-title"># Relasi Referensi</b>
+                    </div>
+                    <div class="col-4 text-end">
+                        <?php echo $tombol_relasi; ?>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <?php
+                    if(empty($id_referensi_pemeriksaan_relasi)){
+                        echo '
+                            <div class="alert alert-warning text-center">
+                                <small>
+                                <b>PENTING!</b><br> Referensi pemeriksaan ini belum terhubung dengan metode dan jenis spesimen manapun.
+                                </small>
+                            </div>
+                        ';
+                    }else{
+                        $id_referensi_metode_pemeriksaan = GetDetailData($Conn, 'referensi_pemeriksaan_relasi', 'id_referensi_pemeriksaan ', $id_referensi_pemeriksaan , 'id_referensi_metode_pemeriksaan');
+                        $id_referensi_jenis_spesimen     = GetDetailData($Conn, 'referensi_pemeriksaan_relasi', 'id_referensi_pemeriksaan ', $id_referensi_pemeriksaan , 'id_referensi_jenis_spesimen');
+                        $id_referensi_metode_sample      = GetDetailData($Conn, 'referensi_pemeriksaan_relasi', 'id_referensi_pemeriksaan ', $id_referensi_pemeriksaan , 'id_referensi_metode_sample');
+                        $id_referensi_container          = GetDetailData($Conn, 'referensi_pemeriksaan_relasi', 'id_referensi_pemeriksaan ', $id_referensi_pemeriksaan , 'id_referensi_container');
+
+                        // Menampilkan Metode Pemeriksaan
+                        $QryMetodePemeriksaan = $Conn->prepare("SELECT * FROM referensi_metode_pemeriksaan WHERE id_referensi_metode_pemeriksaan = ?");
+                        $QryMetodePemeriksaan->bind_param("i", $id_referensi_metode_pemeriksaan);
+                        if (!$QryMetodePemeriksaan->execute()) {
+                            $error_metode_pemeriksaan=$Conn->error;
+                            echo '
+                                <div class="alert alert-danger text-center">
+                                    <small>Terjadi kesalahan pada saat membuka tabel referensi_metode_pemeriksaan !<br>Keterangan : '.$error_metode_pemeriksaan.'</small>
+                                </div>
+                            ';
+                            exit;
+                        }
+                        $ResultMetodePemeriksaan = $QryMetodePemeriksaan->get_result();
+                        $DataMetodePemeriksaan = $ResultMetodePemeriksaan->fetch_assoc();
+                        $QryMetodePemeriksaan->close();
+                        echo '
+                            <div class="row mb-2">
+                                <div class="col-12"><b><small>A. Metode Pemeriksaan</small></b></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small>Nama Metode</small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish">'.$DataMetodePemeriksaan['nama_metode_pemeriksaan'].'</small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>Display</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataMetodePemeriksaan['display_metode_pemeriksaan'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>Code</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataMetodePemeriksaan['code_metode_pemeriksaan'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>System</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataMetodePemeriksaan['system_metode_pemeriksaan'].'</i></small></div>
+                            </div>
+                       ';
+
+                        // Menampilkan Jenis Spesimen
+                        $QryJenisSpesimen = $Conn->prepare("SELECT * FROM referensi_jenis_spesimen WHERE id_referensi_jenis_spesimen = ?");
+                        $QryJenisSpesimen->bind_param("i", $id_referensi_jenis_spesimen);
+                        if (!$QryJenisSpesimen->execute()) {
+                            $error_jenis_spesimen=$Conn->error;
+                            echo '
+                                <div class="alert alert-danger text-center">
+                                    <small>Terjadi kesalahan pada saat membuka tabel referensi_metode_pemeriksaan !<br>Keterangan : '.$error_jenis_spesimen.'</small>
+                                </div>
+                            ';
+                            exit;
+                        }
+                        $ResultJenisSpesimen = $QryJenisSpesimen->get_result();
+                        $DataJenisSpesimen = $ResultJenisSpesimen->fetch_assoc();
+                        $QryJenisSpesimen->close();
+                        echo '
+                            <div class="row mb-2 mt-3">
+                                <div class="col-12 mt-3"><b><small>B. Jenis Spesimen</small></b></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small>Nama Spesimen</small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish">'.$DataJenisSpesimen['nama_spesimen'].'</small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>Display</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataJenisSpesimen['display_spesimen'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>Code</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish">'.$DataJenisSpesimen['code_spesimen'].'</small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>System</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish">'.$DataJenisSpesimen['system_spesimen'].'</small></div>
+                            </div>
+                       ';
+
+                        // Menampilkan Metode Spesimen
+                        $QryMetodeSpesimen = $Conn->prepare("SELECT * FROM referensi_metode_sample WHERE id_referensi_metode_sample = ?");
+                        $QryMetodeSpesimen->bind_param("i", $id_referensi_metode_sample);
+                        if (!$QryMetodeSpesimen->execute()) {
+                            $error_metode_spesimen=$Conn->error;
+                            echo '
+                                <div class="alert alert-danger text-center">
+                                    <small>Terjadi kesalahan pada saat membuka tabel referensi_metode_pemeriksaan !<br>Keterangan : '.$error_metode_spesimen.'</small>
+                                </div>
+                            ';
+                            exit;
+                        }
+                        $ResultMetodeSpesimen = $QryMetodeSpesimen->get_result();
+                        $DataMetodeSpesimen = $ResultMetodeSpesimen->fetch_assoc();
+                        $QryMetodeSpesimen->close();
+                        echo '
+                            <div class="row mb-2 mt-3">
+                                <div class="col-12 mt-3"><b><small>C. Metode Spesimen</small></b></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small>Nama Metode</small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish">'.$DataMetodeSpesimen['nama_metode_sample'].'</small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>Display</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataMetodeSpesimen['display_metode_sample'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>Code</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataMetodeSpesimen['code_metode_sample'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>System</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataMetodeSpesimen['system_metode_sample'].'</i></small></div>
+                            </div>
+                       ';
+
+                        // Menampilkan Kontainer
+                        $QryKontainer = $Conn->prepare("SELECT * FROM referensi_container WHERE id_referensi_container = ?");
+                        $QryKontainer->bind_param("i", $id_referensi_container);
+                        if (!$QryKontainer->execute()) {
+                            $ErrorKontainer=$Conn->error;
+                            echo '
+                                <div class="alert alert-danger text-center">
+                                    <small>Terjadi kesalahan pada saat membuka tabel referensi_container !<br>Keterangan : '.$ErrorKontainer.'</small>
+                                </div>
+                            ';
+                            exit;
+                        }
+                        $ResultKontainer = $QryKontainer->get_result();
+                        $DataKontainer = $ResultKontainer->fetch_assoc();
+                        $QryKontainer->close();
+                        echo '
+                            <div class="row mb-2 mt-3">
+                                <div class="col-12 mt-3"><b><small>D. Kontainer</small></b></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small>Nama Metode</small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish">'.$DataKontainer['nama_container'].'</small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>Display</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataKontainer['display_container'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>Code</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataKontainer['code_container'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>System</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataKontainer['system_container'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small>Kapasitas</small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataKontainer['kapasitas_container'].' '.$DataKontainer['unit_container'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>Unit</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataKontainer['unit_container'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>Code</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataKontainer['code_unit_container'].'</i></small></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4"><small><i>System</i></small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7"><small class="text text-grayish"><i>'.$DataKontainer['system_unit_container'].'</i></small></div>
+                            </div>
+                       ';
+                    }
+                ?>
+            </div>
+        </div>
     </div>
     <div class="col-md-8">
         <?php
@@ -224,7 +458,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <b class="card-title"># Referensi Nilai Rujukan <i>(Range)</i></b>
+                            <b class="card-title"># Referensi Interpertasi <i>(Range)</i></b>
                         </div>
                         <div class="col-4 text-end">
                             <?php
@@ -480,23 +714,11 @@
                                                 $tampil_max = number_format($nilai_max, 2, ',', '.');
 
                                                 // Menentukan Penyataan nilai rujukan
-                                                if($operator=="<"){
-                                                    $nilai_rujukan = "< $tampil_min";
+                                                if($operator=="More"){
+                                                    $nilai_rujukan = "≥ $tampil_min";
                                                 }
-                                                if($operator==">"){
-                                                    $nilai_rujukan = "> $tampil_max";
-                                                }
-                                                if($operator=="<="){
-                                                    $nilai_rujukan = "< $tampil_min";
-                                                }
-                                                if($operator==">="){
-                                                    $nilai_rujukan = "> $tampil_max";
-                                                }
-                                                if($operator=="-"){
+                                                if($operator=="Between"){
                                                     $nilai_rujukan = "$tampil_min - $tampil_max";
-                                                }
-                                                if($operator=="between"){
-                                                    $nilai_rujukan = "$tampil_min > - < $tampil_max";
                                                 }
 
                                                 if($allow_sex==1){
@@ -579,7 +801,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <b class="card-title"># Referensi <i> Category </i></b>
+                            <b class="card-title"># Referensi Interpertasi <i> (Category) </i></b>
                         </div>
                         <div class="col-4 text-end">
                             <?php
@@ -911,85 +1133,6 @@
                 </div>
             </div>
         <?php } ?>
-        <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-8">
-                        <b class="card-title"># Referensi Metode & Spesimen</b>
-                    </div>
-                    <div class="col-4 text-end">
-                        <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_relasi" data-id="<?php echo "$id_referensi_pemeriksaan"; ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Referensi Metode Dan Spesimen">
-                            <i class="bi bi-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="table table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <td align="center"><b>No</b></td>
-                                <td align="left"><b>Metode Pemeriksaan</b></td>
-                                <td align="left"><b>Spesimen</b></td>
-                                <td align="left"><b>Pengambilan</b></td>
-                                <td align="left"><b>Kontainer</b></td>
-                                <td align="center"><b>Opsi</b></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                                $jumlah_referensi_relasi = mysqli_num_rows(mysqli_query($Conn, "SELECT id_referensi_pemeriksaan_relasi FROM referensi_pemeriksaan_relasi WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'"));
-                                if(empty($jumlah_referensi_relasi)){
-                                    echo '
-                                        <tr>
-                                            <td colspan="6" align="center">
-                                                <span class="text-danger">Tidak Ada Data Referensi Nilai Rujukan Yang Ditampilkan</span>
-                                            </td>
-                                        </tr>
-                                    ';
-                                }else{
-                                    $no=1;
-                                    $query = mysqli_query($Conn, "SELECT*FROM referensi_pemeriksaan_relasi WHERE id_referensi_pemeriksaan='$id_referensi_pemeriksaan'");
-                                    while ($data = mysqli_fetch_array($query)) {
-                                        $id_referensi_pemeriksaan_relasi = $data['id_referensi_pemeriksaan_relasi'];
-                                        $id_referensi_metode_pemeriksaan = $data['id_referensi_metode_pemeriksaan'];
-                                        $id_referensi_jenis_spesimen     = $data['id_referensi_jenis_spesimen'];
-                                        $id_referensi_metode_sample      = $data['id_referensi_metode_sample'];
-                                        $id_referensi_container          = $data['id_referensi_container'];
-                                       
-                                        // Definisikan masing-masing ID
-                                        $nama_metode_pemeriksaan = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'nama_metode_pemeriksaan');
-                                        $nama_spesimen           = GetDetailData($Conn, 'referensi_jenis_spesimen', 'id_referensi_jenis_spesimen', $id_referensi_jenis_spesimen, 'nama_spesimen');
-                                        $nama_metode_sample      = GetDetailData($Conn, 'referensi_metode_sample', 'id_referensi_metode_sample', $id_referensi_metode_sample, 'nama_metode_sample');
-                                        $nama_container          = GetDetailData($Conn, 'referensi_container', 'id_referensi_container', $id_referensi_container, 'nama_container');
-
-                                        echo '
-                                            <tr>
-                                                <td align="center"><small>'.$no.'</small></td>
-                                                <td align="left">
-                                                    <a href="javascript:void(0);" class="modal_detail_relasi" data-id="'.$id_referensi_pemeriksaan_relasi.'">
-                                                        <small>'.$nama_metode_pemeriksaan.'</small>
-                                                    </a>
-                                                </td>
-                                                <td align="left"><small>'.$nama_spesimen.'</small></td>
-                                                <td align="left"><small>'.$nama_metode_sample.'</small></td>
-                                                <td align="left"><small>'.$nama_container.'</small></td>
-                                                <td align="center">
-                                                    <button type="button" class="btn btn-sm btn-outline-danger btn-floating modal_delete_relasi" data-id="'.$id_referensi_pemeriksaan_relasi.'">
-                                                        <i class="bi bi-x"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ';
-                                        $no++;
-                                    }
-                                }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>

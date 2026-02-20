@@ -154,6 +154,57 @@ function initSelect2MetodePemeriksaan() {
         }
     });
 }
+function initSelect2MetodePemeriksaanEdit() {
+
+    let el = $('#id_referensi_metode_pemeriksaan_edit');
+
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormEditRelasi'),
+        placeholder       : "Pilih atau ketik Metode Pemeriksaan",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/ReferensiPemeriksaan/ListMetodePemeriksaan.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: response.results,
+                    pagination: { more: response.more }
+                };
+            },
+            cache: true
+        },
+
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
 
 function initSelect2JenisSpesimen() {
 
@@ -194,6 +245,54 @@ function initSelect2JenisSpesimen() {
             cache: true
         },
 
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+
+function initSelect2JenisSpesimenEdit() {
+    let el = $('#id_referensi_jenis_spesimen_edit');
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormEditRelasi'),
+        placeholder       : "Pilih Atau Ketik Jenis Spesimen",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/ReferensiPemeriksaan/ListJenisSpesimen.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: response.results,
+                    pagination: { more: response.more }
+                };
+            },
+            cache: true
+        },
         createTag: function (params) {
             let term = $.trim(params.term);
             if (term === '') return null;
@@ -259,15 +358,60 @@ function initSelect2MetodeSample() {
     });
 }
 
-function initSelect2Kontainer() {
-
-    let el = $('#id_referensi_container');
-
+function initSelect2MetodeSampleEdit() {
+    let el = $('#id_referensi_metode_sample_edit');
     // Hindari double init
     if (el.hasClass("select2-hidden-accessible")) {
         el.select2('destroy');
     }
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormEditRelasi'),
+        placeholder       : "Pilih Atau Ketik Metode Spesimen",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/ReferensiPemeriksaan/ListMetodeSpesimen.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
 
+                return {
+                    results: response.results,
+                    pagination: { more: response.more }
+                };
+            },
+            cache: true
+        },
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+
+function initSelect2Kontainer() {
+    let el = $('#id_referensi_container');
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
     el.select2({
         theme             : "bootstrap-5",
         dropdownParent    : $('#FormTambahRelasi'),
@@ -297,7 +441,54 @@ function initSelect2Kontainer() {
             },
             cache: true
         },
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
 
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+
+function initSelect2KontainerEdit() {
+    let el = $('#id_referensi_container_edit');
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormEditRelasi'),
+        placeholder       : "Pilih Atau Ketik Jenis kontainer",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/ReferensiPemeriksaan/ListJenisKontainer.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: response.results,
+                    pagination: { more: response.more }
+                };
+            },
+            cache: true
+        },
         createTag: function (params) {
             let term = $.trim(params.term);
             if (term === '') return null;
@@ -622,6 +813,7 @@ $(document).ready(function() {
     // ===================================================================================
     // EDIT PEMERIKSAAN
     // ===================================================================================
+
     $(document).on('click', '.modal_edit', function () {
 
         //tangkap data 'id_referensi_pemeriksaan' dan buat variabel
@@ -680,6 +872,24 @@ $(document).ready(function() {
                 });
             }
         });
+    });
+
+    // Ketika Operator Di Pilih
+    $(document).on('change', '#operator_edit', function() {
+        var operator = $(this).val();
+        // Reset nilai ke 0 setiap kali operator berubah
+        $('#nilai_min_edit, #nilai_max_edit').val(0);
+
+        if (operator == '' || operator == 'Between') {
+            // Semuanya bisa diisi
+            $('#nilai_min_edit').prop('readonly', false);
+            $('#nilai_max_edit').prop('readonly', false);
+        } 
+        else if (operator == 'More') {
+            // Hanya nilai_max yang bisa diisi, nilai_min dikunci
+            $('#nilai_min_edit').prop('readonly', false);
+            $('#nilai_max_edit').prop('readonly', true);
+        }
     });
 
     // Jika Modal Edit Muncul
@@ -1363,7 +1573,7 @@ $(document).ready(function() {
     });
 
     // ===================================================================================
-    // TAMBAH RELASI
+    // RELASI REFERENSI
     // ===================================================================================
     $(document).on('click', '.modal_tambah_relasi', function () {
 
@@ -1593,9 +1803,89 @@ $(document).ready(function() {
         });
     });
 
-    // ===================================================================================
-    // HAPUS RELASI
-    // ===================================================================================
+    $(document).on('click', '.modal_edit_relasi', function () {
+
+        //tangkap data 'id_referensi_pemeriksaan_relasi' dan buat variabel
+        var id_referensi_pemeriksaan_relasi   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalEditRelasi').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiEditRelasi').html('');
+
+        //Form Loading
+        $('#FormEditRelasi').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/ReferensiPemeriksaan/FormEditRelasi.php',
+            data        : {id_referensi_pemeriksaan_relasi: id_referensi_pemeriksaan_relasi},
+            success     : function(data){
+                $('#FormEditRelasi').html(data);
+
+                // Panggil init Select2 setelah form dimuat
+                initSelect2MetodePemeriksaanEdit();
+                initSelect2JenisSpesimenEdit();
+                initSelect2MetodeSampleEdit();
+                initSelect2KontainerEdit();
+            }
+        });
+    });
+
+    /* Ketika 'ProsesEditRelasi' disubmit */
+    $('#ProsesEditRelasi').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesEditRelasi=$('#ProsesEditRelasi').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiEditRelasi').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/ReferensiPemeriksaan/ProsesEditRelasi.php',
+            dataType: 'json',
+            data    : ProsesEditRelasi,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiEditRelasi').html('');
+
+                    //reset form
+                    $('#ProsesEditRelasi')[0].reset();
+
+                    //Tutup modal
+                    $('#ModalEditRelasi').modal('hide');
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+
+                    //Tampilkan Ulang Data
+                    ShowDetail();
+                }else{
+                    $('#NotifikasiEditRelasi').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
     $(document).on('click', '.modal_delete_relasi', function () {
 
         //tangkap data 'id_referensi_pemeriksaan_relasi' dan buat variabel
