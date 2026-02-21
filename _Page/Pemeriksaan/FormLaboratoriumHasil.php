@@ -494,38 +494,17 @@
             $display_metode_pemeriksaan = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'display_metode_pemeriksaan');
             $code_metode_pemeriksaan    = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'code_metode_pemeriksaan');
             $system_metode_pemeriksaan  = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'system_metode_pemeriksaan');
+        }else{
+            $id_referensi_metode_pemeriksaan = "";
+            $nama_metode_pemeriksaan = "";
         }
     ?>
     <div class="row mb-2">
         <div class="col-5"><small>Pilih Metode</small></div>
         <div class="col-7">
             <select name="id_referensi_metode_pemeriksaan" id="id_referensi_metode_pemeriksaan" class="form-control">
-                <option value=""></option>
+                <option selected value="<?php echo $id_referensi_metode_pemeriksaan; ?>"><?php echo $nama_metode_pemeriksaan; ?></option>
             </select>
-        </div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-5"><small>Nama Metode</small></div>
-        <div class="col-7">
-            <input type="text" class="form-control" name="metode_pemeriksaan" id="metode_pemeriksaan" value="<?php echo $nama_metode_pemeriksaan; ?>">
-        </div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-5"><small><i>Display</i></small></div>
-        <div class="col-7">
-            <input type="text" class="form-control" name="metode_pemeriksaan_display" value="<?php echo $display_metode_pemeriksaan; ?>">
-        </div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-5"><small><i>Code</i></small></div>
-        <div class="col-7">
-            <input type="text" class="form-control" name="metode_pemeriksaan_code" value="<?php echo $code_metode_pemeriksaan; ?>">
-        </div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-5"><small><i>System</i></small></div>
-        <div class="col-7">
-            <input type="text" class="form-control" name="metode_pemeriksaan_system" value="<?php echo $system_metode_pemeriksaan; ?>">
         </div>
     </div>
     

@@ -352,7 +352,53 @@ function SelectSpesimen() {
         }
     });
 }
+function SelectSpesimenEdit() {
+    let el = $('#id_referensi_jenis_spesimen_edit');
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormEditSpesimen'),
+        placeholder       : "Pilih Jenis Spesimen",
+        allowClear        : true,
+        tags              : false,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/Pemeriksaan/ListSpesimen.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
 
+                return {
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
+                };
+            },
+            cache: true
+        },
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
 function SelectMetodeSpesimen() {
     let el = $('#id_referensi_metode_sample');
     // Hindari double init
@@ -362,6 +408,53 @@ function SelectMetodeSpesimen() {
     el.select2({
         theme             : "bootstrap-5",
         dropdownParent    : $('#FormTambahSpesimen'),
+        placeholder       : "Pilih Metode",
+        allowClear        : true,
+        tags              : false,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/Pemeriksaan/ListMetodeSpesimen.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
+                };
+            },
+            cache: true
+        },
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+function SelectMetodeSpesimenEdit() {
+    let el = $('#id_referensi_metode_sample_edit');
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormEditSpesimen'),
         placeholder       : "Pilih Metode",
         allowClear        : true,
         tags              : false,
@@ -447,6 +540,53 @@ function SelectBodySite() {
         }
     });
 }
+function SelectBodySiteEdit() {
+    let el = $('#id_referensi_body_site_edit');
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormEditSpesimen'),
+        placeholder       : "Pilih Body Site",
+        allowClear        : true,
+        tags              : false,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/Pemeriksaan/ListBodySite.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
+                };
+            },
+            cache: true
+        },
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
 function SelectContainer() {
     let el = $('#id_referensi_container');
     // Hindari double init
@@ -456,6 +596,53 @@ function SelectContainer() {
     el.select2({
         theme             : "bootstrap-5",
         dropdownParent    : $('#FormTambahSpesimen'),
+        placeholder       : "Pilih Kemasan/Kontainer",
+        allowClear        : true,
+        tags              : false,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/Pemeriksaan/ListKontainer.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
+                };
+            },
+            cache: true
+        },
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+function SelectContainerEdit() {
+    let el = $('#id_referensi_container_edit');
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormEditSpesimen'),
         placeholder       : "Pilih Kemasan/Kontainer",
         allowClear        : true,
         tags              : false,
@@ -1746,6 +1933,80 @@ $(document).ready(function() {
     // ===================================================================================
     // SPESIMEN
     // ===================================================================================
+    $(document).on('click', '.modal_pilih_spesimen', function () {
+
+        //tangkap data 'id_laboratorium_rincian' dan buat variabel
+        var id_laboratorium_rincian   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalPilihSpesimen').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiPilihSpesimen').html('');
+
+        //Form Loading
+        $('#FormPilihSpesimen').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormPilihSpesimen.php',
+            data        : {id_laboratorium_rincian: id_laboratorium_rincian},
+            success     : function(data){
+                $('#FormPilihSpesimen').html(data);
+            }
+        });
+
+    });
+    /* Ketika 'ProsesPilihSpesimen' disubmit */
+    $('#ProsesPilihSpesimen').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesPilihSpesimen=$('#ProsesPilihSpesimen').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiPilihSpesimen').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesPilihSpesimen.php',
+            dataType: 'json',
+            data    : ProsesPilihSpesimen,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiPilihSpesimen').html('');
+
+                    //Tutup modal
+                    $('#ModalPilihSpesimen').modal('hide');
+
+                    //reload tabel
+                    ShowDetail();
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+                }else{
+                    $('#NotifikasiPilihSpesimen').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
     $(document).on('click', '.modal_tambah_spesimen', function () {
 
         //tangkap data 'id_laboratorium' dan buat variabel
@@ -1895,6 +2156,182 @@ $(document).ready(function() {
             }
         });
     });
+
+    $(document).on('click', '.modal_edit_speciment', function () {
+
+        //tangkap data 'id_laboratorium_spesimen' dan buat variabel
+        var id_laboratorium_spesimen   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalEditSpesimen').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiEditSpesimen').html('');
+
+        //Form Loading
+        $('#FormEditSpesimen').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormEditSpesimen.php',
+            data        : {id_laboratorium_spesimen: id_laboratorium_spesimen},
+            success     : function(data){
+                $('#FormEditSpesimen').html(data);
+                SelectSpesimenEdit();
+                SelectMetodeSpesimenEdit();
+                SelectBodySiteEdit();
+                SelectContainerEdit();
+            }
+        });
+
+    });
+    // Select Kontainer
+    $(document).on('select2:select', '#id_referensi_container_edit', function (e) {
+        let data = e.params.data || {};
+
+        // Autofill jika dari database
+        if (!data.isNew) {
+            $('#id_referensi_container_edit').val(data.id);
+            $('#quantity_value_edit').val(data.kapasitas);
+            $('#quantity_unit_edit').html(data.unit);
+        } else {
+            // Jika manual input → kosongkan autofill
+            $('#id_referensi_container_edit').val('');
+            $('#quantity_value_edit').val('');
+            $('#quantity_unit_edit').html('');
+        }
+    });
+    $(document).on('select2:clear', '#id_referensi_container_edit', function () {
+        $('#id_referensi_container_edit').val('');
+        $('#quantity_value_edit').val('');
+        $('#quantity_unit_edit').html('');
+    });
+    
+    /* Ketika 'ProsesEditSpesimen' disubmit */
+    $('#ProsesEditSpesimen').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesEditSpesimen=$('#ProsesEditSpesimen').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiEditSpesimen').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesEditSpesimen.php',
+            dataType: 'json',
+            data    : ProsesEditSpesimen,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiEditSpesimen').html('');
+
+                    //Tutup modal
+                    $('#ModalEditSpesimen').modal('hide');
+
+                    //reload tabel
+                    ShowDetail();
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+                }else{
+                    $('#NotifikasiEditSpesimen').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    $(document).on('click', '.modal_hapus_speciment', function () {
+
+        //tangkap data 'id_laboratorium_spesimen' dan buat variabel
+        var id_laboratorium_spesimen   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalHapusSpesimen').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiHapusSpesimen').html('');
+
+        //Form Loading
+        $('#FormHapusSpesimen').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormHapusSpesimen.php',
+            data        : {id_laboratorium_spesimen: id_laboratorium_spesimen},
+            success     : function(data){
+                $('#FormHapusSpesimen').html(data);
+            }
+        });
+
+    });
+
+    /* Ketika 'ProsesHapusSpesimen' disubmit */
+    $('#ProsesHapusSpesimen').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesHapusSpesimen=$('#ProsesHapusSpesimen').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiHapusSpesimen').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesHapusSpesimen.php',
+            dataType: 'json',
+            data    : ProsesHapusSpesimen,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiHapusSpesimen').html('');
+
+                    //Tutup modal
+                    $('#ModalHapusSpesimen').modal('hide');
+
+                    //reload tabel
+                    ShowDetail();
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+                }else{
+                    $('#NotifikasiHapusSpesimen').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
 
     // Modal Detail Spesimen
     $(document).on('click', '.modal_detail_speciment', function () {
@@ -2146,6 +2583,28 @@ $(document).ready(function() {
             },
             complete : function() {
                 $submitBtn.prop('disabled', false);
+            }
+        });
+    });
+
+    $(document).on('click', '.modal_detail_hasil', function () {
+
+        //tangkap data 'id_laboratorium' dan buat variabel
+        var id_laboratorium_rincian   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDetailHasil').modal('show');
+
+        //Form Loading
+        $('#FormDetailHasil').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormDetailHasil.php',
+            data        : {id_laboratorium_rincian: id_laboratorium_rincian},
+            success     : function(data){
+                $('#FormDetailHasil').html(data);
             }
         });
     });

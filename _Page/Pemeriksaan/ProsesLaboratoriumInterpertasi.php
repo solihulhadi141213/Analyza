@@ -45,10 +45,15 @@
         fail('ID Rincian Pemeriksaan Tidak Boleh Kosong!');
     }
 
+    if (empty($_POST['id_referensi_metode_pemeriksaan'])) {
+        fail('Referensi Metode Pemeriksaan Tidak Boleh Kosong!');
+    }
+
     // Membuat Variabel Dan Sanitasi
-    $id_laboratorium_rincian = nullableInt($_POST['id_laboratorium_rincian'] ?? null);
-    $id_referensi_category   = nullableInt($_POST['id_referensi_category'] ?? null);
-    $id_referensi_range      = nullableInt($_POST['id_referensi_range'] ?? null);
+    $id_laboratorium_rincian         = nullableInt($_POST['id_laboratorium_rincian'] ?? null);
+    $id_referensi_category           = nullableInt($_POST['id_referensi_category'] ?? null);
+    $id_referensi_range              = nullableInt($_POST['id_referensi_range'] ?? null);
+    $id_referensi_metode_pemeriksaan = nullableInt($_POST['id_referensi_metode_pemeriksaan'] ?? null);
     
     if ($id_laboratorium_rincian === null) {
         fail('ID Rincian Pemeriksaan tidak valid.');

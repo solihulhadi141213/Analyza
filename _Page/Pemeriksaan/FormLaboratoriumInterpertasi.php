@@ -336,26 +336,21 @@
     }
    
     // Menangkap Metode Pemeriksaan
-    if(empty($_POST['metode_pemeriksaan'])){
-        $metode_pemeriksaan = "";
-    }else{
-        $metode_pemeriksaan = $_POST['metode_pemeriksaan'];
+    if(empty($_POST['id_referensi_metode_pemeriksaan'])){
+        echo '
+            <div class="alert alert-danger text-center">
+                <small>Metode pemeriksaan yang digunakan tidak boleh kosong!!</small>
+            </div>
+        ';
+        exit;
     }
-    if(empty($_POST['metode_pemeriksaan_display'])){
-        $metode_pemeriksaan_display = "";
-    }else{
-        $metode_pemeriksaan_display = $_POST['metode_pemeriksaan_display'];
-    }
-    if(empty($_POST['metode_pemeriksaan_code'])){
-        $metode_pemeriksaan_code = "";
-    }else{
-        $metode_pemeriksaan_code = $_POST['metode_pemeriksaan_code'];
-    }
-    if(empty($_POST['metode_pemeriksaan_system'])){
-        $metode_pemeriksaan_system = "";
-    }else{
-        $metode_pemeriksaan_system = $_POST['metode_pemeriksaan_system'];
-    }
+    $id_referensi_metode_pemeriksaan = $_POST['id_referensi_metode_pemeriksaan'];
+
+    // Membuka Metode pemeriksaan
+    $nama_metode_pemeriksaan    = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'nama_metode_pemeriksaan');
+    $display_metode_pemeriksaan = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'display_metode_pemeriksaan');
+    $code_metode_pemeriksaan    = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'code_metode_pemeriksaan');
+    $system_metode_pemeriksaan  = GetDetailData($Conn, 'referensi_metode_pemeriksaan', 'id_referensi_metode_pemeriksaan', $id_referensi_metode_pemeriksaan, 'system_metode_pemeriksaan');
 ?>
     <!-- Untuk Mengirim FK -->
     <input type="hidden" name="id_laboratorium_rincian" value="<?php echo $id_laboratorium_rincian; ?>">
@@ -363,10 +358,11 @@
     <input type="hidden" name="id_referensi_range" value="<?php echo $id_referensi_range; ?>">
 
     <!-- Untuk Mengirim Metode Pemeriksaan -->
-     <input type="hidden" name="metode_pemeriksaan" value="<?php echo $metode_pemeriksaan; ?>">
-     <input type="hidden" name="metode_pemeriksaan_display" value="<?php echo $metode_pemeriksaan_display; ?>">
-     <input type="hidden" name="metode_pemeriksaan_code" value="<?php echo $metode_pemeriksaan_code; ?>">
-     <input type="hidden" name="metode_pemeriksaan_system" value="<?php echo $metode_pemeriksaan_system; ?>">
+     <input type="hidden" name="id_referensi_metode_pemeriksaan" value="<?php echo $id_referensi_metode_pemeriksaan; ?>">
+     <input type="hidden" name="metode_pemeriksaan" value="<?php echo $nama_metode_pemeriksaan; ?>">
+     <input type="hidden" name="metode_pemeriksaan_display" value="<?php echo $display_metode_pemeriksaan; ?>">
+     <input type="hidden" name="metode_pemeriksaan_code" value="<?php echo $code_metode_pemeriksaan; ?>">
+     <input type="hidden" name="metode_pemeriksaan_system" value="<?php echo $system_metode_pemeriksaan; ?>">
 
     <!-- Tampilkan Informasi Dasar -->
     <div class="row mb-2">

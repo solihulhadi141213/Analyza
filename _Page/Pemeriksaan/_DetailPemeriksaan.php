@@ -517,7 +517,11 @@
                                                     ';
                                                 }
                                             }else{
-                                                $label_spesimen_pemeriksaan = '-';
+                                                $label_spesimen_pemeriksaan = '
+                                                    <a href = "javascript:void(0);" class="text-danger modal_pilih_spesimen" data-id = "'.$id_laboratorium_rincian.'" title="Pilih Spesimen Dari Daftar">
+                                                        <i class="bi bi-plus"></i> Pilih
+                                                    </a>
+                                                ';
                                                 $sp = '
                                                     <button type="button" class="btn btn-sm btn-floating btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Belum Ada Spesimen Terdaftar">
                                                         <i class="bi bi-exclamation"></i>
@@ -884,7 +888,9 @@
                                                         <small class="text text-grayish">'.$no.'.'.$no2.'</small>
                                                     </td>
                                                     <td class="text-left">
-                                                        <small class="text text-grayish">'.$nama_pemeriksaan.'</small>
+                                                        <a href="javascript:void(0);" class="modal_detail_hasil" data-id="'.$id_laboratorium_rincian.'">
+                                                            <small>'.$nama_pemeriksaan.'</small>
+                                                        </a>
                                                     </td>
                                                     <td class="text-center">
                                                         <small class="text">'.$label_hasil.'</small>
