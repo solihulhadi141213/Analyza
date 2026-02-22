@@ -7,6 +7,9 @@
     require_once "../../_Config/GlobalFunction.php";
     require_once "../../_Config/Session.php";
 
+    date_default_timezone_set("Asia/Jakarta");
+    $datetime_hasil = date('Y-m-d H:i');
+
     /**
      * Helper kirim response JSON lalu hentikan proses
      */
@@ -149,11 +152,41 @@
             'status'  => 'error',
             'message' => 'Gagal memperbarui rincian: ' . $query->error
         ]);
-    }else{
-        echo json_encode([
-            'status'  => 'success',
-            'message' => 'Rincian Berhasil Disimpan'
-        ]);
-    } 
+        exit;
+    }
     $query->close();
+
+    // Buka ID Lab
+    $id_laboratorium = GetDetailData($Conn, 'laboratorium_rincian', 'id_laboratorium_rincian', $id_laboratorium_rincian, 'id_laboratorium');
+
+    // Update Waktu Keluar hasil
+    $QryUpdateLab = $Conn->prepare("UPDATE laboratorium SET datetime_hasil = ? WHERE id_laboratorium = ?");
+    if (!$QryUpdateLab) {
+        echo json_encode([
+            'status'  => 'error',
+            'message' => 'Gagal Mempersiapkan Query Update Ke Tabel Laboratorium'
+        ]);
+        exit;
+    }
+    $QryUpdateLab->bind_param(
+        "si",
+        $datetime_hasil,
+        $id_laboratorium
+    );
+
+    // Eksekusi
+    if (!$QryUpdateLab->execute()) {
+        echo json_encode([
+            'status'  => 'error',
+            'message' => 'Gagal Update Tabel Laboratorium: ' . $QryUpdateLab->error
+        ]);
+        exit;
+    }
+
+    // Response Berhasil
+    echo json_encode([
+        'status'  => 'success',
+        'message' => 'Rincian Hasil Berhasil Disimpan'
+    ]);
+    $QryUpdateLab->close();
 ?>

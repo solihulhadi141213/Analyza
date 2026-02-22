@@ -10,7 +10,7 @@ Aplikasi ini dirancang untuk dapat terintegrasi dengan SATUSEHAT sehingga arsite
  3. Aksesibilitas
  4. Koneksi
  5. Referensi
- 6. pelayanan Pemeriksaan
+ 6. Pelayanan Pemeriksaan
  7. Laporan
  8. Log Aktivitas
  9. Dokumentasi

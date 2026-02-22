@@ -95,6 +95,9 @@
         <button type="button" class="btn btn-md btn-floating btn-outline-dark reload_detail" title="Reload Data">
             <i class="bi bi-repeat"></i>
         </button>
+        <button type="button" class="btn btn-md btn-floating btn-outline-primary modal_edit" data-id="<?php echo $id_laboratorium; ?>" title="Cetak Hasil Pemeriksaan">
+            <i class="bi bi-printer"></i>
+        </button>
         <button type="button" class="btn btn-md btn-floating btn-outline-primary modal_edit" data-id="<?php echo $id_laboratorium; ?>" title="Edit Pemeriksaan">
             <i class="bi bi-pencil"></i>
         </button>
@@ -444,6 +447,9 @@
                                 <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Resource Observation SATUSEHAT">
                                     <b>OB</b>
                                 </td>
+                                <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Resource Diagnostic Report SATUSEHAT">
+                                    <b>DR</b>
+                                </td>
                                 <td class="text-center"><b>Opsi</b></td>
                             </tr>
                         </thead>
@@ -453,7 +459,7 @@
                                 if(empty($jumlah_rincian)){
                                     echo '
                                         <tr>
-                                            <td colspan="8" class="text-center">
+                                            <td colspan="9" class="text-center">
                                                 <small class="text-danger">Tidak Ada Data Rincian Pemeriksaan</small>
                                             </td>
                                         </tr>
@@ -467,7 +473,7 @@
                                         echo '
                                             <tr>
                                                 <td class="text-center"><small>'.$no.'</small></td>
-                                                <td class="text-left" colspan="6"><small>'.$category_pemeriksaan.'</small></td>
+                                                <td class="text-left" colspan="7"><small>'.$category_pemeriksaan.'</small></td>
                                             </tr>
                                         ';
 
@@ -562,7 +568,21 @@
                                                 
                                             }else{
                                                 $ob = '
-                                                    <button type="button" class="btn btn-sm btn-floating btn-outline-success modal_detail_observation" data-id="'.$id_laboratorium_rincian.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Lihat Detail Observation">
+                                                    <button type="button" class="btn btn-sm btn-floating btn-outline-success modal_detail_observation" data-id="'.$data2['id_observation'].'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Lihat Detail Observation">
+                                                        <i class="bi bi-check"></i>
+                                                    </button>
+                                                ';
+                                            }
+                                            // Routing DiagnosticReport
+                                            if(empty($data2['id_diagnostic_report'])){
+                                                $dr = '
+                                                    <button type="button" class="btn btn-sm btn-floating btn-outline-secondary modal_kirim_diagnostic_report" data-id="'.$id_laboratorium_rincian.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Kirim Diagnostic Report">
+                                                        <i class="bi bi-send"></i>
+                                                    </button>
+                                                ';
+                                            }else{
+                                                $dr = '
+                                                    <button type="button" class="btn btn-sm btn-floating btn-outline-success modal_detail_diagnostic_report" data-id="'.$data2['id_diagnostic_report'].'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Lihat Detail Diagnostic Report">
                                                         <i class="bi bi-check"></i>
                                                     </button>
                                                 ';
@@ -583,6 +603,7 @@
                                                     <td class="text-center">'.$sr.'</td>
                                                     <td class="text-center">'.$sp.'</td>
                                                     <td class="text-center">'.$ob.'</td>
+                                                    <td class="text-center">'.$dr.'</td>
                                                     <td class="text-center">
                                                         <button type="button" class="btn btn-sm btn-danger btn-floating modal_hapus_rincian"  data-id="'.$id_laboratorium_rincian.'">
                                                             <i class="bi bi-x"></i>
@@ -921,6 +942,106 @@
                             ?>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+
+        <?php
+            // Default value
+            $id_laboratorium_diagnostic = "-";
+            $conclusion                 = "-";
+            $clinical                   = "-";
+            $icd_10_code                = "-";
+            $icd_10_display             = "-";
+            $icd_10_system              = "-";
+
+            // Query
+            $QryDiagnostic = $Conn->prepare("SELECT * FROM laboratorium_diagnostic WHERE id_laboratorium = ?");
+            $QryDiagnostic->bind_param("s", $id_laboratorium);
+
+            if (!$QryDiagnostic->execute()) {
+                echo '
+                    <div class="alert alert-danger text-center">
+                        <small>Terjadi kesalahan pada saat membuka data Diagnostic!<br>
+                        Keterangan : '.$Conn->error.'</small>
+                    </div>
+                ';
+                exit;
+            }
+
+            $ResultDiagnostic = $QryDiagnostic->get_result();
+            $DataDiagnostic   = $ResultDiagnostic->fetch_assoc();
+            $QryDiagnostic->close();
+
+            if (!empty($DataDiagnostic)) {
+                $id_laboratorium_diagnostic = $DataDiagnostic['id_laboratorium_diagnostic'];
+                $conclusion                 = $DataDiagnostic['conclusion'];
+                $clinical                   = $DataDiagnostic['clinical'];
+                $icd_10_code                = $DataDiagnostic['icd_10_code'];
+                $icd_10_display             = $DataDiagnostic['icd_10_display'];
+                $icd_10_system              = $DataDiagnostic['icd_10_system'];
+            }
+            ?>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-8">
+                        <b># <i>Diagnostic Report</i></b>
+                    </div>
+                    <div class="col-4 text-end">
+                        <?php
+                            if(empty($DataDiagnostic['id_laboratorium_diagnostic'])){
+                                echo '
+                                    <button type="button" class="btn btn-sm btn-floating btn-secondary modal_diagnostic" data-id="'.$id_laboratorium.'">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                ';
+                            }else{
+                                echo '
+                                    <button type="button" class="btn btn-sm btn-floating btn-outline-success modal_diagnostic" data-id="'.$id_laboratorium.'">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                ';
+                            }
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-4"><small>Kesimpulan <i>(<i>Conclusion</i>)</i></small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-7">
+                        <small class="text text-grayish"><?php echo $conclusion; ?></small>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4"><small>Klinis <i>(<i>Clinical</i>)</i></small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-7">
+                        <small class="text text-grayish"><?php echo $clinical; ?></small>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4"><small>Kode Diagnosa <i>(<i>ICD10 Code</i>)</i></small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-7">
+                        <small class="text text-grayish"><?php echo "$icd_10_code"; ?></small>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4"><small>Deskripsi Diagnosa <i>(<i>ICD10 Display</i>)</i></small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-7">
+                        <small class="text text-grayish"><?php echo "$icd_10_display"; ?></small>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4"><small>Sistem Diagnosa <i>(<i>ICD10 System</i>)</i></small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-7">
+                        <small class="text text-grayish"><?php echo "$icd_10_system"; ?></small>
+                    </div>
                 </div>
             </div>
         </div>

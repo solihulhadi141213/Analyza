@@ -305,6 +305,58 @@ function SelectDiagnosis() {
     });
 }
 
+function SelectDiagnosis2() {
+
+    let el = $('#id_icd_10');
+
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormDiagnosticReport'),
+        placeholder       : "Pilih Diagnosis (ICD10)",
+        allowClear        : true,
+        tags              : false,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/Pemeriksaan/ListDoagnosis.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
+                };
+            },
+            cache: true
+        },
+
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+
 function SelectSpesimen() {
     let el = $('#id_referensi_jenis_spesimen');
     // Hindari double init
@@ -2608,5 +2660,305 @@ $(document).ready(function() {
             }
         });
     });
+
+    // ===================================================================================
+    // OBSERVATION
+    // ===================================================================================
+    $(document).on('click', '.modal_kirim_observation', function () {
+
+        //tangkap data 'id_laboratorium_rincian' dan buat variabel
+        var id_laboratorium_rincian   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalKirimObservation').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiKirimObservation').html('');
+
+        //Form Loading
+        $('#FormKirimObservation').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormKirimObservation.php',
+            data        : {id_laboratorium_rincian: id_laboratorium_rincian},
+            success     : function(data){
+                $('#FormKirimObservation').html(data);
+            }
+        });
+
+    });
+
+    $('#ProsesKirimObservation').off('submit').on('submit', function(e){
+        e.preventDefault();
+
+        var $form = $(this);
+        var $submitBtn = $form.find('button[type="submit"]');
+        var ProsesKirimObservation = $form.serialize();
+
+        // Cegah double submit
+        $submitBtn.prop('disabled', true);
+        $('#NotifikasiKirimObservation').html('Loading...');
+
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesKirimObservation.php',
+            dataType: 'json',
+            data    : ProsesKirimObservation,
+            success : function(response) {
+                var status  = response && response.status ? response.status : 'error';
+                var message = response && response.message ? response.message : 'Terjadi kesalahan yang tidak diketahui.';
+
+                if(status === 'success'){
+                    $('#NotifikasiKirimObservation').html('');
+                    $('#ModalKirimObservation').modal('hide');
+
+                    ShowDetail();
+                    ShowTable();
+
+                    $('#put_message').html('<i class="bi bi-check-circle me-2"></i> ' + message);
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {delay: 3000});
+                    toast.show();
+                }else{
+                    $('#NotifikasiKirimObservation').html('<div class="alert alert-danger"><small>' + message + '</small></div>');
+                }
+            },
+            error : function(xhr) {
+                var message = 'Terjadi kesalahan pada server.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                $('#NotifikasiKirimObservation').html('<div class="alert alert-danger"><small>' + message + '</small></div>');
+            },
+            complete : function() {
+                $submitBtn.prop('disabled', false);
+            }
+        });
+    });
+
+    $(document).on('click', '.modal_detail_observation', function () {
+
+        //tangkap data 'id_observation' dan buat variabel
+        var id_observation   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDetailObservation').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiDetailObservation').html('');
+
+        //Form Loading
+        $('#FormDetailObservation').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormDetailObservation.php',
+            data        : {id_observation: id_observation},
+            success     : function(data){
+                $('#FormDetailObservation').html(data);
+            }
+        });
+
+    });
+    // ===================================================================================
+    // DIAGNOSTIC REPORT
+    // ===================================================================================
+    $(document).on('click', '.modal_diagnostic', function () {
+
+        //tangkap data 'id_laboratorium' dan buat variabel
+        var id_laboratorium   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDiagnosticReport').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiDiagnosticReport').html('');
+
+        //Form Loading
+        $('#FormDiagnosticReport').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormDiagnosticReport.php',
+            data        : {id_laboratorium: id_laboratorium},
+            success     : function(data){
+                $('#FormDiagnosticReport').html(data);
+                SelectDiagnosis2();
+            }
+        });
+    });
+
+    // Select2 id_icd_10
+    $(document).on('select2:select', '#id_icd_10', function (e) {
+        let data = e.params.data || {};
+
+        // Autofill jika dari database
+        if (!data.isNew) {
+            $('#icd_10_code').val(data.kode);
+            $('#icd_10_display').val(data.short_des || '');
+            $('#icd_10_system').val(data.system || '');
+        } else {
+            // Jika manual input → kosongkan autofill
+            $('#icd_10_code').val('');
+            $('#icd_10_display').val('');
+            $('#icd_10_system').val('');
+        }
+    });
+    $(document).on('select2:clear', '#id_icd_10', function () {
+        $('#icd_10_code').val('');
+        $('#icd_10_display').val('');
+        $('#icd_10_system').val('');
+    });
+
+    $('#ProsesDiagnosticReport').off('submit').on('submit', function(e){
+        e.preventDefault();
+
+        var $form = $(this);
+        var $submitBtn = $form.find('button[type="submit"]');
+        var ProsesDiagnosticReport = $form.serialize();
+
+        // Cegah double submit
+        $submitBtn.prop('disabled', true);
+        $('#NotifikasiDiagnosticReport').html('Loading...');
+
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesDiagnosticReport.php',
+            dataType: 'json',
+            data    : ProsesDiagnosticReport,
+            success : function(response) {
+                var status  = response && response.status ? response.status : 'error';
+                var payload  = response && response.payload ? response.payload : 'error';
+                var message = response && response.message ? response.message : 'Terjadi kesalahan yang tidak diketahui.';
+
+                if(status === 'success'){
+                    $('#NotifikasiDiagnosticReport').html('');
+                    $('#ModalDiagnosticReport').modal('hide');
+
+                    ShowDetail();
+                    ShowTable();
+
+                    $('#put_message').html('<i class="bi bi-check-circle me-2"></i> ' + message);
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {delay: 3000});
+                    toast.show();
+                }else{
+                    $('#NotifikasiDiagnosticReport').html('<div class="alert alert-danger"><small>' + message + '</small><p><pre>' + payload + '</pre></p></div>');
+                }
+            },
+            error : function(xhr) {
+                var message = 'Terjadi kesalahan pada server.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                $('#NotifikasiDiagnosticReport').html('<div class="alert alert-danger"><small>' + message + '</small></div>');
+            },
+            complete : function() {
+                $submitBtn.prop('disabled', false);
+            }
+        });
+    });
+
+    $(document).on('click', '.modal_kirim_diagnostic_report', function () {
+
+        //tangkap data 'id_laboratorium' dan buat variabel
+        var id_laboratorium_rincian   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalKirimDiagnosticReport').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiKirimDiagnosticReport').html('');
+
+        //Form Loading
+        $('#FormKirimDiagnosticReport').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormKirimDiagnosticReport.php',
+            data        : {id_laboratorium_rincian: id_laboratorium_rincian},
+            success     : function(data){
+                $('#FormKirimDiagnosticReport').html(data);
+            }
+        });
+    });
+
+    $('#ProsesKirimDiagnosticReport').off('submit').on('submit', function(e){
+        e.preventDefault();
+
+        var $form = $(this);
+        var $submitBtn = $form.find('button[type="submit"]');
+        var ProsesKirimDiagnosticReport = $form.serialize();
+
+        // Cegah double submit
+        $submitBtn.prop('disabled', true);
+        $('#NotifikasiKirimDiagnosticReport').html('Loading...');
+
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesKirimDiagnosticReport.php',
+            dataType: 'json',
+            data    : ProsesKirimDiagnosticReport,
+            success : function(response) {
+                var status  = response && response.status ? response.status : 'error';
+                var payload  = response && response.payload ? response.payload : 'error';
+                var message = response && response.message ? response.message : 'Terjadi kesalahan yang tidak diketahui.';
+
+                if(status === 'success'){
+                    $('#NotifikasiKirimDiagnosticReport').html('');
+                    $('#ModalKirimDiagnosticReport').modal('hide');
+
+                    ShowDetail();
+                    ShowTable();
+
+                    $('#put_message').html('<i class="bi bi-check-circle me-2"></i> ' + message);
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {delay: 3000});
+                    toast.show();
+                }else{
+                    $('#NotifikasiKirimDiagnosticReport').html('<div class="alert alert-danger"><small>' + message + '</small><p><b>Payload : <br></b><pre>' + payload + '</pre></p></div>');
+                }
+            },
+            error : function(xhr) {
+                var message = 'Terjadi kesalahan pada server.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                $('#NotifikasiKirimDiagnosticReport').html('<div class="alert alert-danger"><small>' + message + '</small></div>');
+            },
+            complete : function() {
+                $submitBtn.prop('disabled', false);
+            }
+        });
+    });
+
+    $(document).on('click', '.modal_detail_diagnostic_report', function () {
+
+        //tangkap data 'id_laboratorium' dan buat variabel
+        var id_diagnostic_report   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDetailDiagnosticReport').modal('show');
+
+        //Form Loading
+        $('#FormDetailDiagnosticReport').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormDetailDiagnosticReport.php',
+            data        : {id_diagnostic_report: id_diagnostic_report},
+            success     : function(data){
+                $('#FormDetailDiagnosticReport').html(data);
+            }
+        });
+    });
+
 });
+
 
