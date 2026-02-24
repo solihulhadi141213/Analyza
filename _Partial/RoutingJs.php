@@ -31,9 +31,10 @@
             "ReferensiSatuan"                => "_Page/ReferensiSatuan/ReferensiSatuan.js",
             "TandaTangan"                    => "_Page/TandaTangan/TandaTangan.js",
             "Pemeriksaan"                    => "_Page/Pemeriksaan/Pemeriksaan.js",
-            "Question"                       => "_Page/Question/Question.js",
-            "Medication"                     => "_Page/Medication/Medication.js",
-            "MedicationRequest"              => "_Page/MedicationRequest/MedicationRequest.js",
+            "LaporanPelayanan"               => "_Page/LaporanPelayanan/LaporanPelayanan.js",
+            "LaporanSpesimen"                => "_Page/LaporanSpesimen/LaporanSpesimen.js",
+            "LaporanDiagnosis"               => "_Page/LaporanDiagnosis/LaporanDiagnosis.js",
+            "LaporanSatuSehat"               => "_Page/LaporanSatuSehat/LaporanSatuSehat.js",
             "Aktivitas"                      => "_Page/Aktivitas/Aktivitas.js",
             "Help"                           => "_Page/Help/Help.js"
         ];

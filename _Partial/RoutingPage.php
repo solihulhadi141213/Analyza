@@ -23,9 +23,10 @@
             "ReferensiSatuan"                => "_Page/ReferensiSatuan/ReferensiSatuan.php",
             "TandaTangan"                    => "_Page/TandaTangan/TandaTangan.php",
             "Pemeriksaan"                    => "_Page/Pemeriksaan/Pemeriksaan.php",
-            "Question"                       => "_Page/Question/Question.php",
-            "Medication"                     => "_Page/Medication/Medication.php",
-            "MedicationRequest"              => "_Page/MedicationRequest/MedicationRequest.php",
+            "LaporanPelayanan"               => "_Page/LaporanPelayanan/LaporanPelayanan.php",
+            "LaporanSpesimen"                => "_Page/LaporanSpesimen/LaporanSpesimen.php",
+            "LaporanDiagnosis"               => "_Page/LaporanDiagnosis/LaporanDiagnosis.php",
+            "LaporanSatuSehat"               => "_Page/LaporanSatuSehat/LaporanSatuSehat.php",
             "Aktivitas"                      => "_Page/Aktivitas/Aktivitas.php",
             "Help"                           => "_Page/Help/Help.php",
         ];

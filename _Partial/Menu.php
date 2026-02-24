@@ -179,9 +179,31 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="Spesimen"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Spesimen">
-                <i class="ri ri-test-tube-line"></i> <span>Spesimen</span>
+            <a class="nav-link <?php if($PageMenu=="LaporanPelayanan" || $PageMenu=="LaporanSpesimen" || $PageMenu=="LaporanDiagnosis" || $PageMenu=="LaporanSatuSehat"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#components6-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+                <i class="bi bi-filetype-doc"></i> <span>Laporan</span> <i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="components6-nav" class="nav-content collapse <?php if($PageMenu=="LaporanPelayanan" || $PageMenu=="LaporanSpesimen" || $PageMenu=="LaporanDiagnosis" || $PageMenu=="LaporanSatuSehat"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="index.php?Page=LaporanPelayanan" class="<?php if($PageMenu=="LaporanPelayanan"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span> Pelayanan</span>
+                    </a>
+                </li> 
+                <li>
+                    <a href="index.php?Page=LaporanSpesimen" class="<?php if($PageMenu=="LaporanSpesimen"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span> Spesimen</span>
+                    </a>
+                </li> 
+                <li>
+                    <a href="index.php?Page=LaporanDiagnosis" class="<?php if($PageMenu=="LaporanDiagnosis"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span> Diagnosis</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=LaporanSatuSehat" class="<?php if($PageMenu=="LaporanSatuSehat"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span> SATUSEHAT</span>
+                    </a>
+                </li> 
+            </ul>
         </li>
         <li class="nav-heading border-1 border-top">
             <div class="mt-3">Fitur Lainnya</div>
