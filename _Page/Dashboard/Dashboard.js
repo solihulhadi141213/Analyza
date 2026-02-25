@@ -1,191 +1,278 @@
-let chart = null;
+var chartPelayananInstance = null;
+var chartRawDataset = [];
+var chartMode = 'tahun'; // default: Januari - Desember tahun ini
 
-// Render Chart Function
-function loadChart(jsonUrl, titleText) {
-    $.getJSON(jsonUrl, function (data) {
+function getAjaxErrorMessage(xhr, fallbackMessage) {
+    if (xhr && xhr.responseJSON && xhr.responseJSON.message) {
+        return xhr.responseJSON.message;
+    }
 
-        const categories = data.map(item => item.x);
-        const seriesData = data.map(item => parseInt(item.y));
-
-        const options = {
-            chart: {
-                type: 'bar',
-                height: 400,
-                toolbar: { show: false }
-            },
-            series: [{
-                name: 'Jumlah Pelayanan',
-                data: seriesData
-            }],
-            xaxis: {
-                categories: categories
-            },
-            yaxis: {
-                labels: {
-                    formatter: value => Math.round(value)
-                }
-            },
-            tooltip: {
-                y: {
-                    formatter: value => Math.round(value) + ' Pelayanan'
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                curve: 'smooth',
-                width: 3
-            },
-            title: {
-                text: titleText,
-                align: 'center'
+    if (xhr && xhr.responseText) {
+        try {
+            var parsed = JSON.parse(xhr.responseText);
+            if (parsed && parsed.message) {
+                return parsed.message;
             }
-        };
+        } catch (e) {
+            // Abaikan parse error dan gunakan fallback
+        }
+    }
 
-        // Destroy chart lama jika ada
-        if (chart !== null) {
-            chart.destroy();
+    if (typeof xhr === 'string' && xhr.length > 0) {
+        return xhr;
+    }
+
+    return fallbackMessage;
+}
+
+function rejectPromise(message) {
+    return $.Deferred().reject({ responseJSON: { message: message } }).promise();
+}
+
+function getMonthNameId(monthNumber) {
+    var names = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    return names[monthNumber - 1] || '';
+}
+
+function aggregateYearCurrent(dataset) {
+    var now = new Date();
+    var year = now.getFullYear();
+    var categories = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    var values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    dataset.forEach(function (item) {
+        if (!item || !item.datetime) {
+            return;
         }
 
-        chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
+        var parts = String(item.datetime).split('-');
+        if (parts.length < 3) {
+            return;
+        }
+
+        var y = Number(parts[0]);
+        var m = Number(parts[1]);
+        if (y === year && m >= 1 && m <= 12) {
+            values[m - 1] += Number(item.y) || 0;
+        }
     });
+
+    return {
+        title: 'Grafik Pelayanan Periode  ' + year,
+        categories: categories,
+        values: values
+    };
 }
 
-function loadChartByService() {
-    $.getJSON("_Page/Dashboard/DashboardLayanan.json", function (data) {
+function aggregateCurrentMonth(dataset) {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var lastDay = new Date(year, month, 0).getDate();
 
-        // Ambil object pertama
-        const raw = data[0];
+    var categories = [];
+    var values = [];
+    var map = {};
 
-        // Convert object ke array
-        let chartData = Object.keys(raw).map(key => ({
-            name: key,
-            value: parseInt(raw[key])
-        }));
+    dataset.forEach(function (item) {
+        if (!item || !item.datetime) {
+            return;
+        }
 
-        // Sort DESC (terbesar ke terkecil)
-        chartData.sort((a, b) => b.value - a.value);
+        var parts = String(item.datetime).split('-');
+        if (parts.length < 3) {
+            return;
+        }
 
-        // Split ke categories & series
-        const categories = chartData.map(item => item.name);
-        const values = chartData.map(item => item.value);
+        var y = Number(parts[0]);
+        var m = Number(parts[1]);
+        var d = Number(parts[2]);
 
-        // Chart Options
-        var options = {
-            chart: {
-                type: 'bar',
-                height: 320,
-                horizontal: true,
-                toolbar: { show: false }
-            },
-            series: [{
-                name: 'Jumlah Pemeriksaan',
-                data: values
-            }],
-            xaxis: {
-                categories: categories
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 3,
-                    horizontal: true
-                }
-            },
-            dataLabels: {
-                enabled: false,
-                formatter: val => val,
-                style: {
-                    fontSize: '12px'
-                }
-            },
-            tooltip: {
-                y: {
-                    formatter: val => val + ' Pemeriksaan'
-                }
+        if (y === year && m === month && d >= 1 && d <= lastDay) {
+            map[d] = (map[d] || 0) + (Number(item.y) || 0);
+        }
+    });
+
+    for (var day = 1; day <= lastDay; day += 1) {
+        categories.push(String(day));
+        values.push(map[day] || 0);
+    }
+
+    return {
+        title: 'Grafik Pelayanan Periode Harian ' + getMonthNameId(month) + ' ' + year,
+        categories: categories,
+        values: values
+    };
+}
+
+function renderChartPelayanan(payload) {
+    if (typeof ApexCharts === 'undefined') {
+        return rejectPromise('Pustaka ApexCharts tidak ditemukan.');
+    }
+
+    $('#chart_pelayanan').html('<div id="chart_pelayanan_apex"></div>');
+
+    if (chartPelayananInstance) {
+        chartPelayananInstance.destroy();
+        chartPelayananInstance = null;
+    }
+
+    var options = {
+        series: [{
+            name: 'Jumlah Pelayanan',
+            data: payload.values
+        }],
+        chart: {
+            type: 'bar',
+            height: 450,
+            toolbar: {
+                show: false
             }
-        };
-
-        var chart = new ApexCharts(
-            document.querySelector(".chart_by_service"),
-            options
-        );
-
-        chart.render();
-    });
-}
-
-// Fungsi untuk menampilkan dashboard
-function ShowDashboard() {
-    $.ajax({
-        type: 'POST',
-        url: '_Page/Dashboard/CountDashboard.php',
-        dataType: 'json',
-        success: function(data) {
-            $('#put_pengguna').hide().html(data.user).fadeIn('slow');
-            $('#put_siswa_aktif').hide().html(data.siswa).fadeIn('slow');
-            $('#put_periode_akademik').hide().html(data.periode).fadeIn('slow');
-            $('#put_pembayaran').hide().html(data.pembayaran).fadeIn('slow');
         },
-        error: function(xhr, status, error) {
-            console.error("Gagal mengambil data dashboard:", error);
+        title: {
+            text: payload.title,
+            align: 'left'
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                columnWidth: '55%'
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            categories: payload.categories,
+            labels: {
+                rotate: -45
+            }
+        },
+        yaxis: {
+            min: 0,
+            forceNiceScale: true,
+            title: {
+                text: 'Jumlah'
+            }
+        },
+        noData: {
+            text: 'Belum ada data pelayanan.'
+        },
+        colors: ['#0d6efd']
+    };
+
+    chartPelayananInstance = new ApexCharts(document.querySelector('#chart_pelayanan_apex'), options);
+    return chartPelayananInstance.render();
+}
+
+function showChartByMode() {
+    var payload = (chartMode === 'bulan')
+        ? aggregateCurrentMonth(chartRawDataset)
+        : aggregateYearCurrent(chartRawDataset);
+
+    return $.when(renderChartPelayanan(payload));
+}
+
+// Fungsi untuk update data rekap ke JumlahPelayanan.json
+function UpdateCountDashboard() {
+    return $.ajax({
+        type: 'POST',
+        url: '_Page/Dashboard/UpdateCountDashboard.php',
+        dataType: 'json'
+    });
+}
+
+// Fungsi untuk mengambil dataset lalu tampilkan chart sesuai mode aktif
+function ShowChartPelayanan() {
+    return $.ajax({
+        type: 'GET',
+        url: '_Page/Dashboard/JumlahPelayanan.json',
+        dataType: 'json',
+        cache: false
+    }).then(function (response) {
+        chartRawDataset = (response && Array.isArray(response.dataset)) ? response.dataset : [];
+        return showChartByMode();
+    });
+}
+
+function initChartControls() {
+    $(document).on('click', '#ChartBulanini', function () {
+        chartMode = 'bulan';
+        showChartByMode().fail(function (xhr) {
+            Swal.fire('Opps!', getAjaxErrorMessage(xhr, 'Gagal menampilkan grafik pelayanan bulanan.'), 'error');
+        });
+    });
+
+    $(document).on('click', '#ChartTahunIni', function () {
+        chartMode = 'tahun';
+        showChartByMode().fail(function (xhr) {
+            Swal.fire('Opps!', getAjaxErrorMessage(xhr, 'Gagal menampilkan grafik pelayanan tahunan.'), 'error');
+        });
+    });
+
+    $(document).on('click', '#ReloadChart', function () {
+        UpdateCountDashboard()
+            .done(function (response) {
+                if (response && response.status === 'Success') {
+                    ShowChartPelayanan().fail(function (xhr) {
+                        Swal.fire('Opps!', getAjaxErrorMessage(xhr, 'Gagal memuat ulang grafik pelayanan.'), 'error');
+                    });
+                } else {
+                    var message = (response && response.message) ? response.message : 'Gagal update data dashboard.';
+                    Swal.fire('Opps!', message, 'error');
+                }
+            })
+            .fail(function (xhr) {
+                Swal.fire('Opps!', getAjaxErrorMessage(xhr, 'Terjadi kesalahan saat update data dashboard.'), 'error');
+            });
+    });
+}
+
+function ShowCountPelayanan() {
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/Dashboard/CountPelayanan.php',
+        dataType: 'json',
+        success : function(response){
+            $('#count_diminta').html(response.diminta);
+            $('#count_ditolak').html(response.ditolak);
+            $('#count_diterima').html(response.diterima);
+            $('#count_selesai').html(response.selesai);
+        }
+    });
+}
+function ShowTableLayanan() {
+    $('#TabelIndikatorLayanan').html('<tr><td colspan="4" class="text-center">LOADING...</td></tr>');
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/Dashboard/TabelIndikatorLayanan.php',
+        success : function(response){
+            $('#TabelIndikatorLayanan').html(response);
         }
     });
 }
 
-// Fungsi menampilkan jam digital
-function tampilkanJam() {
-    const waktu = new Date();
-    let jam = waktu.getHours().toString().padStart(2, '0');
-    let menit = waktu.getMinutes().toString().padStart(2, '0');
-
-    $('#jam_menarik').text(`${jam}:${menit} WIB`);
-}
-
-// Fungsi menampilkan tanggal
-function tampilkanTanggal() {
-    const waktu = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const tanggal = waktu.toLocaleDateString('id-ID', options);
-
-    $('#tanggal_menarik').text(tanggal);
-}
-
-
-
+// Inisialisasi Halaman
 $(document).ready(function () {
-    // DEFAULT: Chart Bulan Ini
-    loadChart(
-        "_Page/Dashboard/DashboardBulanan.json",
-        "Grafik Pelayanan Bulan Ini"
-    );
+    ShowCountPelayanan();
+    initChartControls();
+    ShowTableLayanan();
 
-    // Klik Bulan Ini
-    $("#ChartBulan").click(function () {
-        loadChart(
-            "_Page/Dashboard/DashboardBulanan.json",
-            "Grafik Pelayanan Bulan Ini"
-        );
-    });
+    // Default mode saat pertama buka halaman: Tahun Ini (Januari - Desember)
+    chartMode = 'tahun';
 
-    // Klik Tahun Ini
-    $("#ChartTahun").click(function () {
-        loadChart(
-            "_Page/Dashboard/DashboardTahunan.json",
-            "Grafik Pelayanan Tahun " + new Date().getFullYear()
-        );
-    });
-
-    loadChartByService();
-
-    // Jalankan pertama kali saat halaman load
-    tampilkanJam();
-    tampilkanTanggal();
-
-    // Update jam setiap 1 menit (60000 ms)
-    setInterval(function () {
-        tampilkanJam();
-        tampilkanTanggal();
-    }, 60000);
+    UpdateCountDashboard()
+        .done(function (response) {
+            if (response && response.status === 'Success') {
+                ShowChartPelayanan().fail(function (xhr) {
+                    Swal.fire('Opps!', getAjaxErrorMessage(xhr, 'Gagal menampilkan grafik pelayanan.'), 'error');
+                });
+            } else {
+                var message = (response && response.message) ? response.message : 'Gagal update data dashboard.';
+                Swal.fire('Opps!', message, 'error');
+            }
+        })
+        .fail(function (xhr) {
+            Swal.fire('Opps!', getAjaxErrorMessage(xhr, 'Terjadi kesalahan saat update data dashboard.'), 'error');
+        });
 });
