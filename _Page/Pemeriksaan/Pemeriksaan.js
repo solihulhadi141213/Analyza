@@ -227,7 +227,104 @@ function SelectDokter2() {
         }
     });
 }
+function SelectDokterPengirimEdit() {
+    let el = $('#id_dokter_pengirim_edit');
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
 
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormEditDokter'),
+        placeholder       : "Pilih Dokter Pengirim",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/Pemeriksaan/ListDokter.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
+                };
+            },
+            cache: true
+        },
+
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
+function SelectDokterPenerimaEdit() {
+    let el = $('#id_dokter_penerima_edit');
+    // Hindari double init
+    if (el.hasClass("select2-hidden-accessible")) {
+        el.select2('destroy');
+    }
+
+    el.select2({
+        theme             : "bootstrap-5",
+        dropdownParent    : $('#FormEditDokter'),
+        placeholder       : "Pilih Dokter Pengirim",
+        allowClear        : true,
+        tags              : true,
+        minimumInputLength: 0,
+        width             : "100%",
+        ajax: {
+            url     : "_Page/Pemeriksaan/ListDokter.php",
+            type    : "POST",
+            dataType: "json",
+            delay   : 250,
+            data    : function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: (response && response.results) ? response.results : [],
+                    pagination: { more: (response && response.more) ? response.more : false }
+                };
+            },
+            cache: true
+        },
+
+        createTag: function (params) {
+            let term = $.trim(params.term);
+            if (term === '') return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        }
+    });
+}
 function ToggleFormTerimaPermintaanFields() {
     let status = $('#FormTerimaPermintaan #status').val();
 
@@ -1069,9 +1166,6 @@ $(document).ready(function() {
         //tangkap data 'id_laboratorium' dan buat variabel
         var id_laboratorium   = $(this).data('id');
 
-        // Load 'ShowListKategori'
-        ShowListKategori();
-
         //tampilkan modal
         $('#ModalEdit').modal('show');
 
@@ -1088,67 +1182,11 @@ $(document).ready(function() {
             data        : {id_laboratorium: id_laboratorium},
             success     : function(data){
                 $('#FormEdit').html(data);
-
-                // Select2 Untuk Satuan
-                 $('#id_referensi_satuan_edit').select2({
-                    theme: "bootstrap-5",
-                    dropdownParent: $('#ModalEdit'),
-                    placeholder: "Pilih Unit",
-                    allowClear: true,
-                    minimumInputLength: 0,
-                    ajax: {
-                        url     : "_Page/ReferensiKemasanSample/list_satuan.php",
-                        type    : "POST",
-                        dataType: "json",
-                        delay   : 250,
-                        data    : function (params) {
-                            return {
-                                keyword: params.term || "", 
-                                page: params.page || 1
-                            };
-                        },
-                        processResults: function (data, params) {
-                            params.page = params.page || 1;
-
-                            return {
-                                results: data.results,
-                                pagination: {
-                                    more: data.more
-                                }
-                            };
-                        },
-                        cache: true
-                    }
-                });
             }
         });
     });
 
-    // Jika Modal Edit Muncul
-    $('#ModalEdit').on('show.bs.modal', function (e) {
-       
-    });
-
-    /* Ketika 'result_type' diubah */
-    $(document).on('change', '#result_type_edit', function() {
-        var result_type = $('#result_type_edit').val();
-        if(result_type=="Numeric" || result_type=="Decimal"){
-            $('#result_interpertation_type_edit').html(`
-                <option value="">Pilih</option>
-                <option value="Range">Range (Hasil merujuk pada jarak nilai tertentu)</option>
-                <option value="Category">Category (Hasil merujuk pada kelompok kategori tertentu)</option>
-                <option value="None">Interpertasi Tidak Digunakan</option>
-            `);
-        }
-        if(result_type=="Coded" || result_type=="Text" || result_type=="Boolean"){
-            $('#result_interpertation_type_edit').html(`
-                <option value="">Pilih</option>
-                <option value="Category">Category (Hasil merujuk pada kelompok kategori tertentu)</option>
-                <option value="None">Interpertasi Tidak Digunakan</option>
-            `);
-        }
-    });
-    
+        
     /* Ketika 'ProsesEdit' disubmit */
     $('#ProsesEdit').submit(function(){
        
@@ -1204,46 +1242,47 @@ $(document).ready(function() {
     // ===================================================================================
     // HAPUS PEMERIKSAAN
     // ===================================================================================
-    $(document).on('click', '.modal_delete', function () {
+    $(document).on('click', '.modal_hapus', function () {
 
         //tangkap data 'id_laboratorium' dan buat variabel
         var id_laboratorium   = $(this).data('id');
 
         //tampilkan modal
-        $('#ModalDelete').modal('show');
+        $('#ModalHapus').modal('show');
 
         // Kosongkan Notifikasi
-        $('#NotifikasiDelete').html('');
+        $('#NotifikasiHapus').html('');
 
         //Form Loading
-        $('#FormDelete').html('Loading...');
+        $('#FormHapus').html('Loading...');
 
         //Tampilkan Form Dengan Ajax
         $.ajax({
             type 	    : 'POST',
-            url 	    : '_Page/Pemeriksaan/FormDelete.php',
+            url 	    : '_Page/Pemeriksaan/FormHapus.php',
             data        : {id_laboratorium: id_laboratorium},
             success     : function(data){
-                $('#FormDelete').html(data);
+                $('#FormHapus').html(data);
+                
             }
         });
     });
 
-    /* Ketika 'ProsesDelete' disubmit */
-    $('#ProsesDelete').submit(function(){
+    /* Ketika 'ProsesHapus' disubmit */
+    $('#ProsesHapus').submit(function(){
        
         /* Menangkap data dari form  */
-        var ProsesDelete=$('#ProsesDelete').serialize();
+        var ProsesHapus=$('#ProsesHapus').serialize();
 
         /* Loading Notification */
-        $('#NotifikasiDelete').html('loading..');
+        $('#NotifikasiHapus').html('LOADING..');
 
         /* Kirim data dengan AJAX  */
         $.ajax({
             type    : 'POST',
-            url     : '_Page/Pemeriksaan/ProsesDelete.php',
+            url     : '_Page/Pemeriksaan/ProsesHapus.php',
             dataType: 'json',
-            data    : ProsesDelete,
+            data    : ProsesHapus,
             success: function(response) {
                 var status  = response.status;
                 var message = response.message;
@@ -1251,10 +1290,10 @@ $(document).ready(function() {
                 // Apabila berhasil
                 if(status=='success'){
                     //Bersihkan notifikasi
-                    $('#NotifikasiDelete').html('');
+                    $('#NotifikasiHapus').html('');
 
                     //Tutup modal
-                    $('#ModalDelete').modal('hide');
+                    $('#ModalHapus').modal('hide');
                     
                     // Tampilkan Tabel
                     $('#data_table').show();
@@ -1277,7 +1316,7 @@ $(document).ready(function() {
                     });
                     toast.show();
                 }else{
-                    $('#NotifikasiDelete').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                    $('#NotifikasiHapus').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
                 }
                 
             }
@@ -1384,6 +1423,478 @@ $(document).ready(function() {
                     toast.show();
                 }else{
                     $('#NotifikasiTerimaPermintaan').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+    // ===================================================================================
+    // DETAIL PASIEN
+    // ===================================================================================
+    $(document).on('click', '.modal_detail_pasien', function () {
+
+        //tangkap data 'id_pasien' dan buat variabel
+        var id_pasien   = $(this).data('id');
+        var id_laboratorium   = $(this).data('id_laboratorium');
+
+        //tampilkan modal
+        $('#ModalDetailPasien').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiDetailPasien').html('');
+
+        //Form Loading
+        $('#FormDetailPasien').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormDetailPasien.php',
+            data        : {id_pasien: id_pasien, id_laboratorium: id_laboratorium},
+            success     : function(data){
+                $('#FormDetailPasien').html(data);
+            }
+        });
+    });
+    /* Ketika 'ProsesDetailPasien' disubmit */
+    $('#ProsesDetailPasien').submit(function(){
+        /* Menangkap data dari form  */
+        var ProsesDetailPasien=$('#ProsesDetailPasien').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiDetailPasien').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesDetailPasien.php',
+            dataType: 'json',
+            data    : ProsesDetailPasien,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiDetailPasien').html('');
+
+                    //Tutup modal
+                    $('#ModalDetailPasien').modal('hide');
+
+                    //reload tabel
+                    ShowDetail();
+                    ShowTable();
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+                }else{
+                    $('#NotifikasiDetailPasien').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // DETAIL KUNJUNGAN
+    // ===================================================================================
+    $(document).on('click', '.modal_detail_kunjungan', function () {
+
+        //tangkap data 'id_pasien' dan buat variabel
+        var id_kunjungan   = $(this).data('id');
+        var id_laboratorium   = $(this).data('id_laboratorium');
+
+        //tampilkan modal
+        $('#ModalDetailKunjungan').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiDetailKunjungan').html('');
+
+        //Form Loading
+        $('#FormDetailKunjungan').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormDetailKunjungan.php',
+            data        : {id_kunjungan: id_kunjungan, id_laboratorium: id_laboratorium},
+            success     : function(data){
+                $('#FormDetailKunjungan').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesDetailKunjungan' disubmit */
+    $('#ProsesDetailKunjungan').submit(function(){
+        /* Menangkap data dari form  */
+        var ProsesDetailKunjungan=$('#ProsesDetailKunjungan').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiDetailKunjungan').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesDetailKunjungan.php',
+            dataType: 'json',
+            data    : ProsesDetailKunjungan,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiDetailKunjungan').html('');
+
+                    //Tutup modal
+                    $('#ModalDetailKunjungan').modal('hide');
+
+                    //reload tabel
+                    ShowDetail();
+                    ShowTable();
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+                }else{
+                    $('#NotifikasiDetailKunjungan').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // DETAIL IHS
+    // ===================================================================================
+    $(document).on('click', '.modal_detail_ihs', function () {
+
+        //tangkap data 'ihs_pasien' dan buat variabel
+        var ihs_pasien   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDetailIhs').modal('show');
+
+        //Form Loading
+        $('#FormDetailIhs').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormDetailIhs.php',
+            data        : {ihs_pasien: ihs_pasien},
+            success     : function(data){
+                $('#FormDetailIhs').html(data);
+            }
+        });
+    });
+
+    // ===================================================================================
+    // DETAIL ENCOUNTER
+    // ===================================================================================
+    $(document).on('click', '.modal_detail_encounter', function () {
+
+        //tangkap data 'id_encounter' dan buat variabel
+        var id_encounter   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalDetailEncounter').modal('show');
+
+        //Form Loading
+        $('#FormDetailEncounter').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormDetailEncounter.php',
+            data        : {id_encounter: id_encounter},
+            success     : function(data){
+                $('#FormDetailEncounter').html(data);
+            }
+        });
+    });
+
+    // ===================================================================================
+    // EDIT KETERANGAN
+    // ===================================================================================
+    $(document).on('click', '.modal_keterangan', function () {
+
+        //tangkap data 'id_laboratorium' dan buat variabel
+        var id_laboratorium   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalEditKeterangan').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiEditKeterangan').html('');
+
+        //Form Loading
+        $('#FormEditKeterangan').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormEditKeterangan.php',
+            data        : {id_laboratorium: id_laboratorium},
+            success     : function(data){
+                $('#FormEditKeterangan').html(data);
+            }
+        });
+    });
+
+    /* Ketika 'ProsesEditKeterangan' disubmit */
+    $('#ProsesEditKeterangan').submit(function(){
+        /* Menangkap data dari form  */
+        var ProsesEditKeterangan=$('#ProsesEditKeterangan').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiEditKeterangan').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesEditKeterangan.php',
+            dataType: 'json',
+            data    : ProsesEditKeterangan,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiEditKeterangan').html('');
+
+                    //Tutup modal
+                    $('#ModalEditKeterangan').modal('hide');
+
+                    //reload tabel
+                    ShowDetail();
+                    ShowTable();
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+                }else{
+                    $('#NotifikasiEditKeterangan').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // EDIT DOKTER
+    // ===================================================================================
+    $(document).on('click', '.modal_edit_dokter', function () {
+
+        //tangkap data 'id_laboratorium' dan buat variabel
+        var id_laboratorium   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalEditDokter').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiEditDokter').html('');
+
+        //Form Loading
+        $('#FormEditDokter').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormEditDokter.php',
+            data        : {id_laboratorium: id_laboratorium},
+            success     : function(data){
+                $('#FormEditDokter').html(data);
+                SelectDokterPengirimEdit();
+                SelectDokterPenerimaEdit();
+            }
+        });
+    });
+
+    // ketika Dokter Pengirim Dipilih
+    $(document).on('select2:select', '#id_dokter_pengirim_edit', function (e) {
+        let data = e.params.data || {};
+
+        // Autofill jika dari database
+        if (!data.isNew) {
+            $('#kode_dokter_pengirim_edit').val(data.kode);
+            $('#ihs_dokter_pengirim_edit').val(data.id_ihs_practitioner || '');
+            $('#nama_dokter_pengirim_edit').val(data.nama || '');
+        } else {
+            // Jika manual input → kosongkan autofill
+            $('#kode_dokter_pengirim_edit').val('');
+            $('#ihs_dokter_pengirim_edit').val('');
+            $('#nama_dokter_pengirim_edit').val('');
+        }
+    });
+
+    // ketika Dokter Penerima Dipilih
+    $(document).on('select2:select', '#id_dokter_penerima_edit', function (e) {
+        let data = e.params.data || {};
+
+        // Autofill jika dari database
+        if (!data.isNew) {
+            $('#kode_dokter_penerima_edit').val(data.kode);
+            $('#ihs_dokter_penerima_edit').val(data.id_ihs_practitioner || '');
+            $('#nama_dokter_penerima_edit').val(data.nama || '');
+        } else {
+            // Jika manual input → kosongkan autofill
+            $('#kode_dokter_penerima_edit').val('');
+            $('#ihs_dokter_penerima_edit').val('');
+            $('#nama_dokter_penerima_edit').val('');
+        }
+    });
+
+    /* Ketika 'ProsesEditDokter' disubmit */
+    $('#ProsesEditDokter').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesEditDokter=$('#ProsesEditDokter').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiEditDokter').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesEditDokter.php',
+            dataType: 'json',
+            data    : ProsesEditDokter,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiEditDokter').html('');
+
+                    //Tutup modal
+                    $('#ModalEditDokter').modal('hide');
+
+                    //reload tabel
+                    ShowDetail();
+                    ShowTable();
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+                }else{
+                    $('#NotifikasiEditDokter').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+                
+            }
+        });
+    });
+
+    // ===================================================================================
+    // EDIT LOG
+    // ===================================================================================
+    $(document).on('click', '.modal_edit_log', function () {
+
+        //tangkap data 'id_laboratorium' dan buat variabel
+        var id_laboratorium   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalEditLog').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiEditLog').html('');
+
+        //Form Loading
+        $('#FormEditLog').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormEditLog.php',
+            data        : {id_laboratorium: id_laboratorium},
+            success     : function(data){
+                $('#FormEditLog').html(data);
+            }
+        });
+    });
+    /* Ketika 'ProsesEditLog' disubmit */
+    $('#ProsesEditLog').submit(function(){
+       
+        /* Menangkap data dari form  */
+        var ProsesEditLog=$('#ProsesEditLog').serialize();
+
+        /* Loading Notification */
+        $('#NotifikasiEditLog').html('loading..');
+
+        /* Kirim data dengan AJAX  */
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Pemeriksaan/ProsesEditLog.php',
+            dataType: 'json',
+            data    : ProsesEditLog,
+            success: function(response) {
+                var status  = response.status;
+                var message = response.message;
+
+                // Apabila berhasil
+                if(status=='success'){
+                    //Bersihkan notifikasi
+                    $('#NotifikasiEditLog').html('');
+
+                    //Tutup modal
+                    $('#ModalEditLog').modal('hide');
+
+                    //reload tabel
+                    ShowDetail();
+                    ShowTable();
+
+                    // Tampilkan Pesan pada Toast
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' + message
+                    );
+                    
+                    // Menampilkan Toast
+                    var toastEl = document.getElementById('toast_proses');
+                    var toast   = new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                    toast.show();
+                }else{
+                    $('#NotifikasiEditLog').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
                 }
                 
             }

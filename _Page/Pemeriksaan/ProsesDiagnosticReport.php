@@ -117,6 +117,32 @@
         $status = "success";
         $message = "Diagnostic Report berhasil Di UPDATE pada database";
     }
+    
+    // Update Status Selesai
+    $status = "Selesai";
+    $QryUpdateLab = $Conn->prepare("UPDATE laboratorium SET status = ? WHERE id_laboratorium = ?");
+    if (!$QryUpdateLab) {
+        echo json_encode([
+            'status'  => 'error',
+            'message' => 'Gagal Mempersiapkan Query Update Ke Tabel Laboratorium'
+        ]);
+        exit;
+    }
+    $QryUpdateLab->bind_param(
+        "si",
+        $status,
+        $id_laboratorium
+    );
+
+    // Eksekusi
+    if (!$QryUpdateLab->execute()) {
+        echo json_encode([
+            'status'  => 'error',
+            'message' => 'Gagal Update Tabel Laboratorium: ' . $QryUpdateLab->error
+        ]);
+        exit;
+    }
+    $QryUpdateLab->close();
 
     echo json_encode([
         'status'  => 'success',

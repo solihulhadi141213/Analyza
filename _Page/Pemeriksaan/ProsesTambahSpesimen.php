@@ -357,15 +357,16 @@
         }
 
         // Sinkronkan tanggal/jam spesimen di header laboratorium
+        $status = "Pengambilan Spesimen";
         $stmtUpdateLab = $Conn->prepare("
             UPDATE laboratorium
-            SET datetime_spesimen = ?
+            SET datetime_spesimen = ?, status = ?
             WHERE id_laboratorium = ?
         ");
         if (!$stmtUpdateLab) {
             throw new Exception('Gagal menyiapkan query update laboratorium');
         }
-        $stmtUpdateLab->bind_param("ss", $datetime_spesimen, $id_laboratorium);
+        $stmtUpdateLab->bind_param("sss", $datetime_spesimen, $status, $id_laboratorium);
         if (!$stmtUpdateLab->execute()) {
             throw new Exception('Gagal update tanggal/jam spesimen pada data laboratorium');
         }

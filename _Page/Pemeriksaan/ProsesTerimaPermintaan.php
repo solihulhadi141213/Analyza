@@ -6,6 +6,7 @@
     require_once "../../_Config/Connection.php";
     require_once "../../_Config/GlobalFunction.php";
     require_once "../../_Config/Session.php";
+    require_once "../../_Config/FungsiAkses.php";
 
     date_default_timezone_set("Asia/Jakarta");
 
@@ -115,6 +116,8 @@
                     kode_dokter_penerima = ?,
                     ihs_dokter_penerima = ?,
                     nama_dokter_penerima = ?,
+                    ihs_petugas = ?,
+                    nama_petugas = ?,
                     alasan = NULL
                 WHERE id_laboratorium = ?
             ");
@@ -123,12 +126,14 @@
             }
 
             $stmtUpdate->bind_param(
-                "ssssss",
+                "ssssssss",
                 $status,
                 $datetime_diterima,
                 $kode_dokter_penerima,
                 $ihs_dokter_penerima,
                 $nama_dokter_penerima,
+                $access_ihs,
+                $access_name,
                 $id_laboratorium
             );
 
@@ -155,14 +160,16 @@
                     datetime_diterima = NULL,
                     kode_dokter_penerima = NULL,
                     ihs_dokter_penerima = NULL,
-                    nama_dokter_penerima = NULL
+                    nama_dokter_penerima = NULL,
+                    ihs_petugas = ?,
+                    nama_petugas = ?
                 WHERE id_laboratorium = ?
             ");
             if (!$stmtUpdate) {
                 throw new Exception('Gagal menyiapkan query update pemeriksaan');
             }
 
-            $stmtUpdate->bind_param("sss", $status, $alasan, $id_laboratorium);
+            $stmtUpdate->bind_param("sssss", $status, $alasan, $access_ihs, $access_name, $id_laboratorium);
             if (!$stmtUpdate->execute()) {
                 $stmtUpdate->close();
                 throw new Exception('Gagal menyimpan status penolakan/pembatalan pemeriksaan');

@@ -238,11 +238,11 @@ DETAIL
 ==========================================================================================
 -->
 <div class="modal fade" id="ModalDetail" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesDetail">
-                <div class="modal-header">
-                    <h5 class="modal-title text-dark"><i class="bi bi-info-circle"></i> Detail Pemeriksaan</h5>
+                <div class="modal-header nav_background">
+                    <h5 class="modal-title text-light"><i class="bi bi-info-circle"></i> Detail Pemeriksaan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -252,7 +252,7 @@ DETAIL
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer nav_background">
                     <button type="submit" class="btn btn-primary btn-rounded">
                         Selengkapnya <i class="bi bi-chevron-right"></i>
                     </button>
@@ -270,7 +270,7 @@ EDIT
 ==========================================================================================
 -->
 <div class="modal fade" id="ModalEdit" tabindex="-1">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesEdit" autocomplete="off">
                 <div class="modal-header">
@@ -328,7 +328,7 @@ HAPUS
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-rounded">
+                    <button type="submit" disabled class="btn btn-primary btn-rounded" id="tombol_hapus_pemeriksaan">
                         <i class="bi bi-check"></i> Ya, Hapus
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
@@ -362,6 +362,245 @@ TERIMA/TOLAK PERMINTAAN
                     <div class="row">
                         <div class="col-md-12" id="NotifikasiTerimaPermintaan">
                             <!-- Notifikasi Penerimaan -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 
+==========================================================================================
+DETAIL PASIEN
+==========================================================================================
+-->
+<div class="modal fade" id="ModalDetailPasien" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesDetailPasien" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-info-circle"></i> Detail Pasien <i>(SIMRS)</i></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormDetailPasien">
+                            <!-- Form Edit -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiDetailPasien">
+                            <!-- Notifikasi Edit -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Update
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 
+==========================================================================================
+DETAIL KUNJUNGAN
+==========================================================================================
+-->
+<div class="modal fade" id="ModalDetailKunjungan" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesDetailKunjungan" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-info-circle"></i> Detail Kunjungan <i>(SIMRS)</i></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormDetailKunjungan">
+                            <!-- Form Edit -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiDetailKunjungan">
+                            <!-- Notifikasi Edit -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Update
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 
+==========================================================================================
+DETAIL IHS
+==========================================================================================
+-->
+<div class="modal fade" id="ModalDetailIhs" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark"><i class="bi bi-info-circle"></i> Detail IHS Pasien <i>(SATUSEHAT)</i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormDetailIhs">
+                        <!-- Form Edit -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 
+==========================================================================================
+DETAIL ENCOUNTER
+==========================================================================================
+-->
+<div class="modal fade" id="ModalDetailEncounter" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark"><i class="bi bi-info-circle"></i> Detail Encounter <i>(SATUSEHAT)</i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormDetailEncounter">
+                        <!-- Form Edit -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 
+==========================================================================================
+EDIT DOKTER
+==========================================================================================
+-->
+<div class="modal fade" id="ModalEditDokter" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditDokter" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Edit Dokter</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormEditDokter">
+                            <!-- Form Edit -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiEditDokter">
+                            <!-- Notifikasi Edit -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 
+==========================================================================================
+EDIT LOG
+==========================================================================================
+-->
+<div class="modal fade" id="ModalEditLog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditLog" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Edit Log Pemeriksaan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormEditLog">
+                            <!-- Form Edit -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiEditLog">
+                            <!-- Notifikasi Edit -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 
+==========================================================================================
+EDIT KETERANGAN
+==========================================================================================
+-->
+<div class="modal fade" id="ModalEditKeterangan" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditKeterangan" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Edit Keterangan Pemeriksaan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormEditKeterangan">
+                            <!-- Form Edit -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiEditKeterangan">
+                            <!-- Notifikasi Edit -->
                         </div>
                     </div>
                 </div>

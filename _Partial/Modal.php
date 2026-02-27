@@ -1,5 +1,6 @@
 <?php
     include "_Page/Logout/ModalLogout.php";
+    include "_Page/Dashboard/ModalDashboard.php";
     if(!empty($_GET['Page'])){
         $Page=$_GET['Page'];
         

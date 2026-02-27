@@ -48,20 +48,22 @@
     $Data   = $Result->fetch_assoc();
     $Qry->close();
     if (empty($Data)) {
-        echo '
-            <div class="alert alert-danger text-center">
-                <small>Data pemeriksaan laboratorium tidak ditemukan!</small>
-            </div>
-        ';
-        exit;
+        $id_laboratorium_diagnostic = "";
+        $conclusion                 = "";
+        $clinical                   = "";
+        $icd_10_code                = "";
+        $icd_10_display             = "";
+        $icd_10_system              = "";
+    }else{
+        // Buat Variabel
+        $id_laboratorium_diagnostic = $Data['id_laboratorium_diagnostic'] ?? '';
+        $conclusion                 = $Data['conclusion'] ?? '';
+        $clinical                   = $Data['clinical'] ?? '';
+        $icd_10_code                = $Data['icd_10_code'];
+        $icd_10_display             = $Data['icd_10_display'];
+        $icd_10_system              = $Data['icd_10_system'];
     }
-    // Buat Variabel
-    $id_laboratorium_diagnostic = $Data['id_laboratorium_diagnostic'] ?? '';
-    $conclusion                 = $Data['conclusion'] ?? '';
-    $clinical                   = $Data['clinical'] ?? '';
-    $icd_10_code                = $Data['icd_10_code'];
-    $icd_10_display             = $Data['icd_10_display'];
-    $icd_10_system              = $Data['icd_10_system'];
+    
 ?>
 <input type="hidden" name="id_laboratorium" value="<?php echo $id_laboratorium; ?>">
 <input type="hidden" name="id_laboratorium_diagnostic" value="<?php echo $id_laboratorium_diagnostic; ?>">

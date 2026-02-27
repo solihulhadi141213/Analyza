@@ -5,38 +5,46 @@
     include "../_Config/Session.php";
     
     //Menghitung Jumlah Pinjaman Yang Menunggak
-    $JumlahNotifikasi = 0;
+    $JumlahNotifikasi = mysqli_num_rows(mysqli_query($Conn, "SELECT id_laboratorium FROM laboratorium WHERE status='Diminta'"));
     
     
     //Apabila Tidak ada notifgikasi
     if(empty($JumlahNotifikasi)){
         echo '<li class="dropdown-header">';
-        echo '  Tidak Ada Pemberitahuan';
+        echo '  Tidak Ada Permintaan Pemeriksaan';
         echo '</li>';
     }else{
         //Apabila Ada
         echo '<li class="dropdown-header">';
-        echo '  Ada '.$JumlahNotifikasi.' Pemberitahuan Sistem';
+        echo '  Ada '.$JumlahNotifikasi.' Permintaan Pemeriksaan';
         echo '</li>';
-        if(!empty($student_gender_kosong)){
-            echo '<li><hr class="dropdown-divider"></li>';
-            echo '<li class="notification-item">';
-            echo '  <i class="bi bi-exclamation-circle text-danger"></i>';
-            echo '  <div>';
-            echo '      <h4><a href="index.php?Page=Siswa">Daftar Siswa</a></h4>';
-            echo '      <p>Ada '.$student_gender_kosong.' Data Siswa Yang Belum Memiliki Informasi Gender</p>';
-            echo '  </div>';
-            echo '</li>';
+        if(!empty($JumlahNotifikasi)){
+            $query = mysqli_query($Conn, "SELECT*FROM laboratorium WHERE status='Diminta' LIMIT 5");
+            while ($data = mysqli_fetch_array($query)) {
+                $id_laboratorium  = $data['id_laboratorium'];
+                $nama             = $data['nama'];
+                $datetime_diminta = $data['datetime_diminta'];
+                echo '
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="notification-item">
+                        <a href="javascript:void(0);" class="modal_terima_permintaan_pemeriksaan" data-id="'.$id_laboratorium.'">
+                            <div>
+                                <b>'.$nama.'</b>
+                                <p>'.date('d/m/Y H:i', strtotime($datetime_diminta)).'</p>
+                            </div>
+                        </a>
+                    </li>
+                ';
+            }
         }
-        if(!empty($student_nis_kosong)){
-            echo '<li><hr class="dropdown-divider"></li>';
-            echo '<li class="notification-item">';
-            echo '  <i class="bi bi-exclamation-circle text-danger"></i>';
-            echo '  <div>';
-            echo '      <h4><a href="index.php?Page=Siswa">Daftar Siswa</a></h4>';
-            echo '      <p>Ada '.$student_nis_kosong.' Data Siswa Yang Belum Memiliki Informasi NIS</p>';
-            echo '  </div>';
-            echo '</li>';
+        if($JumlahNotifikasi>5){
+            echo '
+                <li class="dropdown dropdown-footer">
+                    <a href="javascript:void(0);" class="text-danger" class="modal_lihat_daftar_permintaan">
+                        Lihat Selengkapnya <i class="bi bi-chevron-down"></i>
+                    </a>
+                </li>
+            ';
         }
     }
 ?>

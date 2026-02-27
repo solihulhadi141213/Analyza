@@ -114,6 +114,11 @@
                 }
 
                 // Usia pada saat permintaan dibuat (tanggal_lahir -> datetime_diminta)
+                // Aturan:
+                // - < 1 bulan  => satuan Hari
+                // - < 1 tahun  => satuan Bulan
+                // - >= 1 tahun => satuan Tahun
+                // - Dibulatkan ke atas bila sisa > setengah satuan
                 if (empty($tanggal_lahir) || empty($datetime_diminta)) {
                     $usia = "-";
                 } else {
@@ -125,12 +130,38 @@
                             $usia = "-";
                         } else {
                             $selisih = $tgl_lahir->diff($tgl_diminta);
+
                             if ($selisih->y >= 1) {
-                                $usia = $selisih->y . ' Y';
+                                $tahun = (int) $selisih->y;
+                                $lebih_setengah_tahun = (
+                                    $selisih->m > 6 ||
+                                    ($selisih->m == 6 && ($selisih->d > 0 || $selisih->h > 0 || $selisih->i > 0 || $selisih->s > 0))
+                                );
+                                if ($lebih_setengah_tahun) {
+                                    $tahun++;
+                                }
+                                $usia = $tahun . ' Tahun';
                             } elseif ($selisih->m >= 1) {
-                                $usia = $selisih->m . ' M ' . $selisih->d . ' D';
+                                $bulan = (int) $selisih->m;
+                                $acuan_bulan = clone $tgl_lahir;
+                                $acuan_bulan->add(new DateInterval('P' . $bulan . 'M'));
+                                $hari_dalam_bulan = (int) $acuan_bulan->format('t');
+                                $sisa_hari = $selisih->d + ($selisih->h / 24) + ($selisih->i / 1440) + ($selisih->s / 86400);
+
+                                if ($sisa_hari > ($hari_dalam_bulan / 2)) {
+                                    $bulan++;
+                                }
+
+                                $usia = $bulan . ' Bulan';
                             } else {
-                                $usia = $selisih->d . ' D';
+                                $hari = (int) $selisih->days;
+                                $sisa_hari = ($selisih->h / 24) + ($selisih->i / 1440) + ($selisih->s / 86400);
+
+                                if ($sisa_hari > 0.5) {
+                                    $hari++;
+                                }
+
+                                $usia = $hari . ' Hari';
                             }
                         }
                     } catch (Exception $e) {
@@ -158,12 +189,29 @@
                     ';
                 }else{
                     if($status=="Ditolak"||$status=="Dibatalkan"){
-                        $label_status = '<span class="badge bg-secondary">Batal</span>';
+                        $label_status = '<span class="badge bg-secondary" title="Pemeriksaan Dibatalkan">Batal</span>';
                     }else{
                         if($status=="Diterima"){
-                            $label_status = '<span class="badge bg-info">Diterima</span>';
+                            $label_status = '<span class="badge bg-info" title="Pemeriksaan Diterima">Diterima</span>';
                         }else{
-                            $label_status = '<span class="badge bg-dark">None</span>';
+                            if($status=="Pengambilan Spesimen"){
+                                $label_status = '<span class="badge bg-warning" title="Pengambilan Spesimen">Diterima</span>';
+                            }else{
+                                if($status=="Pemeriksaan Spesimen"){
+                                    $label_status = '<span class="badge bg-primary" title="Pemeriksaan Spesimen">Diterima</span>';
+                                }else{
+                                    if($status=="Keluar Hasil"){
+                                        $label_status = '<span class="badge bg-success" title="Keluar Hasil">Diterima</span>';
+                                    }else{
+                                        if($status=="Selesai"){
+                                            $label_status = '<span class="badge bg-success" title="Selesai">Selesai</span>';
+                                        }else{
+                                            $label_status = '<span class="badge bg-dark">None</span>';
+                                        }
+                                    }
+                                    
+                                }
+                            }
                         }
                     }
                 }

@@ -160,7 +160,8 @@
     $id_laboratorium = GetDetailData($Conn, 'laboratorium_rincian', 'id_laboratorium_rincian', $id_laboratorium_rincian, 'id_laboratorium');
 
     // Update Waktu Keluar hasil
-    $QryUpdateLab = $Conn->prepare("UPDATE laboratorium SET datetime_hasil = ? WHERE id_laboratorium = ?");
+    $status = "Keluar Hasil";
+    $QryUpdateLab = $Conn->prepare("UPDATE laboratorium SET datetime_hasil = ?, status = ? WHERE id_laboratorium = ?");
     if (!$QryUpdateLab) {
         echo json_encode([
             'status'  => 'error',
@@ -169,8 +170,9 @@
         exit;
     }
     $QryUpdateLab->bind_param(
-        "si",
+        "ssi",
         $datetime_hasil,
+        $status,
         $id_laboratorium
     );
 

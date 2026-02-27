@@ -3,8 +3,8 @@
     include "../_Config/Connection.php";
     include "../_Config/GlobalFunction.php";
     date_default_timezone_set("Asia/Jakarta");
-    //Menghitung Jumlah Pinjaman Yang Menunggak
-    $JumlahNotifikasi=0;
+    //Menghitung Jumlah Permintaan Pemeriksaan
+    $JumlahNotifikasi= mysqli_num_rows(mysqli_query($Conn, "SELECT id_laboratorium FROM laboratorium WHERE status='Diminta'"));
     
     //Apabila ada notifgikasi
     if(!empty($JumlahNotifikasi)){

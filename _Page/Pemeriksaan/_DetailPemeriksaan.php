@@ -71,9 +71,12 @@
     $priority             = $Data['priority'] ?? '';
     $puasa                = $Data['puasa'] ?? '0';
     $status               = $Data['status'] ?? '';
-    $kode_dokter_pengirim = $Data['kode_dokter_pengirim'] ?? '';
-    $ihs_dokter_pengirim  = $Data['ihs_dokter_pengirim'] ?? '';
-    $nama_dokter_pengirim = $Data['nama_dokter_pengirim'] ?? '';
+    $kode_dokter_pengirim = $Data['kode_dokter_pengirim'] ?? '-';
+    $ihs_dokter_pengirim  = $Data['ihs_dokter_pengirim'] ?? '-';
+    $nama_dokter_pengirim = $Data['nama_dokter_pengirim'] ?? '-';
+    $kode_dokter_penerima = $Data['kode_dokter_penerima'] ?? '-';
+    $ihs_dokter_penerima  = $Data['ihs_dokter_penerima'] ?? '-';
+    $nama_dokter_penerima = $Data['nama_dokter_penerima'] ?? '-';
     $datetime_diminta     = $Data['datetime_diminta'] ?? '';
     $datetime_diterima    = $Data['datetime_diterima'] ?? '';
     $datetime_spesimen    = $Data['datetime_spesimen'] ?? '';
@@ -82,35 +85,135 @@
 
     $label_puasa = ((string)$puasa === '1') ? 'Puasa' : 'Tidak Puasa';
     $tanggal_lahir_label = !empty($tanggal_lahir) ? date('d/m/Y', strtotime($tanggal_lahir)) : '-';
-    $datetime_diminta_label = formatDateTimeStrict($datetime_diminta);
-    $datetime_diterima_label = formatDateTimeStrict($datetime_diterima);
-    $datetime_spesimen_label = formatDateTimeStrict($datetime_spesimen);
-    $datetime_hasil_label = formatDateTimeStrict($datetime_hasil);
+    
+    if(!empty($datetime_diminta)){
+        $datetime_diminta_label = formatDateTimeStrict($datetime_diminta);
+    }else{
+        $datetime_diminta_label = "-";
+    }
+    if(!empty($datetime_diterima)){
+        $datetime_diterima_label = formatDateTimeStrict($datetime_diterima);
+    }else{
+        $datetime_diterima_label = "-";
+    }
+    if(!empty($datetime_spesimen)){
+        $datetime_spesimen_label = formatDateTimeStrict($datetime_spesimen);
+    }else{
+        $datetime_spesimen_label = "-";
+    }
+     if(!empty($datetime_hasil)){
+        $datetime_hasil_label = formatDateTimeStrict($datetime_hasil);
+    }else{
+        $datetime_hasil_label = "-";
+    }
+
+    // Routing Prioritas
+    if($priority=="routine"){
+        $label_priority = '<span class="badge badge-success"><b>Prioritas :</b> Biasa</span>';
+    }else{
+        if($priority=="urgent"){
+            $label_priority = '<span class="badge badge-warning"><b>Prioritas :</b> Segera</span>';
+        }else{
+            $label_priority = '<span class="badge badge-danger"><b>Prioritas :</b> Gawat</span>';
+        }
+    }
 ?>
-<div class="row mb-3">
-    <div class="col-md-12 mb-3 text-end">
-        <button type="button" class="btn btn-md btn-dark btn-floating" id="kembali_ke_data" title="Kembali Ke Tabel Pemeriksaan">
-            <i class="bi bi-chevron-left"></i>
-        </button>
-        <button type="button" class="btn btn-md btn-floating btn-outline-dark reload_detail" title="Reload Data">
-            <i class="bi bi-repeat"></i>
-        </button>
-        <button type="button" class="btn btn-md btn-floating btn-outline-primary modal_edit" data-id="<?php echo $id_laboratorium; ?>" title="Cetak Hasil Pemeriksaan">
-            <i class="bi bi-printer"></i>
-        </button>
-        <button type="button" class="btn btn-md btn-floating btn-outline-primary modal_edit" data-id="<?php echo $id_laboratorium; ?>" title="Edit Pemeriksaan">
-            <i class="bi bi-pencil"></i>
-        </button>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <b># Detail Pemeriksaan</b><br>
+                        <small><?php echo $label_priority; ?></small>
+                    </div>
+                    <div class="col-8 text-end">
+                        <button type="button" class="btn btn-md btn-dark btn-floating" id="kembali_ke_data" title="Kembali Ke Tabel Pemeriksaan">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button type="button" class="btn btn-md btn-floating btn-outline-dark reload_detail" title="Reload Data">
+                            <i class="bi bi-repeat"></i>
+                        </button>
+                        <button type="button" class="btn btn-md btn-floating btn-outline-danger modal_hapus" data-id="<?php echo $id_laboratorium; ?>" title="Hapus Pemeriksaan">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button type="button" class="btn btn-md btn-floating btn-outline-primary modal_edit" data-id="<?php echo $id_laboratorium; ?>" title="Edit Pemeriksaan">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button type="button" class="btn btn-md btn-floating btn-outline-primary modal_edit" data-id="<?php echo $id_laboratorium; ?>" title="Cetak Hasil Pemeriksaan">
+                            <i class="bi bi-printer"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="row mt-3">
+<div class="row">
     <div class="col-md-4">
+        <?php
+            // Apabila status masih 'Diminta'
+            if($status=="Diminta"){
+                echo '
+                    <div class="alert alert-danger rounded text-center">
+                        <b>PENTING!!</b><br>
+                        <small>
+                            Permintaan Pemeriksaan Perlu Mendapatkan Verifikasi Petugas. 
+                            Klik pada 
+                            <a href="javascript:void(0);" class="text text-decoration-underline modal_terima_pemeriksaan" data-id="'.$id_laboratorium.'">
+                                tautan berikut ini
+                            </a> 
+                            untuk melanjutkan proses.
+                        </small>
+                    </div>
+                ';
+            }
+        ?>
         <div class="card">
             <div class="card-header">
-                <b class="card-title"># Detail Pemeriksaan</b>
+                <b class="card-title"># Informasi Pasien & Kunjungan</b>
             </div>
             <div class="card-body">
                 <?php
+                    if(empty($id_pasien)){
+                        $label_id_pasien = "-";
+                    }else{
+                        $label_id_pasien = '
+                            <a href="javascript:void(0);" class="text text-grayish underscore_doted modal_detail_pasien" data-id="'.$id_pasien.'" data-id_laboratorium="'.$id_laboratorium.'" title="Lihat Detail ID pasien dari SIMRS">
+                                '.$id_pasien.' <i class="bi bi-arrow-up-right-square"></i>
+                            </a>
+                        ';
+                    }
+                    if(empty($ihs_pasien)){
+                        $label_ihs_pasien = "-";
+                    }else{
+                        $label_ihs_pasien = '
+                            <a href="javascript:void(0);" class="text text-grayish underscore_doted modal_detail_ihs" data-id="'.$ihs_pasien.'" title="Lihat Detail IHS dari SATUSEHAT">
+                                '.$ihs_pasien.' <i class="bi bi-arrow-up-right-square"></i>
+                            </a>
+                        ';
+                    }
+                    if(empty($id_kunjungan)){
+                        $label_id_kunjungan = "-";
+                    }else{
+                        $label_id_kunjungan = '
+                            <a href="javascript:void(0);" class="text text-grayish underscore_doted modal_detail_kunjungan" data-id="'.$id_kunjungan.'" data-id_laboratorium="'.$id_laboratorium.'" title="Lihat Detail Kunjungan Dari SIMRS">
+                                '.$id_kunjungan.' <i class="bi bi-arrow-up-right-square"></i>
+                            </a>
+                        ';
+                    }
+                    if(empty($id_encounter)){
+                        $label_id_encounter = "-";
+                    }else{
+                        $potong_id_encounter = potong8Karakter($id_encounter);
+                        $label_id_encounter = '
+                            <a href="javascript:void(0);" class="text text-grayish underscore_doted modal_detail_encounter" data-id="'.$id_encounter.'" title="Lihat Detail Encounter dari SATUSEHAT">
+                                '.$potong_id_encounter.' <i class="bi bi-arrow-up-right-square"></i>
+                            </a>
+                        ';
+                    }
+
+                    
                     echo '
                         <div class="row mb-2">
                             <div class="col-12">
@@ -121,14 +224,14 @@
                             <div class="col-4"><small>No.RM</small></div>
                             <div class="col-1"><small>:</small></div>
                             <div class="col-7">
-                                <small class="text text-grayish text-long">'.$id_pasien.'</small>
+                                <small class="text text-grayish text-long">'.$label_id_pasien.'</small>
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4"><small>ID IHS</small></div>
                             <div class="col-1"><small>:</small></div>
                             <div class="col-7">
-                                <small class="text text-grayish text-long">'.$ihs_pasien.'</small>
+                                <small class="text text-grayish text-long">'.$label_ihs_pasien.'</small>
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -161,14 +264,14 @@
                             <div class="col-4"><small>ID Kunjungan</small></div>
                             <div class="col-1"><small>:</small></div>
                             <div class="col-7">
-                                <small class="text text-grayish text-long">'.$id_kunjungan.'</small>
+                                <small class="text text-grayish text-long">'.$label_id_kunjungan.'</small>
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4"><small>ID Encounter</small></div>
                             <div class="col-1"><small>:</small></div>
                             <div class="col-7">
-                                <small class="text text-grayish text-long">'.$id_encounter.'</small>
+                                <small class="text text-grayish text-long">'.$label_id_encounter.'</small>
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -199,63 +302,167 @@
                                 <small class="text text-grayish text-long">'.$unit.'</small>
                             </div>
                         </div>
-                        <div class="row mb-3 mt-3">
-                            <div class="col-12">
-                                <small><b>C. Informasi Permintaan</b></small>
+                    ';
+                ?>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-10"><b># Keterangan / Catatan</b></div>
+                    <div class="col-2 text-end">
+                        <button type="button" class="btn btn-sm btn-floating btn-outline-secondary modal_keterangan" data-id="<?php echo $id_laboratorium; ?>">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <?php
+                    if(empty($keterangan)){
+                        echo '
+                            <div class="alert alert-secondary text-center"><small>Tidak Ada Keterangan Untuk Pemeriksaan Ini</small></div>
+                        ';
+                    }else{
+                        echo '
+                            <div class="alert alert-info text-center">
+                                <small>"<i>'.$keterangan.'</i>"</small>
                             </div>
-                        </div>
+                        ';
+                    }
+                ?>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <b># Status Pemeriksaan</b>
+            </div>
+            <div class="card-body">
+                <div class="activity" id="ShowAnggotaTerbaru">
+                    <?php
+                        $status_now = trim((string)$status);
+
+                        $step_active = [
+                            'Diminta'                          => false,
+                            'Ditolak / Dibatalkan'            => false,
+                            'Diterima'                        => false,
+                            'Pengambilan/Pemeriksaan Spesimen'=> false,
+                            'Keluar Hasil'                    => false,
+                            'Selesai'                         => false
+                        ];
+
+                        // Alur selalu dimulai dari "Diminta"
+                        if (in_array($status_now, ['Diminta', 'Diterima', 'Pengambilan Spesimen', 'Pemeriksaan Spesimen', 'Keluar Hasil', 'Selesai', 'Ditolak', 'Dibatalkan'], true)) {
+                            $step_active['Diminta'] = true;
+                        }
+
+                        // Jalur berhenti di penolakan/pembatalan
+                        if (in_array($status_now, ['Ditolak', 'Dibatalkan'], true)) {
+                            $step_active['Ditolak / Dibatalkan'] = true;
+                        }
+
+                        // Jalur proses pemeriksaan
+                        if (in_array($status_now, ['Diterima', 'Pengambilan Spesimen', 'Pemeriksaan Spesimen', 'Keluar Hasil', 'Selesai'], true)) {
+                            $step_active['Diterima'] = true;
+                        }
+                        if (in_array($status_now, ['Pengambilan Spesimen', 'Pemeriksaan Spesimen', 'Keluar Hasil', 'Selesai'], true)) {
+                            $step_active['Pengambilan/Pemeriksaan Spesimen'] = true;
+                        }
+                        if (in_array($status_now, ['Keluar Hasil', 'Selesai'], true)) {
+                            $step_active['Keluar Hasil'] = true;
+                        }
+                        if ($status_now === 'Selesai') {
+                            $step_active['Selesai'] = true;
+                        }
+
+                        foreach ($step_active as $step_label => $is_active) {
+                            $icon_class   = $is_active ? 'bi bi-check-circle text-success' : 'bi bi-x-circle text-grayish';
+                            $badge_class  = $is_active ? 'bi bi-circle-fill activity-badge text-success align-self-start' : 'bi bi-circle-fill activity-badge text-grayish align-self-start';
+                            $credit_class = $is_active ? 'credit text-success' : 'credit text-grayish';
+
+                            echo '
+                                <div class="activity-item d-flex">  
+                                    <div class="activite-label">
+                                        <i class="'.$icon_class.'"></i>
+                                    </div>  
+                                    <i class="'.$badge_class.'"></i>  
+                                    <div class="activity-content">      
+                                        <small class="'.$credit_class.'">'.$step_label.'</small><br>
+                                    </div>
+                                </div>
+                            ';
+                        }
+                    ?>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-10">
+                        <b class="card-title"># Log Pemeriksaan</b>
+                    </div>
+                    <div class="col-2 text-end">
+                        <button type="button" class="btn btn-sm btn-floating btn-outline-secondary modal_edit_log" data-id="<?php echo $id_laboratorium; ?>">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <?php
+                    echo '
                         <div class="row mb-2">
-                            <div class="col-4"><small>Tanggal/Jam Diminta</small></div>
+                            <div class="col-4"><small>Diminta</small></div>
                             <div class="col-1"><small>:</small></div>
                             <div class="col-7">
                                 <small class="text text-grayish text-long">'.$datetime_diminta_label.'</small>
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-4"><small>Priority</small></div>
-                            <div class="col-1"><small>:</small></div>
-                            <div class="col-7">
-                                <small class="text text-grayish text-long">'.$priority.'</small>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-4"><small>Status Puasa</small></div>
-                            <div class="col-1"><small>:</small></div>
-                            <div class="col-7">
-                                <small class="text text-grayish text-long">'.$label_puasa.'</small>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-4"><small>Status Pemeriksaan</small></div>
-                            <div class="col-1"><small>:</small></div>
-                            <div class="col-7">
-                                <small class="text text-grayish text-long">'.$status.'</small>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-4"><small>Tgl/Jam Diterima</small></div>
+                            <div class="col-4"><small>Diterima</small></div>
                             <div class="col-1"><small>:</small></div>
                             <div class="col-7">
                                 <small class="text text-grayish text-long">'.$datetime_diterima_label.'</small>
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-4"><small>Tgl/Jam Spesimen</small></div>
+                            <div class="col-4"><small>Spesimen</small></div>
                             <div class="col-1"><small>:</small></div>
                             <div class="col-7">
                                 <small class="text text-grayish text-long">'.$datetime_spesimen_label.'</small>
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-4"><small>Tgl/Jam Hasil</small></div>
+                            <div class="col-4"><small>Hasil</small></div>
                             <div class="col-1"><small>:</small></div>
                             <div class="col-7">
                                 <small class="text text-grayish text-long">'.$datetime_hasil_label.'</small>
                             </div>
                         </div>
-                        <div class="row mb-3 mt-3">
+                    ';
+                ?>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-10">
+                        <b class="card-title"># Dokter Pengirim & Penerima</b>
+                    </div>
+                    <div class="col-2 text-end">
+                        <button type="button" class="btn btn-sm btn-floating btn-outline-secondary modal_edit_dokter" data-id="<?php echo $id_laboratorium; ?>">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <?php
+                    echo '
+                        <div class="row mb-2">
                             <div class="col-12">
-                                <small><b>D. Dokter Pengirim</b></small>
+                                <small><b>A. Dokter Pengirim</b></small>
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -279,11 +486,30 @@
                                 <small class="text text-grayish text-long">'.$ihs_dokter_pengirim.'</small>
                             </div>
                         </div>
+                        <div class="row mb-2 mt-3">
+                            <div class="col-12">
+                                <small><b>B. Dokter Penerima</b></small>
+                            </div>
+                        </div>
                         <div class="row mb-2">
-                            <div class="col-4"><small>Catatan / Keterangan Lain</small></div>
+                            <div class="col-4"><small>Nama Dokter</small></div>
                             <div class="col-1"><small>:</small></div>
                             <div class="col-7">
-                                <small class="text text-grayish text-long">'.$keterangan.'</small>
+                                <small class="text text-grayish text-long">'.$nama_dokter_penerima.'</small>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4"><small>Kode Dokter</small></div>
+                            <div class="col-1"><small>:</small></div>
+                            <div class="col-7">
+                                <small class="text text-grayish text-long">'.$kode_dokter_penerima.'</small>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4"><small>IHS Dokter</small></div>
+                            <div class="col-1"><small>:</small></div>
+                            <div class="col-7">
+                                <small class="text text-grayish text-long">'.$ihs_dokter_penerima.'</small>
                             </div>
                         </div>
                     ';
@@ -311,10 +537,21 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="alert alert-danger">
-                                <small>
-                                    <b>Penting!!</b> Perlu menyertakan informasi <i>Procerude</i> puasa.
-                                </small>
+                            <div class="row mb-2">
+                                <div class="col-4"><small>Status Puasa</small></div>
+                                <div class="col-1"><small>:</small></div>
+                                <div class="col-7">
+                                    <small class="text text-grayish text-long">'.$label_puasa.'</small>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <div class="alert alert-danger">
+                                        <small>
+                                            <b>Penting!!</b> Perlu menyertakan informasi <i>Procerude</i> puasa.
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -383,6 +620,13 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
+                                    <div class="row mb-2">
+                                        <div class="col-4"><small>Status Puasa</small></div>
+                                        <div class="col-1"><small>:</small></div>
+                                        <div class="col-7">
+                                            <small class="text text-grayish text-long">'.$label_puasa.'</small>
+                                        </div>
+                                    </div>
                                     <div class="row mb-2">
                                         <div class="col-4"><small>ID Procedure</small></div>
                                         <div class="col-1"><small>:</small></div>

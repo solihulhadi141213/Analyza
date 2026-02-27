@@ -1348,6 +1348,17 @@
         return $debug_info;
     }
 
+    function potong8Karakter($text) {
+        // Pastikan variabel berupa string
+        $text = (string) $text;
+        
+        if (strlen($text) > 8) {
+            return substr($text, 0, 8);
+        }
+        
+        return $text;
+    }
+
 
 
 ?>

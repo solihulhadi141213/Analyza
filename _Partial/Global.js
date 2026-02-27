@@ -34,3 +34,10 @@ function initializeMoneyInputs() {
         input.addEventListener("input", processInput);
     });
 }
+
+
+
+$(document).ready(function () {
+   
+
+});
