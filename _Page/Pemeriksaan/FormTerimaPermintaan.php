@@ -3,6 +3,7 @@
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
+    include "../../_Config/FungsiAkses.php";
 
     //Zona Waktu
     date_default_timezone_set("Asia/Jakarta");
@@ -33,7 +34,17 @@
 ?>
 
 <input type="hidden" name="id_laboratorium" value="<?php echo $id_laboratorium; ?>">
-<div class="row mb-3">
+<div class="row mb-2">
+    <div class="col-4"><small>Nama Petugas</small></div>
+    <div class="col-1"><small>:</small></div>
+    <div class="col-7"><small class="text text-grayish"><?php echo $access_name; ?></small></div>
+</div>
+<div class="row mb-2">
+    <div class="col-4"><small>IHS Petugas</small></div>
+    <div class="col-1"><small>:</small></div>
+    <div class="col-7"><small class="text text-grayish"><?php echo $access_ihs; ?></small></div>
+</div>
+<div class="row mb-3 mt-3">
     <div class="col-12">
         <label for="status">Status Pemeriksaan</label>
         <select name="status" id="status" class="form-control" required>

@@ -1110,6 +1110,33 @@ SPESIMEN
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalCetakLabelSpeciment" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="_Page/Pemeriksaan/ProsesCetakLabelSpesimen.php" method="POST" target="_blank" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Cetak Label <i>Specimen</i></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormCetakLabelSpeciment">
+                            <!-- Form Tambah -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-printer"></i> Cetak
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- 
 ==========================================================================================
@@ -1350,6 +1377,38 @@ DIAGNOSTIC REPORT
                     <i class="bi bi-x"></i> Tutup
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalCetakLaboratorium" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="_Page/Pemeriksaan/ProsesCetakLaboratorium.php" method="POST" target="_blank" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-printer"></i><i> Cetak Laboratorium</i></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormCetakLaboratorium">
+                            <!-- Form Edit -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiCetakLaboratorium">
+                            <!-- Notifikasi Edit -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-printer"></i> Cetak
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Tutup
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

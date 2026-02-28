@@ -30,7 +30,7 @@
     //Buat variabel 'id_laboratorium' dan sanitasi
     $id_laboratorium = validateAndSanitizeInput($_POST['id_laboratorium']);
 
-    //Buka Detail Koneksi Dengan Prepared Statment
+    //Buka Detail laboratorium Dengan Prepared Statment
     $Qry = $Conn->prepare("SELECT * FROM laboratorium WHERE id_laboratorium = ?");
     $Qry->bind_param("s", $id_laboratorium);
     if (!$Qry->execute()) {
@@ -82,6 +82,8 @@
     $datetime_spesimen    = $Data['datetime_spesimen'] ?? '';
     $datetime_hasil       = $Data['datetime_hasil'] ?? '';
     $keterangan           = $Data['keterangan'] ?? '';
+    $nama_petugas           = $Data['nama_petugas'] ?? '-';
+    $ihs_petugas           = $Data['ihs_petugas'] ?? '-';
 
     $label_puasa = ((string)$puasa === '1') ? 'Puasa' : 'Tidak Puasa';
     $tanggal_lahir_label = !empty($tanggal_lahir) ? date('d/m/Y', strtotime($tanggal_lahir)) : '-';
@@ -140,7 +142,7 @@
                         <button type="button" class="btn btn-md btn-floating btn-outline-primary modal_edit" data-id="<?php echo $id_laboratorium; ?>" title="Edit Pemeriksaan">
                             <i class="bi bi-pencil"></i>
                         </button>
-                        <button type="button" class="btn btn-md btn-floating btn-outline-primary modal_edit" data-id="<?php echo $id_laboratorium; ?>" title="Cetak Hasil Pemeriksaan">
+                        <button type="button" class="btn btn-md btn-floating btn-outline-info modal_cetak" data-id="<?php echo $id_laboratorium; ?>" title="Cetak Hasil Pemeriksaan">
                             <i class="bi bi-printer"></i>
                         </button>
                     </div>
@@ -300,6 +302,25 @@
                             <div class="col-1"><small>:</small></div>
                             <div class="col-7">
                                 <small class="text text-grayish text-long">'.$unit.'</small>
+                            </div>
+                        </div>
+                        <div class="row mb-3 mt-3">
+                            <div class="col-12">
+                                <small><b>C. Petugas Laboratorium</b></small>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4"><small>IHS Petugas</small></div>
+                            <div class="col-1"><small>:</small></div>
+                            <div class="col-7">
+                                <small class="text text-grayish text-long">'.$ihs_petugas.'</small>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4"><small>Nama Petugas</small></div>
+                            <div class="col-1"><small>:</small></div>
+                            <div class="col-7">
+                                <small class="text text-grayish text-long">'.$nama_petugas.'</small>
                             </div>
                         </div>
                     ';
@@ -969,6 +990,11 @@
                                                             </a>
                                                         </li>
                                                         <li>
+                                                            <a class="dropdown-item modal_cetak_labelt_speciment" href="javascript:void(0)" data-id="'.$id_laboratorium_spesimen.'">
+                                                                <i class="bi bi-printer"></i> Cetak Label
+                                                            </a>
+                                                        </li>
+                                                        <li>
                                                             <a class="dropdown-item modal_hapus_speciment" href="javascript:void(0)" data-id="'.$id_laboratorium_spesimen.'">
                                                                 <i class="bi bi-x"></i> Hapus
                                                             </a>
@@ -1225,7 +1251,7 @@
                 $icd_10_display             = $DataDiagnostic['icd_10_display'];
                 $icd_10_system              = $DataDiagnostic['icd_10_system'];
             }
-            ?>
+        ?>
         <div class="card">
             <div class="card-header">
                 <div class="row">

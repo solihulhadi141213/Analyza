@@ -82,6 +82,7 @@
     $datetime_hasil       = $Data['datetime_hasil'] ?? '';
     $diagnosis            = $Data['diagnosis'];
     $keterangan            = $Data['keterangan'] ?? '-';
+    $nama_petugas            = $Data['nama_petugas'] ?? '-';
 
     $label_puasa = ((string)$puasa === '1') ? 'Puasa' : 'Tidak Puasa';
     $tanggal_lahir_label     = !empty($tanggal_lahir) ? date('d/m/Y', strtotime($tanggal_lahir)) : '-';
@@ -328,6 +329,13 @@
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
                     <small class="text text-grayish text-long">'.$status.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small>Petugas</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish text-long">'.$nama_petugas.'</small>
                 </div>
             </div>
         </div>

@@ -3016,6 +3016,28 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('click', '.modal_cetak_labelt_speciment', function () {
+
+        //tangkap data 'id_laboratorium_spesimen' dan buat variabel
+        var id_laboratorium_spesimen   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalCetakLabelSpeciment').modal('show');
+
+        //Form Loading
+        $('#FormCetakLabelSpeciment').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormCetakLabelSpeciment.php',
+            data        : {id_laboratorium_spesimen: id_laboratorium_spesimen},
+            success     : function(data){
+                $('#FormCetakLabelSpeciment').html(data);
+            }
+        });
+    });
+
     // ===================================================================================
     // HASIL
     // ===================================================================================
@@ -3466,6 +3488,34 @@ $(document).ready(function() {
             data        : {id_diagnostic_report: id_diagnostic_report},
             success     : function(data){
                 $('#FormDetailDiagnosticReport').html(data);
+            }
+        });
+    });
+
+    // ===================================================================================
+    // MODAL CETAK
+    // ===================================================================================
+    $(document).on('click', '.modal_cetak', function () {
+
+        //tangkap data 'id_laboratorium' dan buat variabel
+        var id_laboratorium   = $(this).data('id');
+
+        //tampilkan modal
+        $('#ModalCetakLaboratorium').modal('show');
+
+        // Kosongkan Notifikasi
+        $('#NotifikasiCetakLaboratorium').html('');
+
+        //Form Loading
+        $('#FormCetakLaboratorium').html('Loading...');
+
+        //Tampilkan Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Pemeriksaan/FormCetakLaboratorium.php',
+            data        : {id_laboratorium: id_laboratorium},
+            success     : function(data){
+                $('#FormCetakLaboratorium').html(data);
             }
         });
     });
