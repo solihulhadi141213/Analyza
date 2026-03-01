@@ -1,3 +1,7 @@
 db
 _Config/Connection.php
-
+.env
+client_seceret.json
+vendor/
+login-google-callback.php
+login_with_google.php
