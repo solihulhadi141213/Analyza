@@ -215,7 +215,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu!=="Help"){echo "collapsed";} ?>" href="index.php?Page=Help&Sub=HelpData">
+            <a class="nav-link <?php if($PageMenu!=="Dokumentasi"){echo "collapsed";} ?>" href="index.php?Page=Dokumentasi">
                 <i class="bi bi-question"></i>
                 <span>Dokumentasi</span>
             </a>

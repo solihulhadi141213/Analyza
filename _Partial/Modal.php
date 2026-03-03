@@ -28,6 +28,7 @@
             "LaporanDiagnosis"               => "_Page/LaporanDiagnosis/ModalLaporanDiagnosis.php",
             "LaporanSatuSehat"               => "_Page/LaporanSatuSehat/ModalLaporanSatuSehat.php",
             "Aktivitas"                      => "_Page/Aktivitas/ModalAktivitas.php",
+            "Dokumentasi"                      => "_Page/Dokumentasi/ModalDokumentasi.php",
             "Help"                           => "_Page/Help/ModalHelp.php"
         ];
 

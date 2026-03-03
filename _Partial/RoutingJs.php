@@ -36,6 +36,7 @@
             "LaporanDiagnosis"               => "_Page/LaporanDiagnosis/LaporanDiagnosis.js",
             "LaporanSatuSehat"               => "_Page/LaporanSatuSehat/LaporanSatuSehat.js",
             "Aktivitas"                      => "_Page/Aktivitas/Aktivitas.js",
+            "Dokumentasi"                      => "_Page/Dokumentasi/Dokumentasi.js",
             "Help"                           => "_Page/Help/Help.js"
         ];
 
