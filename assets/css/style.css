@@ -1659,3 +1659,7 @@ tr.modal_detail_laporan {
 tr.modal_rincian_spesimen {
     cursor: pointer;
 }
+tr.modal_rincian_diagnosis {
+    cursor: pointer;
+}
+
