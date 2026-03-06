@@ -33,7 +33,7 @@
         exit;
     }
 
-    if(empty($_POST['client_sceret'])){
+    if(empty($_POST['client_secret'])){
         echo json_encode(['status'  => 'error','message' => 'Client Sceret Tidak Boleh Kosong!']);
         exit;
     }
@@ -41,10 +41,10 @@
     // Buat Variabel
     $credential_env = validateAndSanitizeInput($_POST['credential_env']);
     $client_id      = validateAndSanitizeInput($_POST['client_id']);
-    $client_sceret  = validateAndSanitizeInput($_POST['client_sceret']);
+    $client_secret  = validateAndSanitizeInput($_POST['client_secret']);
 
     // Validasi Duplikat Data
-    $Qry = $Conn->prepare("SELECT * FROM google_credential WHERE credential_env = ? AND client_id = ? AND client_sceret = ?");
+    $Qry = $Conn->prepare("SELECT * FROM google_credential WHERE credential_env = ? AND client_id = ? AND client_secret = ?");
     $Qry->bind_param("sss", $credential_env, $credential_env, $credential_env);
     if (!$Qry->execute()) {
         $error=$Conn->error;
@@ -65,7 +65,7 @@
         INSERT INTO google_credential (
             credential_env,
             client_id,
-            client_sceret,
+            client_secret,
             status
         ) VALUES (?,?,?,?)
     ");
@@ -74,7 +74,7 @@
         "sssi",
         $credential_env,
         $client_id,
-        $client_sceret,
+        $client_secret,
         $status
     );
 

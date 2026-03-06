@@ -30,8 +30,8 @@ TAMBAH Google Credential
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <label for="client_sceret"><i>Client Sceret</i></label>
-                            <textarea name="client_sceret" id="client_sceret" class="form-control"></textarea>
+                            <label for="client_secret"><i>Client Sceret</i></label>
+                            <textarea name="client_secret" id="client_secret" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="row">

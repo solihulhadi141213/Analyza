@@ -38,7 +38,7 @@
         exit;
     }
 
-    if(empty($_POST['client_sceret'])){
+    if(empty($_POST['client_secret'])){
         echo json_encode(['status'  => 'error','message' => 'Client Sceret Tidak Boleh Kosong!']);
         exit;
     }
@@ -47,7 +47,7 @@
     $id_google_credential = validateAndSanitizeInput($_POST['id_google_credential']);
     $credential_env       = validateAndSanitizeInput($_POST['credential_env']);
     $client_id            = validateAndSanitizeInput($_POST['client_id']);
-    $client_sceret        = validateAndSanitizeInput($_POST['client_sceret']);
+    $client_secret        = validateAndSanitizeInput($_POST['client_secret']);
 
     // Validasi Data Tujuan Harus Ada
     $QryExist = $Conn->prepare("SELECT id_google_credential FROM google_credential WHERE id_google_credential = ?");
@@ -67,8 +67,8 @@
     }
 
     // Validasi Duplikat Data (kecuali data yang sedang diedit)
-    $QryDuplicate = $Conn->prepare("SELECT id_google_credential FROM google_credential WHERE credential_env = ? AND client_id = ? AND client_sceret = ? AND id_google_credential != ?");
-    $QryDuplicate->bind_param("sssi", $credential_env, $client_id, $client_sceret, $id_google_credential);
+    $QryDuplicate = $Conn->prepare("SELECT id_google_credential FROM google_credential WHERE credential_env = ? AND client_id = ? AND client_secret = ? AND id_google_credential != ?");
+    $QryDuplicate->bind_param("sssi", $credential_env, $client_id, $client_secret, $id_google_credential);
     if (!$QryDuplicate->execute()) {
         $error = $Conn->error;
         echo json_encode(['status'  => 'error','message' => 'Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'']);
@@ -84,12 +84,12 @@
     }
 
     // Update Data Ke Database
-    $query = $Conn->prepare("UPDATE google_credential SET credential_env = ?, client_id = ?, client_sceret = ? WHERE id_google_credential = ?");
+    $query = $Conn->prepare("UPDATE google_credential SET credential_env = ?, client_id = ?, client_secret = ? WHERE id_google_credential = ?");
     $query->bind_param(
         "sssi",
         $credential_env,
         $client_id,
-        $client_sceret,
+        $client_secret,
         $id_google_credential
     );
 

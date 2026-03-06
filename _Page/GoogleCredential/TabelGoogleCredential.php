@@ -33,7 +33,7 @@
         $id_google_credential = $data['id_google_credential'];
         $credential_env       = $data['credential_env'];
         $client_id            = $data['client_id'];
-        $client_sceret        = $data['client_sceret'];
+        $client_secret        = $data['client_secret'];
         $status               = $data['status'];
 
         // Routing Status
@@ -50,7 +50,7 @@
                 </a>
             ';
         }
-        $client_sceret = potong8Karakter($client_sceret);
+        $client_secret = potong8Karakter($client_secret);
         echo '
             <tr>
                 <td class="text-center"><small>'.$no.'</small></td>
@@ -61,8 +61,8 @@
                     </small>
                 </td>
                 <td class="text-left">
-                    <a href="javascript:void(0);" class="modal_lihat_client_sceret" data-id="'.$id_google_credential.'">
-                        <small><i class="bi bi-eye"></i> '.$client_sceret.'***</small>
+                    <a href="javascript:void(0);" class="modal_lihat_client_secret" data-id="'.$id_google_credential.'">
+                        <small><i class="bi bi-eye"></i> '.$client_secret.'***</small>
                     </a>
                 </td>
                 <td class="text-center">'.$label_status.'</td>
@@ -75,7 +75,7 @@
                             <h6>Option</h6>
                         </li>
                         <li>
-                            <a class="dropdown-item modal_lihat_client_sceret" href="javascript:void(0)" data-id="'.$id_google_credential.'">
+                            <a class="dropdown-item modal_lihat_client_secret" href="javascript:void(0)" data-id="'.$id_google_credential.'">
                                 <i class="bi bi-eye"></i> Lihat Client Sceret
                             </a>
                         </li>

@@ -48,7 +48,7 @@
         // Buat Variabel
         $credential_env = $Data['credential_env'];
         $client_id      = $Data['client_id'];
-        $client_sceret  = $Data['client_sceret'];
+        $client_secret  = $Data['client_secret'];
         $status         = $Data['status'];
        // Routing Status
         if(empty($data['status'])){
@@ -80,7 +80,7 @@
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
                     <small class="text-long">
-                        <code class="text text-grayish">'.$client_sceret.'</code>
+                        <code class="text text-grayish">'.$client_secret.'</code>
                     </small>
                 </div>
             </div>

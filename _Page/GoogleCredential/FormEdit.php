@@ -48,7 +48,7 @@
         // Buat Variabel
         $credential_env = $Data['credential_env'];
         $client_id      = $Data['client_id'];
-        $client_sceret  = $Data['client_sceret'];
+        $client_secret  = $Data['client_secret'];
         $status         = $Data['status'];
         
         // Routing Status
@@ -91,8 +91,8 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <label for="client_sceret_edit"><i>Client Sceret</i></label>
-                    <textarea name="client_sceret" id="client_sceret_edit" class="form-control">'.$client_sceret.'</textarea>
+                    <label for="client_secret_edit"><i>Client Sceret</i></label>
+                    <textarea name="client_secret" id="client_secret_edit" class="form-control">'.$client_secret.'</textarea>
                 </div>
             </div>
         ';

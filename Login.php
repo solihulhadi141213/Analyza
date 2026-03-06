@@ -161,6 +161,25 @@
 
             // Jalankan reloadCaptcha setiap 1 menit (60.000 ms)
             setInterval(reloadCaptcha, 60000); // 60000 ms = 1 menit
+
+            // LOGIN DENGAN GOOGLE
+            $('#LoginWithGoogle').click(function(){
+
+                // Menampilkan Modal
+                $('#ModalLoginGoogle').modal('show');
+
+                // Loading Form
+                $('#FormLoginWithGoogle').html('Loading...');
+
+                $.ajax({
+                    type 	    : 'POST',
+                    url 	    : '_Page/Login/LoginWithGoogle.php',
+                    dataType    : 'json',
+                    success     : function(response){
+                        $('#FormLoginWithGoogle').html('Login');
+                    }
+                });
+            });
         </script>
     </body>
 </html>

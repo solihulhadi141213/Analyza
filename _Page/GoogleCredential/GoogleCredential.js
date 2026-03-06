@@ -110,7 +110,7 @@ $(document).ready(function() {
     // ===============================================================================
     // DETAIL / LIHAT CLIENT SCERET
     // ===============================================================================
-    $(document).on('click', '.modal_lihat_client_sceret', function () {
+    $(document).on('click', '.modal_lihat_client_secret', function () {
 
         //tangkap data 'id_referensi_metode_sample' dan buat variabel
         var id_google_credential   = $(this).data('id');
