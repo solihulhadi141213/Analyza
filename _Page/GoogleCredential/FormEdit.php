@@ -91,7 +91,7 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <label for="client_secret_edit"><i>Client Sceret</i></label>
+                    <label for="client_secret_edit"><i>Client Secret</i></label>
                     <textarea name="client_secret" id="client_secret_edit" class="form-control">'.$client_secret.'</textarea>
                 </div>
             </div>

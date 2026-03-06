@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-4"><small><i>Client Sceret</i></small></div>
+                <div class="col-4"><small><i>Client Secret</i></small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
                     <small class="text-long">

@@ -108,7 +108,7 @@ $(document).ready(function() {
         });
     });
     // ===============================================================================
-    // DETAIL / LIHAT CLIENT SCERET
+    // DETAIL / LIHAT CLIENT Secret
     // ===============================================================================
     $(document).on('click', '.modal_lihat_client_secret', function () {
 
@@ -116,18 +116,18 @@ $(document).ready(function() {
         var id_google_credential   = $(this).data('id');
 
         //tampilkan modal
-        $('#ModalLihatClientSceret').modal('show');
+        $('#ModalLihatClientSecret').modal('show');
 
         //Form Loading
-        $('#FormLihatClientSceret').html('Loading...');
+        $('#FormLihatClientSecret').html('Loading...');
 
         //Tampilkan Form Dengan Ajax
         $.ajax({
             type      : 'POST',
-            url       : '_Page/GoogleCredential/FormLihatClientSceret.php',
+            url       : '_Page/GoogleCredential/FormLihatClientSecret.php',
             data      : {id_google_credential: id_google_credential},
             success   : function(data){
-                $('#FormLihatClientSceret').html(data);
+                $('#FormLihatClientSecret').html(data);
             }
         });
     });

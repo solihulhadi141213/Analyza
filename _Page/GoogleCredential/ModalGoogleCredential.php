@@ -30,7 +30,7 @@ TAMBAH Google Credential
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <label for="client_secret"><i>Client Sceret</i></label>
+                            <label for="client_secret"><i>Client Secret</i></label>
                             <textarea name="client_secret" id="client_secret" class="form-control"></textarea>
                         </div>
                     </div>
@@ -55,10 +55,10 @@ TAMBAH Google Credential
 
 <!-- 
 ==========================================================================================
-DETAIL / LIHAT CLINET SCERET
+DETAIL / LIHAT CLINET Secret
 ==========================================================================================
 -->
-<div class="modal fade" id="ModalLihatClientSceret" tabindex="-1">
+<div class="modal fade" id="ModalLihatClientSecret" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -67,7 +67,7 @@ DETAIL / LIHAT CLINET SCERET
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12" id="FormLihatClientSceret">
+                    <div class="col-md-12" id="FormLihatClientSecret">
                         <!-- Form Edit -->
                     </div>
                 </div>

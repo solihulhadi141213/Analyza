@@ -34,7 +34,7 @@
     }
 
     if(empty($_POST['client_secret'])){
-        echo json_encode(['status'  => 'error','message' => 'Client Sceret Tidak Boleh Kosong!']);
+        echo json_encode(['status'  => 'error','message' => 'Client Secret Tidak Boleh Kosong!']);
         exit;
     }
 

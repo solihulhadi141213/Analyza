@@ -53,7 +53,7 @@
                                         <th class="text-center"><b>No</b></th>
                                         <th class="text-left"><b><i>Environment</i></b></th>
                                         <th class="text-left"><b><i>Client ID</i></b></th>
-                                        <th class="text-left"><b><i>Client Sceret</i></b></th>
+                                        <th class="text-left"><b><i>Client Secret</i></b></th>
                                         <th class="text-center"><b><i>Status</i></b></th>
                                         <th class="text-center"><b><i>Opsi</i></b></th>
                                     </tr>
