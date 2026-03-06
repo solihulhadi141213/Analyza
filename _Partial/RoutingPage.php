@@ -14,6 +14,7 @@
             "SettingSimrs"                   => "_Page/SettingSimrs/SettingSimrs.php",
             "SettingSatuSehat"               => "_Page/SettingSatuSehat/SettingSatuSehat.php",
             "ApiKey"                         => "_Page/ApiKey/ApiKey.php",
+            "GoogleCredential"               => "_Page/GoogleCredential/GoogleCredential.php",
             "ReferensiPemeriksaan"           => "_Page/ReferensiPemeriksaan/ReferensiPemeriksaan.php",
             "ReferensiMetodePemeriksaan"     => "_Page/ReferensiMetodePemeriksaan/ReferensiMetodePemeriksaan.php",
             "ReferensiJenisSpesimen"         => "_Page/ReferensiJenisSpesimen/ReferensiJenisSpesimen.php",
@@ -28,7 +29,7 @@
             "LaporanDiagnosis"               => "_Page/LaporanDiagnosis/LaporanDiagnosis.php",
             "LaporanSatuSehat"               => "_Page/LaporanSatuSehat/LaporanSatuSehat.php",
             "Aktivitas"                      => "_Page/Aktivitas/Aktivitas.php",
-            "Dokumentasi"                      => "_Page/Dokumentasi/Dokumentasi.php",
+            "Dokumentasi"                    => "_Page/Dokumentasi/Dokumentasi.php",
             "Help"                           => "_Page/Help/Help.php",
         ];
 

@@ -21,12 +21,12 @@
             <div class="mt-3">Fitur Dasar</div>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="ApiKey"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#components-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+            <a class="nav-link <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="ApiKey"||$PageMenu=="GoogleCredential"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#components-nav" data-bs-toggle="collapse" href="javascript:void(0);">
                 <i class="bi bi-gear"></i>
                     <span>Pengaturan</span><i class="bi bi-chevron-down ms-auto">
                 </i>
             </a>
-            <ul id="components-nav" class="nav-content collapse <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="ApiKey"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+            <ul id="components-nav" class="nav-content collapse <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="ApiKey"||$PageMenu=="GoogleCredential"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="index.php?Page=SettingGeneral" class="<?php if($PageMenu=="SettingGeneral"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Pengaturan Umum</span>
@@ -40,6 +40,11 @@
                 <li>
                     <a href="index.php?Page=ApiKey" class="<?php if($PageMenu=="ApiKey"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>API Key</span>
+                    </a>
+                </li> 
+                <li>
+                    <a href="index.php?Page=GoogleCredential" class="<?php if($PageMenu=="GoogleCredential"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Google Credential</span>
                     </a>
                 </li> 
             </ul>
