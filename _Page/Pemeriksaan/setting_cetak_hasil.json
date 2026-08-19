@@ -24,5 +24,18 @@
         },
         "show_header": true,
         "show_signature": true
+    },
+    {
+        "id_access": "8",
+        "print_setting": {
+            "margin_top": 0.1,
+            "margin_bottom": 0.1,
+            "margin_left": 0.1,
+            "margin_right": 0.1,
+            "width": 210,
+            "height": 330
+        },
+        "show_header": true,
+        "show_signature": false
     }
 ]

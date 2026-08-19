@@ -723,6 +723,9 @@ $(document).ready(function() {
                     //reset form
                     $('#ProsesTambah')[0].reset();
 
+                    // Reset Select2
+                    $('#id_referensi_satuan').val(null).trigger('change');
+
                     //Tutup modal
                     $('#ModalTambah').modal('hide');
 

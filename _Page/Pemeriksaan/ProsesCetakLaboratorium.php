@@ -1,4 +1,6 @@
 <?php
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
+    ob_clean();
      //koneksi dan session
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";

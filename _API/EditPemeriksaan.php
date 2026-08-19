@@ -101,7 +101,6 @@
         "priority",
         "kode_dokter_pengirim",
         "nama_dokter_pengirim",
-        "nama_petugas", 
         "nama_diagnosis",
         "kode_diagnosis",
         "system_diagnosis"
@@ -204,9 +203,23 @@
     ];
     $diagnosis     = json_encode($payload_diagnosis, JSON_UNESCAPED_UNICODE);
 
-    // Validasi Status Pemeriksaan Hanya Boleh Ketika Masih Diminta
-    $status_lama = GetDetailData($Conn, 'laboratorium', 'id_laboratorium', $id_laboratorium, 'status');
-    if($status_lama!=="Diminta"){
+    // Validasi data laboratorium ada dan status masih Diminta
+    $cek_laboratorium = $Conn->prepare("SELECT status FROM laboratorium WHERE id_laboratorium = ?");
+    $cek_laboratorium->bind_param("s", $id_laboratorium);
+    $cek_laboratorium->execute();
+    $result_laboratorium = $cek_laboratorium->get_result();
+
+    if ($result_laboratorium->num_rows === 0) {
+        http_response_code(404);
+        echo json_encode([
+            "status" => "error",
+            "message" => "Permintaan laboratorium tidak ditemukan"
+        ]);
+        exit;
+    }
+
+    $status_lama = $result_laboratorium->fetch_assoc()['status'];
+    if ($status_lama !== "Diminta") {
         http_response_code(422);
         echo json_encode([
             "status" => "error",
@@ -294,17 +307,7 @@
         exit;
     }
 
-    // Pastikan data benar-benar diperbarui
-    if ($stmt->affected_rows === 0) {
-        $Conn->rollback();
-        http_response_code(404);
-        echo json_encode([
-            "status" => "error",
-            "message" => "Permintaan laboratorium tidak ditemukan atau tidak ada perubahan data"
-        ]);
-        exit;
-    }
-
+    $perubahan_data = $stmt->affected_rows > 0;
     $Conn->commit();
 
     // ======================================================
@@ -338,10 +341,13 @@
     http_response_code(200);
     echo json_encode([
         "status" => "success",
-        "message" => "Permintaan Pemeriksaan Berhasil Diubah",
+        "message" => $perubahan_data 
+            ? "Permintaan Pemeriksaan Berhasil Diubah" 
+            : "Permintaan Pemeriksaan Berhasil Diproses (tidak ada perubahan data)",
         "data" => [
             "id_laboratorium" => $id_laboratorium,
-            "permintaan_laboratorium" => $permintaan_laboratorium
+            "permintaan_laboratorium" => $permintaan_laboratorium,
+            "perubahan_data" => $perubahan_data
         ]
     ]);
     exit;

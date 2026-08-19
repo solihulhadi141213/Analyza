@@ -101,7 +101,6 @@
         "priority",
         "kode_dokter_pengirim",
         "nama_dokter_pengirim",
-        "nama_petugas", 
         "nama_diagnosis",
         "kode_diagnosis",
         "system_diagnosis"

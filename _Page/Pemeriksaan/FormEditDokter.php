@@ -102,7 +102,7 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="nama_dokter_pengirim_edit"><small>IHS Dokter</small></label>
+                <label for="nama_dokter_pengirim_edit"><small>Nama Dokter</small></label>
             </div>
             <div class="col-md-8">
                 <input type="text" name="nama_dokter_pengirim" id="nama_dokter_pengirim_edit" class="form-control" value="'.$nama_dokter_pengirim.'">
@@ -144,7 +144,7 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="nama_dokter_penerima_edit"><small>IHS Dokter</small></label>
+                <label for="nama_dokter_penerima_edit"><small>Nama Dokter</small></label>
             </div>
             <div class="col-md-8">
                 <input type="text" name="nama_dokter_penerima" id="nama_dokter_penerima_edit" class="form-control" value="'.$nama_dokter_penerima.'">
