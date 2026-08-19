@@ -655,7 +655,7 @@
                                             $label_nilai = "$nilai_min - $nilai_max";
                                         }
 
-                                        $nilai_normal_pemeriksaan[] = '- '.$label_nilai.' '.$unit_satuan.' '.$label_usia.' '.$label_jenis_kelamin;
+                                        $nilai_normal_pemeriksaan[] = '-> '.$label_nilai.' '.$unit_satuan.' '.$label_usia.' '.$label_jenis_kelamin;
                                     }
                                 }
                                 if(empty($nilai_normal_pemeriksaan)){ $nilai_normal_pemeriksaan = "-"; }else{ $nilai_normal_pemeriksaan = implode("<br>", $nilai_normal_pemeriksaan); }
