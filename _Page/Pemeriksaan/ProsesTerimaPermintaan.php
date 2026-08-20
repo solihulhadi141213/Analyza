@@ -33,10 +33,18 @@
     if (empty($_POST['status'])) {
         fail('Status Pemeriksaan Tidak Boleh Kosong!');
     }
+    if (empty($_POST['nama_petugas_penerima'])) {
+        fail('Nama Petugas Tidak Boleh Kosong!');
+    }
+    if (empty($_POST['ihs_petugas_penerima'])) {
+        fail('IHS Petugas Tidak Boleh Kosong!');
+    }
 
     // Sanitasi input umum
-    $id_laboratorium = validateAndSanitizeInput($_POST['id_laboratorium']);
-    $status          = validateAndSanitizeInput($_POST['status']);
+    $id_laboratorium       = validateAndSanitizeInput($_POST['id_laboratorium']);
+    $status                = validateAndSanitizeInput($_POST['status']);
+    $nama_petugas_penerima = validateAndSanitizeInput($_POST['nama_petugas_penerima']);
+    $ihs_petugas_penerima  = validateAndSanitizeInput($_POST['ihs_petugas_penerima']);
 
     // Validasi status yang boleh diproses dari modal ini
     $status_diizinkan = ['Diterima', 'Ditolak', 'Dibatalkan'];
@@ -132,8 +140,8 @@
                 $kode_dokter_penerima,
                 $ihs_dokter_penerima,
                 $nama_dokter_penerima,
-                $access_ihs,
-                $access_name,
+                $ihs_petugas_penerima,
+                $nama_petugas_penerima,
                 $id_laboratorium
             );
 
@@ -169,7 +177,7 @@
                 throw new Exception('Gagal menyiapkan query update pemeriksaan');
             }
 
-            $stmtUpdate->bind_param("sssss", $status, $alasan, $access_ihs, $access_name, $id_laboratorium);
+            $stmtUpdate->bind_param("sssss", $status, $alasan, $ihs_petugas_penerima, $nama_petugas_penerima, $id_laboratorium);
             if (!$stmtUpdate->execute()) {
                 $stmtUpdate->close();
                 throw new Exception('Gagal menyimpan status penolakan/pembatalan pemeriksaan');

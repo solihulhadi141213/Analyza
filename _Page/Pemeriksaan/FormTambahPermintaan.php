@@ -445,8 +445,21 @@
                                 if ($last_category !== $category_pemeriksaan) {
                                     echo '
                                         <tr>
-                                            <td class="text-center"><small><b>'.$no.'</b></small></td>
-                                            <td class="text-left" colspan="5"><small><b>'.htmlspecialchars($category_pemeriksaan).'</b></small></td>
+                                            <td class="text-center">
+                                                <input 
+                                                    type="checkbox" 
+                                                    class="cehck_all_sub"
+                                                    id="cehck_all_sub'.$no.'"
+                                                    data-category="'.htmlspecialchars($category_pemeriksaan, ENT_QUOTES).'"
+                                                >
+                                            </td>
+                                            <td class="text-left" colspan="5">
+                                                <label for="cehck_all_sub'.$no.'">
+                                                    <small>
+                                                        <b>'.htmlspecialchars($category_pemeriksaan).'</b>
+                                                    </small>
+                                                </label>
+                                            </td>
                                         </tr>
                                     ';
                                     $last_category = $category_pemeriksaan;
@@ -457,16 +470,29 @@
                                     <tr>
                                         <td class="text-center"></td>
                                         <td class="text-center">
-                                            <input type="checkbox" name="id_referensi_pemeriksaan[]" id="id_referensi_pemeriksaan'.$id_referensi_pemeriksaan.'" value="'.(int)$id_referensi_pemeriksaan.'">
+                                            <input 
+                                                type="checkbox"
+                                                name="id_referensi_pemeriksaan[]"
+                                                class="checkbox_pemeriksaan"
+                                                data-category="'.htmlspecialchars($category_pemeriksaan, ENT_QUOTES).'"
+                                                id="id_referensi_pemeriksaan'.$id_referensi_pemeriksaan.'"
+                                                value="'.(int)$id_referensi_pemeriksaan.'"
+                                            >
                                         </td>
                                         <td class="text-left">
                                             <label for="id_referensi_pemeriksaan'.$id_referensi_pemeriksaan.'">
                                                 <small>'.htmlspecialchars($nama_pemeriksaan).'</small>
                                             </label>
                                         </td>
-                                        <td class="text-left"><small><i>'.htmlspecialchars($display_pemeriksaan).'</i></small></td>
-                                        <td class="text-left"><small>'.htmlspecialchars($code_pemeriksaan).'</small></td>
-                                        <td class="text-left"><small>'.htmlspecialchars($unit).'</small></td>
+                                        <td class="text-left">
+                                            <small><i>'.htmlspecialchars($display_pemeriksaan).'</i></small>
+                                        </td>
+                                        <td class="text-left">
+                                            <small>'.htmlspecialchars($code_pemeriksaan).'</small>
+                                        </td>
+                                        <td class="text-left">
+                                            <small>'.htmlspecialchars($unit).'</small>
+                                        </td>
                                     </tr>
                                 ';
                             }

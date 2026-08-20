@@ -74,8 +74,19 @@
                                 if ($last_category !== $category_pemeriksaan) {
                                     echo '
                                         <tr>
-                                            <td class="text-center"><small><b>'.$no.'</b></small></td>
-                                            <td class="text-left" colspan="5"><small><b>'.htmlspecialchars($category_pemeriksaan).'</b></small></td>
+                                            <td class="text-center">
+                                                <input 
+                                                    type="checkbox" 
+                                                    class="cehck_all_sub2"
+                                                    id="cehck_all_sub2'.$no.'"
+                                                    data-category2="'.htmlspecialchars($category_pemeriksaan, ENT_QUOTES).'"
+                                                >
+                                            </td>
+                                            <td class="text-left" colspan="5">
+                                                <label for="cehck_all_sub2'.$no.'">
+                                                    <small><b>'.htmlspecialchars($category_pemeriksaan).'</b></small>
+                                                </label>
+                                            </td>
                                         </tr>
                                     ';
                                     $last_category = $category_pemeriksaan;
@@ -85,7 +96,14 @@
                                 // Apabila Data Sudah ada
                                 if(empty($cek_data)){
                                     $form_checklist = '
-                                        <input type="checkbox" name="id_referensi_pemeriksaan[]" id="id_referensi_pemeriksaan_'.$id_referensi_pemeriksaan.'" value="'.(int)$id_referensi_pemeriksaan.'">
+                                        <input 
+                                            type="checkbox" 
+                                            class="checkbox_pemeriksaan2" 
+                                            name="id_referensi_pemeriksaan[]" 
+                                            id="id_referensi_pemeriksaan2_'.$id_referensi_pemeriksaan.'" 
+                                            value="'.(int)$id_referensi_pemeriksaan.'"
+                                            data-category2="'.htmlspecialchars($category_pemeriksaan, ENT_QUOTES).'"
+                                        >
                                     ';
                                 }else{
                                     $form_checklist = '
@@ -98,7 +116,7 @@
                                         <td class="text-center"></td>
                                         <td class="text-center">'.$form_checklist.'</td>
                                         <td class="text-left">
-                                            <label for="id_referensi_pemeriksaan_'.$id_referensi_pemeriksaan.'">
+                                            <label for="id_referensi_pemeriksaan2_'.$id_referensi_pemeriksaan.'">
                                                 <small>'.htmlspecialchars($nama_pemeriksaan).'</small>
                                             </label>
                                         </td>

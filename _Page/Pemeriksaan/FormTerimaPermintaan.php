@@ -34,15 +34,18 @@
 ?>
 
 <input type="hidden" name="id_laboratorium" value="<?php echo $id_laboratorium; ?>">
-<div class="row mb-2">
-    <div class="col-4"><small>Nama Petugas</small></div>
-    <div class="col-1"><small>:</small></div>
-    <div class="col-7"><small class="text text-grayish"><?php echo $access_name; ?></small></div>
+
+<div class="row mb-3 mt-3">
+    <div class="col-12">
+        <label for="nama_petugas_penerima">Nama Petugas</label>
+        <input type="text" name="nama_petugas_penerima" id="nama_petugas_penerima" class="form-control" value="<?php echo "$access_name"; ?>" required readonly>
+    </div>
 </div>
-<div class="row mb-2">
-    <div class="col-4"><small>IHS Petugas</small></div>
-    <div class="col-1"><small>:</small></div>
-    <div class="col-7"><small class="text text-grayish"><?php echo $access_ihs; ?></small></div>
+<div class="row mb-3 mt-3">
+    <div class="col-12">
+        <label for="ihs_petugas_penerima">IHS Petugas</label>
+        <input type="text" name="ihs_petugas_penerima" id="ihs_petugas_penerima" class="form-control" value="<?php echo "$access_ihs"; ?>" required readonly>
+    </div>
 </div>
 <div class="row mb-3 mt-3">
     <div class="col-12">

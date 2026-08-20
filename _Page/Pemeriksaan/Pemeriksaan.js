@@ -998,6 +998,22 @@ $(document).ready(function() {
         });
     });
 
+    // Select All Sub
+    $(document).on('change', '.cehck_all_sub', function () {
+
+        var category = $(this).data('category');
+        var checked  = $(this).is(':checked');
+
+        $('.checkbox_pemeriksaan').each(function () {
+
+            if ($(this).data('category') === category) {
+                $(this).prop('checked', checked);
+            }
+
+        });
+
+    });
+
     // SELECT2 METODE PEMERIKSAAN
     $(document).on('select2:select', '#nama_dokter_pengirim', function (e) {
         let data = e.params.data || {};
@@ -2266,6 +2282,22 @@ $(document).ready(function() {
                 $('#FormTambahRincian').html(data);
             }
         });
+    });
+
+    // Select All Sub 2
+    $(document).on('change', '.cehck_all_sub2', function () {
+
+        var category = $(this).data('category2');
+        var checked  = $(this).is(':checked');
+
+        $('.checkbox_pemeriksaan2').each(function () {
+
+            if ($(this).data('category2') === category) {
+                $(this).prop('checked', checked);
+            }
+
+        });
+
     });
 
     /* Ketika 'ProsesTambahRincian' disubmit */

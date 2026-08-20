@@ -362,7 +362,7 @@
                                 <small>Email : '.$company_address.' | Kontak : '.$company_contact.'</small><br>
                             </td>
                             <td align="right" valign="middle">
-                                <b>LEMBAH HASIL PEMERIKSAAN LABORATORIUM</b><br>
+                                <b>LEMBAR HASIL PEMERIKSAAN LABORATORIUM</b><br>
                                 PRIORITAS : '.$label_priority.' | STATUS : '.$status.' 
                             </td>
                         </tr>
