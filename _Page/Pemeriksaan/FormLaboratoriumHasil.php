@@ -317,7 +317,7 @@
             if($result_type=="Decimal"){
                 echo '
                     <div class="col-md-7">
-                        <input type="number" min="0" step="0.01" name="hasil_pemeriksaan" id="hasil_pemeriksaan" class="form-control" placeholder="0.00">
+                        <input type="number" min="0" step="0.001" name="hasil_pemeriksaan" id="hasil_pemeriksaan" class="form-control" placeholder="0.00">
                     </div>
                 ';
             }
