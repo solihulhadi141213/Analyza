@@ -10,7 +10,7 @@
     if(empty($SessionIdAccess)){
         echo '
             <tr>
-                <td colspan="12" class="text-center">
+                <td colspan="13" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
@@ -73,7 +73,7 @@
         if(empty($jml_data)){
             echo '
                 <tr>
-                    <td colspan="12" class="text-center">
+                    <td colspan="13" class="text-center">
                         <small class="text-danger">Tidak Ada Data Yang Ditampilkan!</small>
                     </td>
                 </tr>
@@ -83,15 +83,15 @@
             //KONDISI PENGATURAN MASING FILTER
              if(empty($keyword_by)){
                 if(empty($keyword)){
-                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status FROM laboratorium ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan FROM laboratorium ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                 }else{
-                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status FROM laboratorium WHERE id_pasien like '%$keyword%' OR nama like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan FROM laboratorium WHERE id_pasien like '%$keyword%' OR nama like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                 }
             }else{
                 if(empty($keyword)){
-                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status FROM laboratorium ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan FROM laboratorium ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                 }else{
-                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status FROM laboratorium WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan FROM laboratorium WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                 }
             }
             while ($data = mysqli_fetch_array($query)) {
@@ -105,6 +105,7 @@
                 $pembayaran         = $data['pembayaran'];
                 $priority           = $data['priority'];
                 $status             = $data['status'];
+                $keterangan             = $data['keterangan'];
 
                 // Routing Gender
                 if($gender=="Laki-laki"){
@@ -140,7 +141,7 @@
                                 if ($lebih_setengah_tahun) {
                                     $tahun++;
                                 }
-                                $usia = $tahun . ' Tahun';
+                                $usia = $tahun . ' Th';
                             } elseif ($selisih->m >= 1) {
                                 $bulan = (int) $selisih->m;
                                 $acuan_bulan = clone $tgl_lahir;
@@ -152,7 +153,7 @@
                                     $bulan++;
                                 }
 
-                                $usia = $bulan . ' Bulan';
+                                $usia = $bulan . ' Bl';
                             } else {
                                 $hari = (int) $selisih->days;
                                 $sisa_hari = ($selisih->h / 24) + ($selisih->i / 1440) + ($selisih->s / 86400);
@@ -161,7 +162,7 @@
                                     $hari++;
                                 }
 
-                                $usia = $hari . ' Hari';
+                                $usia = $hari . ' Hr';
                             }
                         }
                     } catch (Exception $e) {
@@ -230,8 +231,9 @@
                         <td><small>'.$label_gender.'</small></td>
                         <td><small>'.$usia.'</small></td>
                         <td><small>'.$tujuan.'</small></td>
-                        <td><small>'.$pembayaran.'</small></td>
+                        <td><small><small>'.$pembayaran.'</small></small></td>
                         <td><small>'.$label_priority.'</small></td>
+                        <td><small>'.$keterangan.'</small></td>
                         <td><small>'.$label_status.'</small></td>
                         <td class="text-center">
                             <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">

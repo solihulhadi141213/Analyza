@@ -58,13 +58,14 @@
                                         <th><b>Tujuan</b></th>
                                         <th><b>Pembayaran</b></th>
                                         <th><b>Priority</b></th>
+                                        <th><b>Ket</b></th>
                                         <th><b>Status</b></th>
                                         <th><b>Opsi</b></th>
                                     </tr>
                                 </thead>
                                 <tbody id="TabelPemeriksaan">
                                     <tr>
-                                        <td class="text-center" colspan="12">
+                                        <td class="text-center" colspan="13">
                                             <small>Tidak ada data yang ditampilkan</small>
                                         </td>
                                     </tr>
