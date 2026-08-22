@@ -82,6 +82,8 @@
     $datetime_hasil       = $Data['datetime_hasil'];
     $diagnosis            = $Data['diagnosis'];
     $keterangan           = $Data['keterangan'];
+    $nama_petugas         = $Data['nama_petugas'];
+    $ihs_petugas          = $Data['ihs_petugas'];
 
     // Select Gender
     $label_gender_1 = "";
@@ -273,3 +275,36 @@
         </div>
     ';
 ?>
+
+<div class="row">
+    <div class="col-md-4">
+        <label for="id_access_edit"><small>Petugas Laboratorium</small></label>
+    </div>
+    <div class="col-md-8">
+        <select name="id_access" id="id_access_edit" class="form-control">
+            <option value="">Pilih</option>
+            <?php
+                // Data rincian pemeriksaan
+                $QryDetail = $Conn->prepare("SELECT * FROM access ORDER BY access_name ASC");
+                $QryDetail->execute();
+                $ResultDetail = $QryDetail->get_result();
+                if ($ResultDetail->num_rows === 0) {
+                   
+                } else {
+                    $no = 1;
+                    while ($DataDetail = $ResultDetail->fetch_assoc()) {
+                        $id_access   = $DataDetail['id_access'];
+                        $access_name = $DataDetail['access_name'];
+                        $access_ihs  = $DataDetail['access_ihs'];
+
+                        if($nama_petugas==$access_name||$ihs_petugas==$access_ihs){
+                            echo '<option selected value="'.$id_access.'">'.$access_name.'</option>';
+                        }else{
+                            echo '<option value="'.$id_access.'">'.$access_name.'</option>';
+                        }
+                    }
+                }
+            ?>
+        </select>
+    </div>
+</div>

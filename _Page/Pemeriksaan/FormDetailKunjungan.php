@@ -128,25 +128,25 @@
     $id_encounter_org = $metadata['id_encounter'];
     $tanggal          = $metadata['tanggal'];
     $tujuan_org       = $metadata['tujuan'];
-    $pembayaran_org       = $metadata['pembayaran'];
-    $tanggal       = $metadata['tanggal'];
+    $pembayaran_org   = $metadata['pembayaran'];
+    $tanggal          = $metadata['tanggal'];
    
 
-    // Form Hidden
+      // Form Hidden
     echo '<input type="hidden" name="id_laboratorium" value="'.$id_laboratorium.'">';
     echo '<input type="hidden" name="id_kunjungan" value="'.$id_kunjungan.'">';
 
-    // Inisialisasi Variabel Pembaharuan Data
+      // Inisialisasi Variabel Pembaharuan Data
     $perlu_pembaharuan = 0;
-    $update_encounter = "";
-    $update_tujuan = "";
+    $update_encounter  = "";
+    $update_tujuan     = "";
     $update_pembayaran = "";
     if($id_encounter_org!==$id_encounter){
-        $update_encounter = '<span class="text-danger"><i class="bi bi-exclamation-circle"></i></span>';
+        $update_encounter  = '<span class="text-danger"><i class="bi bi-exclamation-circle"></i></span>';
         $perlu_pembaharuan = $perlu_pembaharuan + 1;
     }
     if($tujuan_org!==$tujuan){
-        $update_tujuan = '<span class="text-danger"><i class="bi bi-exclamation-circle"></i></span>';
+        $update_tujuan     = '<span class="text-danger"><i class="bi bi-exclamation-circle"></i></span>';
         $perlu_pembaharuan = $perlu_pembaharuan + 1;
     }
     if($pembayaran_org!==$pembayaran){

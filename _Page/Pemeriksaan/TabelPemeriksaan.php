@@ -3,6 +3,31 @@
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
+
+    // Helper
+    function getInisial($nama){
+        if ($nama === null) {
+            return '-';
+        }
+
+        $nama = trim((string)$nama);
+
+        if ($nama === '') {
+            return '-';
+        }
+
+        $kata = preg_split('/\s+/', $nama);
+        $inisial = '';
+
+        foreach ($kata as $item) {
+            if ($item !== '') {
+                $inisial .= strtoupper(mb_substr($item, 0, 1));
+            }
+        }
+
+        return $inisial;
+    }
+
     date_default_timezone_set("Asia/Jakarta");
     $JmlHalaman=0;
     $page=0;
@@ -83,35 +108,46 @@
             //KONDISI PENGATURAN MASING FILTER
              if(empty($keyword_by)){
                 if(empty($keyword)){
-                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan FROM laboratorium ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan, nama_petugas FROM laboratorium ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                 }else{
-                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan FROM laboratorium WHERE id_pasien like '%$keyword%' OR nama like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan, nama_petugas FROM laboratorium WHERE id_pasien like '%$keyword%' OR nama like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                 }
             }else{
                 if(empty($keyword)){
-                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan FROM laboratorium ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan, nama_petugas FROM laboratorium ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                 }else{
-                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan FROM laboratorium WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                    $query = mysqli_query($Conn, "SELECT id_laboratorium, id_pasien, nama, gender, tanggal_lahir, datetime_diminta, tujuan, pembayaran, priority, status, keterangan, nama_petugas FROM laboratorium WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                 }
             }
             while ($data = mysqli_fetch_array($query)) {
-                $id_laboratorium    = $data['id_laboratorium'];
-                $id_pasien          = $data['id_pasien'];
-                $nama               = $data['nama'];
-                $gender             = $data['gender'];
-                $tanggal_lahir      = $data['tanggal_lahir'];
-                $datetime_diminta   = $data['datetime_diminta'];
-                $tujuan             = $data['tujuan'];
-                $pembayaran         = $data['pembayaran'];
-                $priority           = $data['priority'];
-                $status             = $data['status'];
-                $keterangan             = $data['keterangan'];
+                $id_laboratorium  = $data['id_laboratorium'];
+                $id_pasien        = $data['id_pasien'];
+                $nama             = $data['nama'];
+                $gender           = $data['gender'];
+                $tanggal_lahir    = $data['tanggal_lahir'];
+                $datetime_diminta = $data['datetime_diminta'];
+                $tujuan           = $data['tujuan'];
+                $pembayaran       = $data['pembayaran'];
+                $priority         = $data['priority'];
+                $status           = $data['status'];
+                $keterangan       = $data['keterangan'];
+                $nama_petugas     = $data['nama_petugas'];
+
+                // Ubah Inisial
+                $inisial_petugas = getInisial($nama_petugas);
 
                 // Routing Gender
                 if($gender=="Laki-laki"){
                     $label_gender = "L";
                 }else{
                     $label_gender = "P";
+                }
+
+                // Routing Tujuan
+                if($tujuan=="Rajal"){
+                    $label_tujuan = '<a href="javascript:void(0);" class="text-warning" title="Rawat Jalan">RJL</a>';
+                }else{
+                    $label_tujuan = '<a href="javascript:void(0);" class="text-info" title="Rawat Inap">INP</a>';
                 }
 
                 // Usia pada saat permintaan dibuat (tanggal_lahir -> datetime_diminta)
@@ -221,7 +257,9 @@
                 echo '
                     <tr>
                         <td class="text-center"><small>'.$no.'</small></td>
-                        <td><small>'.date('d/m/Y', strtotime($datetime_diminta)).'</small></td>
+                        <td>
+                            <small>'.date('d/m/y', strtotime($datetime_diminta)).'</small>
+                        </td>
                         <td>
                             <a href="javascript:void(0);" class="modal_detail" data-id="'.$id_laboratorium.'">
                                 <small><i>'.$nama.'</i></small>
@@ -230,11 +268,16 @@
                         <td><small>'.$id_pasien.'</small></td>
                         <td><small>'.$label_gender.'</small></td>
                         <td><small>'.$usia.'</small></td>
-                        <td><small>'.$tujuan.'</small></td>
+                        <td><small>'.$label_tujuan.'</small></td>
                         <td><small><small>'.$pembayaran.'</small></small></td>
                         <td><small>'.$label_priority.'</small></td>
                         <td><small>'.$keterangan.'</small></td>
                         <td><small>'.$label_status.'</small></td>
+                        <td>
+                            <small class="text text-muted">
+                                <small>'.$inisial_petugas.'</small>
+                            </small>
+                        </td>
                         <td class="text-center">
                             <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-three-dots-vertical"></i>

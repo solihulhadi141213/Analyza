@@ -1128,6 +1128,10 @@
                                                     $nilai_max     = $dataRange['nilai_max'];
                                                     $operator      = $dataRange['operator'];
 
+                                                    // trim
+                                                    $nilai_min = rtrim(rtrim(number_format($dataRange['nilai_min'], 2, ',', '.'), '0'), ',');
+                                                    $nilai_max = rtrim(rtrim(number_format($dataRange['nilai_max'], 2, ',', '.'), '0'), ',');
+
                                                     // Jika usia tidak kosong
                                                     if(!empty($dataRange['umur_kategori'])){
                                                         $umur_kategori  = $dataRange['umur_kategori'];
@@ -1166,7 +1170,7 @@
                                                         $label_nilai = "$nilai_min - $nilai_max";
                                                     }
 
-                                                    $nilai_normal_pemeriksaan[] = '- '.$label_nilai.' '.$unit_satuan.' '.$label_usia.' '.$label_jenis_kelamin;
+                                                    $nilai_normal_pemeriksaan[] = '<i class="bi bi-chevron-right"></i> '.$label_nilai.' '.$unit_satuan.' '.$label_usia.' '.$label_jenis_kelamin;
                                                 }
                                             }
                                             if(empty($nilai_normal_pemeriksaan)){ $nilai_normal_pemeriksaan = "-"; }else{ $nilai_normal_pemeriksaan = implode("<br>", $nilai_normal_pemeriksaan); }

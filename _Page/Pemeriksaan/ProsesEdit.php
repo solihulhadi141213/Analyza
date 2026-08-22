@@ -91,6 +91,20 @@
         $id_encounter = $_POST['id_encounter'];
     }
 
+    if(empty($_POST['id_access'])){
+        $id_access    = "";
+        $kode_petugas = "";
+        $ihs_petugas  = "";
+        $nama_petugas = "";
+    }else{
+        $id_access = $_POST['id_access'];
+
+        // Buka Data access
+        $kode_petugas = GetDetailData($Conn, 'access', 'id_access', $id_access, 'id_access');
+        $ihs_petugas  = GetDetailData($Conn, 'access', 'id_access', $id_access, 'access_ihs');
+        $nama_petugas = GetDetailData($Conn, 'access', 'id_access', $id_access, 'access_name');
+    }
+
     // Update Ke Database laboratorium
     $query = $Conn->prepare("
         UPDATE laboratorium SET
@@ -105,7 +119,10 @@
             gender        = ?,
             ihs_pasien    = ?,
             tanggal_lahir = ?,
-            id_encounter  = ?
+            id_encounter  = ?,
+            kode_petugas  = ?,
+            ihs_petugas   = ?,
+            nama_petugas  = ?
         WHERE id_laboratorium = ?
     ");
 
@@ -118,7 +135,7 @@
     }
 
     $query->bind_param(
-        "sssssssssssss",
+        "ssssssssssssssss",
         $id_pasien,
         $nama_pasien,
         $fakses,
@@ -131,6 +148,9 @@
         $ihs_pasien,
         $tanggal_lahir,
         $id_encounter,
+        $kode_petugas,
+        $ihs_petugas,
+        $nama_petugas,
         $id_laboratorium
     );
 

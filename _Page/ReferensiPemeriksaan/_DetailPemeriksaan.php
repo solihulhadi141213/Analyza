@@ -710,8 +710,8 @@
                                                 $normal_value       = $data['normal_value'];
 
                                                 // Number Format
-                                                $tampil_min = number_format($nilai_min, 3, ',', '.');
-                                                $tampil_max = number_format($nilai_max, 3, ',', '.');
+                                                $tampil_min = number_format($nilai_min, 2, ',', '.');
+                                                $tampil_max = number_format($nilai_max, 2, ',', '.');
 
                                                 // Menentukan Penyataan nilai rujukan
                                                 if($operator=="More"){

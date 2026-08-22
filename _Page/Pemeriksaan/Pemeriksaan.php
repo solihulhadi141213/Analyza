@@ -55,11 +55,16 @@
                                         <th><b>RM</b></th>
                                         <th><b>L/P</b></th>
                                         <th><b>Usia</b></th>
-                                        <th><b>Tujuan</b></th>
+                                        <th>
+                                            <a href="javascript:void(0);" class="text-primary" title="Tujuan Kunjungan">
+                                                <b>TJ</b>
+                                            </a>
+                                        </th>
                                         <th><b>Pembayaran</b></th>
                                         <th><b>Priority</b></th>
                                         <th><b>Ket</b></th>
                                         <th><b>Status</b></th>
+                                        <th><b>OFC</b></th>
                                         <th><b>Opsi</b></th>
                                     </tr>
                                 </thead>

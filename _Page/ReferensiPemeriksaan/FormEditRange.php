@@ -315,7 +315,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-group mb-3">
-                        <input type="number" '.$nilai_min_readonly.' min="-999999" step="0.001" name="nilai_min" id="nilai_min_edit" class="form-control" placeholder="0.00" value="'.$nilai_min.'">
+                        <input type="number" '.$nilai_min_readonly.' min="-999999" step="0.01" name="nilai_min" id="nilai_min_edit" class="form-control" placeholder="0.00" value="'.$nilai_min.'">
                         <span class="input-group-text" id="basic-addon2">'.$unit_display.'</span>
                     </div>
                 </div>
@@ -328,7 +328,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-group mb-3">
-                        <input type="number" '.$nilai_max_readonly.' min="-999999" step="0.001" name="nilai_max" id="nilai_max_edit" class="form-control" placeholder="0.00" value="'.$nilai_max.'">
+                        <input type="number" '.$nilai_max_readonly.' min="-999999" step="0.01" name="nilai_max" id="nilai_max_edit" class="form-control" placeholder="0.00" value="'.$nilai_max.'">
                         <span class="input-group-text" id="basic-addon2">'.$unit_display.'</span>
                     </div>
                 </div>

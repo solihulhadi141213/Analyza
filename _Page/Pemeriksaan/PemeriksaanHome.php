@@ -51,6 +51,7 @@
                                     <th><b>Tujuan</b></th>
                                     <th><b>Pembayaran</b></th>
                                     <th><b>Priority</b></th>
+                                    <th><b>Petugas</b></th>
                                     <th><b>Status</b></th>
                                     <th><b>Opsi</b></th>
                                 </tr>

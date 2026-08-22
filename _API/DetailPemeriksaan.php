@@ -134,10 +134,23 @@
     # RINCIAN
     # ======================================================
 
-    $stmt = $Conn->prepare("SELECT * FROM laboratorium_rincian WHERE id_laboratorium=? ORDER BY category_pemeriksaan ASC");
+    $stmt = $Conn->prepare("
+        SELECT 
+            lr.*,
+            rp.unit,
+            rp.unit_code
+        FROM laboratorium_rincian AS lr
+        LEFT JOIN referensi_pemeriksaan AS rp
+            ON lr.id_referensi_pemeriksaan = rp.id_referensi_pemeriksaan
+        WHERE lr.id_laboratorium = ?
+        ORDER BY lr.category_pemeriksaan ASC
+    ");
+
     $stmt->bind_param("s", $id_laboratorium);
     $stmt->execute();
+
     $rincian = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
     $stmt->close();
 
     # ======================================================
