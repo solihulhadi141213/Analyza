@@ -3352,6 +3352,10 @@ $(document).ready(function() {
             data        : {id_laboratorium: id_laboratorium},
             success     : function(data){
                 $('#FormDiagnosticReport').html(data);
+                window.diagnosticReportEditors = {
+                    conclusion: initDiagnosticReportQuill('#diagnostic_report_conclusion', '#diagnostic_report_conclusion_input'),
+                    clinical: initDiagnosticReportQuill('#diagnostic_report_clinical', '#diagnostic_report_clinical_input')
+                };
                 SelectDiagnosis2();
             }
         });
@@ -3379,50 +3383,219 @@ $(document).ready(function() {
         $('#icd_10_system').val('');
     });
 
+    function initDiagnosticReportQuill(containerSelector, hiddenSelector) {
+        var $container = $(containerSelector);
+
+        if (!$container.length) {
+            return null;
+        }
+
+        // Ambil isi awal SEBELUM Quill diinisialisasi
+        var initialContent = $container.html().trim();
+
+        // Inisialisasi Quill
+        var editor = new Quill(containerSelector, {
+            theme: 'snow',
+            placeholder: 'Tulis isi...',
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    ['link', 'clean']
+                ]
+            }
+        });
+
+        // Set konten awal
+        if (initialContent !== '') {
+            editor.clipboard.dangerouslyPasteHTML(initialContent);
+        }
+
+        // Sinkronisasi pertama
+        $(hiddenSelector).val(getQuillHtml(editor));
+
+        // Sinkronisasi setiap ada perubahan
+        editor.on('text-change', function () {
+            $(hiddenSelector).val(getQuillHtml(editor));
+        });
+
+        return editor;
+    }
+
+    function getQuillHtml(editor) {
+        if (!editor || !editor.root) {
+            return '';
+        }
+
+        var text = editor.getText().trim();
+
+        // Jika editor benar-benar kosong
+        if (text === '') {
+            return '';
+        }
+
+        var html = editor.root.innerHTML;
+
+        return html.trim();
+    }
+
+    function getQuillText(editor) {
+        if (!editor) {
+            return '';
+        }
+
+        var text = editor.getText ? editor.getText() : '';
+        return String(text).replace(/\u00A0/gi, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    function syncDiagnosticReportQuillToForm() {
+        if (window.diagnosticReportEditors && window.diagnosticReportEditors.conclusion) {
+            var conclHtml = getQuillHtml(window.diagnosticReportEditors.conclusion);
+            $('#diagnostic_report_conclusion_input').val(conclHtml);
+        }
+
+        if (window.diagnosticReportEditors && window.diagnosticReportEditors.clinical) {
+            var clinicalHtml = getQuillHtml(window.diagnosticReportEditors.clinical);
+            $('#diagnostic_report_clinical_input').val(clinicalHtml);
+        }
+    }
+
     $('#ProsesDiagnosticReport').off('submit').on('submit', function(e){
         e.preventDefault();
 
         var $form = $(this);
         var $submitBtn = $form.find('button[type="submit"]');
-        var ProsesDiagnosticReport = $form.serialize();
+
+        var conclusionEditor =
+            window.diagnosticReportEditors &&
+            window.diagnosticReportEditors.conclusion;
+
+        var clinicalEditor =
+            window.diagnosticReportEditors &&
+            window.diagnosticReportEditors.clinical;
+
+        var conclusionText = getQuillText(conclusionEditor);
+        var clinicalText = getQuillText(clinicalEditor);
+
+        if (conclusionText === '') {
+            $('#NotifikasiDiagnosticReport').html(
+                '<div class="alert alert-danger">' +
+                '<small>Kesimpulan (Conclusion) Tidak Boleh Kosong!</small>' +
+                '</div>'
+            );
+            return false;
+        }
+
+        if (clinicalText === '') {
+            $('#NotifikasiDiagnosticReport').html(
+                '<div class="alert alert-danger">' +
+                '<small>Klinis (Clinical) Tidak Boleh Kosong!</small>' +
+                '</div>'
+            );
+            return false;
+        }
+
+        var conclusionHtml = getQuillHtml(conclusionEditor);
+        var clinicalHtml = getQuillHtml(clinicalEditor);
+
+        var formData = new FormData(this);
+
+        // Pastikan nilai Quill dikirim
+        formData.set('conclusion', conclusionHtml);
+        formData.set('clinical', clinicalHtml);
+
+        // DEBUG
+        console.log('Conclusion HTML:', conclusionHtml);
+        console.log('Clinical HTML:', clinicalHtml);
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ':', pair[1]);
+        }
 
         // Cegah double submit
         $submitBtn.prop('disabled', true);
-        $('#NotifikasiDiagnosticReport').html('Loading...');
+
+        $('#NotifikasiDiagnosticReport').html(
+            '<div class="text-center">' +
+            '<div class="spinner-border spinner-border-sm"></div> Loading...' +
+            '</div>'
+        );
 
         $.ajax({
-            type    : 'POST',
-            url     : '_Page/Pemeriksaan/ProsesDiagnosticReport.php',
+            type: 'POST',
+            url: '_Page/Pemeriksaan/ProsesDiagnosticReport.php',
             dataType: 'json',
-            data    : ProsesDiagnosticReport,
-            success : function(response) {
-                var status  = response && response.status ? response.status : 'error';
-                var payload  = response && response.payload ? response.payload : 'error';
-                var message = response && response.message ? response.message : 'Terjadi kesalahan yang tidak diketahui.';
+            data: formData,
+            processData: false,
+            contentType: false,
 
-                if(status === 'success'){
+            success: function(response) {
+
+                var status = response && response.status
+                    ? response.status
+                    : 'error';
+
+                var message = response && response.message
+                    ? response.message
+                    : 'Terjadi kesalahan yang tidak diketahui.';
+
+                if (status === 'success') {
+
                     $('#NotifikasiDiagnosticReport').html('');
+
                     $('#ModalDiagnosticReport').modal('hide');
 
                     ShowDetail();
                     ShowTable();
 
-                    $('#put_message').html('<i class="bi bi-check-circle me-2"></i> ' + message);
+                    $('#put_message').html(
+                        '<i class="bi bi-check-circle me-2"></i> ' +
+                        message
+                    );
+
                     var toastEl = document.getElementById('toast_proses');
-                    var toast   = new bootstrap.Toast(toastEl, {delay: 3000});
+
+                    var toast = new bootstrap.Toast(
+                        toastEl,
+                        {delay: 3000}
+                    );
+
                     toast.show();
-                }else{
-                    $('#NotifikasiDiagnosticReport').html('<div class="alert alert-danger"><small>' + message + '</small><p><pre>' + payload + '</pre></p></div>');
+
+                } else {
+
+                    $('#NotifikasiDiagnosticReport').html(
+                        '<div class="alert alert-danger">' +
+                        '<small>' + message + '</small>' +
+                        '</div>'
+                    );
+
                 }
             },
-            error : function(xhr) {
+
+            error: function(xhr) {
+
+                console.error(xhr.responseText);
+
                 var message = 'Terjadi kesalahan pada server.';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
+
+                if (
+                    xhr.responseJSON &&
+                    xhr.responseJSON.message
+                ) {
                     message = xhr.responseJSON.message;
                 }
-                $('#NotifikasiDiagnosticReport').html('<div class="alert alert-danger"><small>' + message + '</small></div>');
+
+                $('#NotifikasiDiagnosticReport').html(
+                    '<div class="alert alert-danger">' +
+                    '<small>' + message + '</small>' +
+                    '</div>'
+                );
             },
-            complete : function() {
+
+            complete: function() {
                 $submitBtn.prop('disabled', false);
             }
         });

@@ -72,7 +72,7 @@
                             ';
                         }else{
                             $no =1;
-                            $query = mysqli_query($Conn, "SELECT * FROM laboratorium WHERE datetime_diminta like '%$keyword%'");
+                            $query = mysqli_query($Conn, "SELECT * FROM laboratorium WHERE datetime_diminta like '%$keyword%' ORDER BY datetime_diminta DESC");
                             while ($data = mysqli_fetch_array($query)) {
                                 $id_laboratorium  = $data['id_laboratorium'];
                                 $id_pasien        = $data['id_pasien'];

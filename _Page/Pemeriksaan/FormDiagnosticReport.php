@@ -75,23 +75,27 @@
         </small>
     </div>
     <div class="col-12 mb-2">
-        <div class="row mb-3">
-            <div class="col-4"><label for="diagnostic_report_conclusion"><small>Kesimpulan (<i>Conclusion</i>)</small></label></div>
-            <div class="col-1"><small>:</small></div>
-            <div class="col-7">
-                <textarea name="conclusion" id="diagnostic_report_conclusion" class="form-control"><?php echo $conclusion; ?></textarea>
+        <div class="row mb-4">
+            <div class="col-12 mb-4">
+                <label for="diagnostic_report_conclusion"><small>Kesimpulan (<i>Conclusion</i>)</small></label>
+                <div id="diagnostic_report_conclusion" class="form-control" style="min-height: 170px; background: #fff;">
+                    <?php echo $conclusion; ?>
+                </div>
+                <input type="hidden" name="conclusion" id="diagnostic_report_conclusion_input">
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-4"><label for="diagnostic_report_clinical"><small>Klinis (<i>Clinical</i>)</small></label></div>
-            <div class="col-1"><small>:</small></div>
-            <div class="col-7">
-                <textarea name="clinical" id="diagnostic_report_clinical" class="form-control"><?php echo $clinical; ?></textarea>
+        <div class="row mb-3 mt-4">
+            <div class="col-12 mt-4">
+                <label for="diagnostic_report_clinical"><small>Klinis (<i>Clinical</i>)</small></label>
+                <div id="diagnostic_report_clinical" class="form-control" style="min-height: 170px; background: #fff;">
+                    <?php echo $clinical; ?>
+                </div>
+                <input type="hidden" name="clinical" id="diagnostic_report_clinical_input">
             </div>
         </div>
     </div>
 </div>
-<div class="row mb-3">
+<div class="row mt-4 mb-3">
     <div class="col-12 mb-2">
         <small>
             <b># Referensi Diagnosis <i>ICD10 (<i>Diagnostic By ICD10</i>)</i></b>

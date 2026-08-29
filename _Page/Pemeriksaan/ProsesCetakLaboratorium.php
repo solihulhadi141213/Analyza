@@ -89,14 +89,14 @@
 
     //Buat variabel 'id_laboratorium' dan sanitasi
     $id_laboratorium = validateAndSanitizeInput($_POST['id_laboratorium']);
-    $height = (float) validateAndSanitizeInput($_POST['height']);
-    $width = (float) validateAndSanitizeInput($_POST['width']);
-    $height = max(0, $height);
-    $width = max(0, $width);
-    $margin_top = max(0, (float) $margin_top);
-    $margin_bottom = max(0, (float) $margin_bottom);
-    $margin_left = max(0, (float) $margin_left);
-    $margin_right = max(0, (float) $margin_right);
+    $height          = (float) validateAndSanitizeInput($_POST['height']);
+    $width           = (float) validateAndSanitizeInput($_POST['width']);
+    $height          = max(0, $height);
+    $width           = max(0, $width);
+    $margin_top      = max(0, (float) $margin_top);
+    $margin_bottom   = max(0, (float) $margin_bottom);
+    $margin_left     = max(0, (float) $margin_left);
+    $margin_right    = max(0, (float) $margin_right);
 
     //Buka Detail laboratorium Dengan Prepared Statment
     $Qry = $Conn->prepare("SELECT * FROM laboratorium WHERE id_laboratorium = ?");

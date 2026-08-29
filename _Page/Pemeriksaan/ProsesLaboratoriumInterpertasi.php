@@ -170,7 +170,7 @@
         exit;
     }
     $QryUpdateLab->bind_param(
-        "ssi",
+        "sss",
         $datetime_hasil,
         $status,
         $id_laboratorium

@@ -52,6 +52,74 @@
         return $input;
     }
 
+    function sanitizeRichTextHTML($input) {
+        if ($input === null) {
+            return '';
+        }
+
+        $input = (string)$input;
+        $input = preg_replace('/\r\n?/', "\n", $input);
+        $input = trim($input);
+
+        if ($input === '') {
+            return '';
+        }
+
+        $allowedTags = ['p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'sub', 'sup', 'blockquote', 'ul', 'ol', 'li', 'a', 'code', 'pre', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr'];
+
+        $html = '<?xml encoding="UTF-8">' . $input;
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
+
+        $nodes = $dom->getElementsByTagName('*');
+        for ($i = $nodes->length - 1; $i >= 0; $i--) {
+            $node = $nodes->item($i);
+            $tag = strtolower($node->nodeName);
+
+            if (!in_array($tag, $allowedTags, true)) {
+                $fragment = $dom->createDocumentFragment();
+                foreach (iterator_to_array($node->childNodes) as $childNode) {
+                    $fragment->appendChild($childNode);
+                }
+                $node->parentNode->replaceChild($fragment, $node);
+                continue;
+            }
+
+            if ($node->hasAttributes()) {
+                $attributes = [];
+                foreach (iterator_to_array($node->attributes) as $attribute) {
+                    $attributes[] = $attribute;
+                }
+
+                foreach ($attributes as $attribute) {
+                    $attrName = strtolower($attribute->name);
+                    $attrValue = trim($attribute->value);
+
+                    if ($tag === 'a' && $attrName === 'href') {
+                        if ($attrValue === '' || !preg_match('/^(https?:\/\/|mailto:|tel:|\/|#)/i', $attrValue)) {
+                            $node->removeAttribute($attribute->name);
+                        } else {
+                            $node->setAttribute('rel', 'noopener noreferrer');
+                            $node->setAttribute('target', '_blank');
+                        }
+                        continue;
+                    }
+
+                    $node->removeAttribute($attribute->name);
+                }
+            }
+        }
+
+        $cleanHtml = preg_replace('/^<!DOCTYPE.+?>/i', '', $dom->saveHTML());
+        $cleanHtml = preg_replace('/^<html><body>|<\/body><\/html>$/i', '', $cleanHtml);
+        $cleanHtml = preg_replace('/^<\?xml.*?\?>/i', '', $cleanHtml);
+        $cleanHtml = preg_replace('/\s+/', ' ', $cleanHtml);
+
+        return trim($cleanHtml);
+    }
+
     //Data Detail
     function GetDetailData($Conn, $Tabel, $Param, $Value, $Colom) {
         // Validasi input yang diperlukan

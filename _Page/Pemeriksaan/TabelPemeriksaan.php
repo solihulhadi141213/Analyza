@@ -232,16 +232,16 @@
                             $label_status = '<span class="badge bg-info" title="Pemeriksaan Diterima">Diterima</span>';
                         }else{
                             if($status=="Pengambilan Spesimen"){
-                                $label_status = '<span class="badge bg-warning" title="Pengambilan Spesimen">Diterima</span>';
+                                $label_status = '<span class="badge bg-warning" title="Pengambilan Spesimen">PGS</span>';
                             }else{
                                 if($status=="Pemeriksaan Spesimen"){
-                                    $label_status = '<span class="badge bg-primary" title="Pemeriksaan Spesimen">Diterima</span>';
+                                    $label_status = '<span class="badge bg-primary" title="Pemeriksaan Spesimen">PMS</span>';
                                 }else{
                                     if($status=="Keluar Hasil"){
-                                        $label_status = '<span class="badge bg-success" title="Keluar Hasil">Diterima</span>';
+                                        $label_status = '<span class="badge bg-success text-dark" title="Keluar Hasil">KH</span>';
                                     }else{
                                         if($status=="Selesai"){
-                                            $label_status = '<span class="badge bg-success" title="Selesai">Selesai</span>';
+                                            $label_status = '<span class="badge bg-success" title="Selesai">SLS</span>';
                                         }else{
                                             $label_status = '<span class="badge bg-dark">None</span>';
                                         }
@@ -275,7 +275,7 @@
                         <td><small>'.$label_status.'</small></td>
                         <td>
                             <small class="text text-muted">
-                                <small>'.$inisial_petugas.'</small>
+                                <small title="'.$nama_petugas.'">'.$inisial_petugas.'</small>
                             </small>
                         </td>
                         <td class="text-center">
